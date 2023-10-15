@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-10-15T03:29:39.329Z</updated>
+  <updated>2023-10-15T22:14:12.109Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>About information_schema in MySQL</title>
+    <link href="http://example.com/2010/10/15/information-schema/"/>
+    <id>http://example.com/2010/10/15/information-schema/</id>
+    <published>2010-10-15T16:47:16.000Z</published>
+    <updated>2023-10-15T22:14:12.109Z</updated>
+    
+    <content type="html"><![CDATA[<p>The “<strong><em>information_schema</em></strong>“ is a system database in MySQL that contains metadata information about <strong><em>databases, tables, columns, indexes, users, permissions,</em></strong> and more within the MySQL server. It serves as an interface for querying metadata information in MySQL. This information is stored in tabular form within tables in the “information_schema” database, and users can retrieve metadata information by using SQL statements to query these tables.</p><p>Here are some common tables in the ‘information_schema’ database:</p><ol><li><strong><em>SCHEMATA</em></strong>: Stores information about all databases, including database names, character sets, etc.</li><li><strong><em>TABLES</em></strong>: Stores information about all tables, including table names, table types, engines, etc.</li><li><strong><em>COLUMNS</em></strong>: Stores information about all columns, including column names, column data types, column constraints, etc.</li><li><strong><em>STATISTICS</em></strong>: Stores information about all indexes, including index names, index types, the table where the index is located, index columns, etc.</li><li><strong><em>USER_PRIVILEGES</em></strong>: Stores information about user privileges, including user accounts, permissions, etc.</li></ol><p>By querying the tables in the <strong><em>information_schema</em></strong> database, you can obtain information about various aspects of <strong><em>databases, tables, columns, indexes, users, and permissions</em></strong>. This is very helpful for database management and maintenance.</p><p>Next, let’s take a look at an example of finding key information through the information_schema database:</p><ol><li>Query information about the current user:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT current_user();</span><br></pre></td></tr></table></figure></li><li>Query information about the user for the current session:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT session_user();</span><br></pre></td></tr></table></figure></li><li>Get the path of the database:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@datadir;</span><br></pre></td></tr></table></figure></li><li>Get the installation path of MySQL:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select @@basedir;</span><br></pre></td></tr></table></figure></li><li>Retrieve information about the operating system version:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@version_compile_os;</span><br></pre></td></tr></table></figure></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;The “&lt;strong&gt;&lt;em&gt;information_schema&lt;/em&gt;&lt;/strong&gt;“ is a system database in MySQL that contains metadata information about &lt;strong&gt;&lt;em&gt;dat</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>In Qt, how to transmit custom data using QAction::setData</title>
