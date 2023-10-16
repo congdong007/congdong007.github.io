@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-10-16T16:40:00.107Z</updated>
+  <updated>2023-10-16T22:16:05.386Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>A Simple Plugin System by Python</title>
+    <link href="http://example.com/2011/10/22/nmap-modifypacket/"/>
+    <id>http://example.com/2011/10/22/nmap-modifypacket/</id>
+    <published>2011-10-22T20:41:33.000Z</published>
+    <updated>2023-10-16T22:16:05.386Z</updated>
+    
+    <content type="html"><![CDATA[<p>Due to the requirements of my work, I needed to design an open software system, and immediately thought of the Python language. As a result, I designed a simple and easily extensible plugin system.</p><p>Here’s the code:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#main.py</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import importlib</span><br><span class="line"></span><br><span class="line">class PluginManager:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.plugins = []</span><br><span class="line">        self.func_name = &quot;MyPlugin&quot;</span><br><span class="line"></span><br><span class="line">    def load_plugin(self, plugin_name):</span><br><span class="line">        try:</span><br><span class="line">            plugin_module = importlib.import_module(f&#x27;plugins.&#123;plugin_name&#125;&#x27;)</span><br><span class="line">            plugin_instance = getattr(plugin_module, self.func_name)()</span><br><span class="line">            self.plugins.append(plugin_instance)</span><br><span class="line">            print(f&quot;plugin &#123;plugin_name&#125; loaded.&quot;)</span><br><span class="line">        except ImportError:</span><br><span class="line">            print(f&quot;Load plugin &#123;plugin_name&#125; failed.&quot;)</span><br><span class="line"></span><br><span class="line">    def run_plugins(self):</span><br><span class="line">        for plugin in self.plugins:</span><br><span class="line">            plugin.run()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    manager = PluginManager()</span><br><span class="line"></span><br><span class="line">    while True:</span><br><span class="line">        print(&quot;1. Add Plugin&quot;)</span><br><span class="line">        print(&quot;2. Run Plugin&quot;)</span><br><span class="line">        print(&quot;3. Quit&quot;)</span><br><span class="line">        choice = input(&quot;Your Select: &quot;)</span><br><span class="line"></span><br><span class="line">        if choice == &quot;1&quot;:</span><br><span class="line">            plugin_name = input(&quot;Please input the name of plugin: &quot;)</span><br><span class="line">            manager.load_plugin(plugin_name)</span><br><span class="line"></span><br><span class="line">        elif choice == &quot;2&quot;:</span><br><span class="line">            manager.run_plugins()</span><br><span class="line"></span><br><span class="line">        elif choice == &quot;3&quot;:</span><br><span class="line">            break</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>Then, you create a directory named ‘plugins.’ In this directory, you can add your plugin, which must define a class named <strong><em>‘MyPlugin’</em></strong> and must have a function named <strong><em>‘run’</em></strong>. Here is the simple code:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#my_plugin</span><br><span class="line"></span><br><span class="line">class MyPlugin:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        pass</span><br><span class="line">    def run(self):</span><br><span class="line">        print(&quot;MyPlugin is running&quot;)</span><br></pre></td></tr></table></figure><p>The following is the running process:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 1</span><br><span class="line">Please input the name of plugin: my_plugin</span><br><span class="line">plugin my_plugin loaded.</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 2</span><br><span class="line">MyPlugin is running</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 3</span><br><span class="line">PS C:\Users\xxx\Desktop\yyy\plugin-system&gt;</span><br></pre></td></tr></table></figure><p>You can use this model to design a big and an opened software system.</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;Due to the requirements of my work, I needed to design an open software system, and immediately thought of the Python language. As a resu</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Shellcode Written in Linux</title>
@@ -165,9 +185,9 @@
     <category term="Asm , C/C++" scheme="http://example.com/categories/Asm-C-C/"/>
     
     
-    <category term="inline" scheme="http://example.com/tags/inline/"/>
-    
     <category term="asm" scheme="http://example.com/tags/asm/"/>
+    
+    <category term="inline" scheme="http://example.com/tags/inline/"/>
     
     <category term="C/C++" scheme="http://example.com/tags/C-C/"/>
     
@@ -227,9 +247,9 @@
     <category term="Asm, C/C++" scheme="http://example.com/categories/Asm-C-C/"/>
     
     
-    <category term="inline" scheme="http://example.com/tags/inline/"/>
-    
     <category term="asm" scheme="http://example.com/tags/asm/"/>
+    
+    <category term="inline" scheme="http://example.com/tags/inline/"/>
     
     <category term="C/C++" scheme="http://example.com/tags/C-C/"/>
     

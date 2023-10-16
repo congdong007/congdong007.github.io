@@ -158,6 +158,81 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/22/nmap-modifypacket/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/10/22/nmap-modifypacket/" class="post-title-link" itemprop="url">A Simple Plugin System by Python</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2011-10-22 16:41:33" itemprop="dateCreated datePublished" datetime="2011-10-22T16:41:33-04:00">2011-10-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-16 18:16:05" itemprop="dateModified" datetime="2023-10-16T18:16:05-04:00">2023-10-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Due to the requirements of my work, I needed to design an open software system, and immediately thought of the Python language. As a result, I designed a simple and easily extensible plugin system.</p>
+<p>Here’s the code:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#main.py</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import importlib</span><br><span class="line"></span><br><span class="line">class PluginManager:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.plugins = []</span><br><span class="line">        self.func_name = &quot;MyPlugin&quot;</span><br><span class="line"></span><br><span class="line">    def load_plugin(self, plugin_name):</span><br><span class="line">        try:</span><br><span class="line">            plugin_module = importlib.import_module(f&#x27;plugins.&#123;plugin_name&#125;&#x27;)</span><br><span class="line">            plugin_instance = getattr(plugin_module, self.func_name)()</span><br><span class="line">            self.plugins.append(plugin_instance)</span><br><span class="line">            print(f&quot;plugin &#123;plugin_name&#125; loaded.&quot;)</span><br><span class="line">        except ImportError:</span><br><span class="line">            print(f&quot;Load plugin &#123;plugin_name&#125; failed.&quot;)</span><br><span class="line"></span><br><span class="line">    def run_plugins(self):</span><br><span class="line">        for plugin in self.plugins:</span><br><span class="line">            plugin.run()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    manager = PluginManager()</span><br><span class="line"></span><br><span class="line">    while True:</span><br><span class="line">        print(&quot;1. Add Plugin&quot;)</span><br><span class="line">        print(&quot;2. Run Plugin&quot;)</span><br><span class="line">        print(&quot;3. Quit&quot;)</span><br><span class="line">        choice = input(&quot;Your Select: &quot;)</span><br><span class="line"></span><br><span class="line">        if choice == &quot;1&quot;:</span><br><span class="line">            plugin_name = input(&quot;Please input the name of plugin: &quot;)</span><br><span class="line">            manager.load_plugin(plugin_name)</span><br><span class="line"></span><br><span class="line">        elif choice == &quot;2&quot;:</span><br><span class="line">            manager.run_plugins()</span><br><span class="line"></span><br><span class="line">        elif choice == &quot;3&quot;:</span><br><span class="line">            break</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Then, you create a directory named ‘plugins.’ In this directory, you can add your plugin, which must define a class named <strong><em>‘MyPlugin’</em></strong> and must have a function named <strong><em>‘run’</em></strong>. Here is the simple code:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#my_plugin</span><br><span class="line"></span><br><span class="line">class MyPlugin:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        pass</span><br><span class="line">    def run(self):</span><br><span class="line">        print(&quot;MyPlugin is running&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>The following is the running process:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 1</span><br><span class="line">Please input the name of plugin: my_plugin</span><br><span class="line">plugin my_plugin loaded.</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 2</span><br><span class="line">MyPlugin is running</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 3</span><br><span class="line">PS C:\Users\xxx\Desktop\yyy\plugin-system&gt;</span><br></pre></td></tr></table></figure>
+
+<p>You can use this model to design a big and an opened software system.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/16/shellcodewrite/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -930,7 +1005,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
