@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-10-17T16:29:40.889Z</updated>
+  <updated>2023-10-17T16:31:11.713Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://example.com/2019/02/12/goAboutUnitTest/"/>
     <id>http://example.com/2019/02/12/goAboutUnitTest/</id>
     <published>2019-02-13T01:59:33.000Z</published>
-    <updated>2023-10-17T16:29:40.889Z</updated>
+    <updated>2023-10-17T16:31:11.713Z</updated>
     
     <content type="html"><![CDATA[<p>To test a Go file, you typically need to create a test file in the same directory as the file you’re testing and write your test code within it. Here’s an example: you have a file named math.go containing a simple mathematical function ‘Add.’ Then, you will create a test file named math_test.go to test this function.</p><p>Assuming the math.go file is as follows:</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// math.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Add</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>You can then create a math_test.go file to write your test code:</p><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// math_test.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestAdd</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">    result := Add(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">    expected := <span class="number">5</span></span><br><span class="line">    <span class="keyword">if</span> result != expected &#123;</span><br><span class="line">        t.Errorf(<span class="string">&quot;Add(2, 3) returned %d, expected %d&quot;</span>, result, expected)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>In math_test.go, we import the testing package and write a test function named TestAdd. Test functions should start with ‘Test’ and accept a <strong><em>*testing.T</em></strong> parameter, which is used to report test failures.</p><p>Inside the TestAdd function, we call Add(2, 3) to execute the function being tested and compare the result to the expected value. If the result doesn’t match the expected value, we use <strong><em>t.Errorf</em></strong> to report the test failure with detailed error information.</p><p>Next, you can run the tests using the ‘<strong><em>go test</em></strong>‘ command in your terminal:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">test</span></span><br></pre></td></tr></table></figure><p>Go will search for all the <strong><em>_test.go</em></strong> files <strong><em>in the current directory and execute the test functions within them</em></strong>. If the tests pass, you’ll see a success message. If the tests fail, you’ll get detailed failure information.</p><p>This is just a very basic example. In real-world projects, you can write more test cases to cover various scenarios and ensure that your code works correctly in different situations.”</p>]]></content>
     
@@ -32,6 +32,10 @@
       
     
     
+    
+    <category term="Go" scheme="http://example.com/categories/Go/"/>
+    
+    <category term="Unit Test" scheme="http://example.com/categories/Go/Unit-Test/"/>
     
     
   </entry>
