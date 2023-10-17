@@ -28,7 +28,7 @@
 <meta property="og:description" content="“go func()” is a way in the Go programming language to launch new concurrent goroutines. A goroutine is a lightweight thread in Go used for concurrent task execution. Using “go func()” allows you to c">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-11-17T04:00:34.000Z">
-<meta property="article:modified_time" content="2023-10-17T03:23:53.726Z">
+<meta property="article:modified_time" content="2023-10-17T15:38:25.992Z">
 <meta property="article:author" content="Dong Cong">
 <meta property="article:tag" content="go">
 <meta name="twitter:card" content="summary">
@@ -191,7 +191,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:23:53" itemprop="dateModified" datetime="2023-10-16T23:23:53-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-17 11:38:25" itemprop="dateModified" datetime="2023-10-17T11:38:25-04:00">2023-10-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,7 +221,7 @@
         <p><strong><em>“go func()”</em></strong> is a way in the Go programming language to launch new concurrent goroutines. A goroutine is a lightweight thread in Go used for concurrent task execution. Using <strong><em>“go func()”</em></strong> allows you to create new concurrent execution flows in your program without the need to explicitly create threads or manage the complexity of thread management.</p>
 <p>Here is a basic example and some key concepts of using <strong><em>“go func()”</em></strong>:</p>
 <p>Basic Example:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">    go func() &#123;</span><br><span class="line">        // Place the code you want to execute in a new concurrent goroutine here</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    // The main goroutine continues to execute other work</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// Place the code you want to execute in a new concurrent goroutine here</span></span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The main goroutine continues to execute other work</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 <p>In the example above, <strong><em>“go func()”</em></strong> starts a concurrent goroutine for an anonymous function, which will execute the code inside it. The main goroutine continues to execute other tasks, while the new concurrent goroutine runs in the background.</p>
@@ -337,13 +337,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">

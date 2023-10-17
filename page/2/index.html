@@ -158,6 +158,191 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2010/10/15/information-schema/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/10/15/information-schema/" class="post-title-link" itemprop="url">About information_schema in MySQL</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2010-10-15 12:47:16" itemprop="dateCreated datePublished" datetime="2010-10-15T12:47:16-04:00">2010-10-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-16 18:48:41" itemprop="dateModified" datetime="2023-10-16T18:48:41-04:00">2023-10-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/mysql/sql-inject/" itemprop="url" rel="index"><span itemprop="name">sql inject</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>The “<strong><em>information_schema</em></strong>“ is a system database in MySQL that contains metadata information about <strong><em>databases, tables, columns, indexes, users, permissions,</em></strong> and more within the MySQL server. It serves as an interface for querying metadata information in MySQL. This information is stored in tabular form within tables in the “information_schema” database, and users can retrieve metadata information by using SQL statements to query these tables.</p>
+<p>Here are some common tables in the ‘information_schema’ database:</p>
+<ol>
+<li><strong><em>SCHEMATA</em></strong>: Stores information about all databases, including database names, character sets, etc.</li>
+<li><strong><em>TABLES</em></strong>: Stores information about all tables, including table names, table types, engines, etc.</li>
+<li><strong><em>COLUMNS</em></strong>: Stores information about all columns, including column names, column data types, column constraints, etc.</li>
+<li><strong><em>STATISTICS</em></strong>: Stores information about all indexes, including index names, index types, the table where the index is located, index columns, etc.</li>
+<li><strong><em>USER_PRIVILEGES</em></strong>: Stores information about user privileges, including user accounts, permissions, etc.</li>
+</ol>
+<p>By querying the tables in the <strong><em>information_schema</em></strong> database, you can obtain information about various aspects of <strong><em>databases, tables, columns, indexes, users, and permissions</em></strong>. This is very helpful for database management and maintenance.</p>
+<p>Next, let’s take a look at an example of finding key information through the information_schema database:</p>
+<ol>
+<li>Query information about the current user:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT current_user();</span><br></pre></td></tr></table></figure></li>
+<li>Query information about the user for the current session:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT session_user();</span><br></pre></td></tr></table></figure></li>
+<li>Get the path of the database:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@datadir;</span><br></pre></td></tr></table></figure></li>
+<li>Get the installation path of MySQL:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select @@basedir;</span><br></pre></td></tr></table></figure></li>
+<li>Retrieve information about the operating system version:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@version_compile_os;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2010/05/01/QtSetData/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/05/01/QtSetData/" class="post-title-link" itemprop="url">In Qt, how to transmit custom data using QAction::setData</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2010-05-01 23:16:09" itemprop="dateCreated datePublished" datetime="2010-05-01T23:16:09-04:00">2010-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-17 12:04:32" itemprop="dateModified" datetime="2023-10-17T12:04:32-04:00">2023-10-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Recently, in a project, there was a need to transmit custom data using QAction::setData. I’ve searched online for a lot of information, but it’s all a bit vague, and none of them hit the mark. Some even provide solutions that completely contradict Qt’s principles. Below is an example code I wrote:</p>
+<ol>
+<li>Custom data:<br>Here, taking a custom class as an example, the code is as follows:</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"></span><br><span class="line">#ifndef QNEWITEM_H</span><br><span class="line">#define QNEWITEM_H</span><br><span class="line"></span><br><span class="line">#include &lt;QObject&gt;</span><br><span class="line"></span><br><span class="line">class QNewItem : public QObject</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    QNewItem(QObject *parent = <span class="number">0</span>);</span><br><span class="line">    ~QNewItem();</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> setUserInfo(QString&amp; strName,qint16&amp; nAge);</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    QString m_strName;</span><br><span class="line">    qint16 m_nAge;</span><br><span class="line">&#125;;</span><br><span class="line">#endif <span class="comment">// QNEWITEM_H</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"></span><br><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QNewItem::QNewItem(QObject *parent)</span><br><span class="line">: QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QNewItem::~QNewItem()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> QNewItem::setUserInfo( QString&amp; strName,qint16&amp; nAge )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">bool</span> bRet = <span class="literal">false</span>;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( strName.isEmpty() || nAge &gt;<span class="number">200</span> &amp;&amp; nAge&lt;<span class="number">0</span> ) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        m_strName = strName;</span><br><span class="line">        m_nAge = nAge;</span><br><span class="line">        bRet = <span class="literal">true</span>;</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> bRet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>At the beginning of the calling CPP file, you must declare it like this:</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line">Q_DECLARE_METATYPE(QNewItem*)</span><br></pre></td></tr></table></figure>
+<p>There’s not much else to say; when you look at the code, you’ll understand everything.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line">Q_DECLARE_METATYPE(QNewItem*)</span><br><span class="line"></span><br><span class="line">customDefineDemo::customDefineDemo(QWidget *parent, Qt::WFlags flags)</span><br><span class="line">: QMainWindow(parent, flags)</span><br><span class="line">&#123;</span><br><span class="line">    ui.setupUi(this);</span><br><span class="line">    connect(ui.pushButton , SIGNAL(clicked()),this,SLOT(onBtnClick()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customDefineDemo::~customDefineDemo()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void customDefineDemo::onBtnClick()</span><br><span class="line">&#123;</span><br><span class="line">    QMenu* pMenu = <span class="built_in">new</span> QMenu();</span><br><span class="line">    QNewItem* pNewItem = <span class="built_in">new</span> QNewItem();</span><br><span class="line">    qint16 nAge = <span class="number">34</span>;</span><br><span class="line">    QVariant qv;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        QAction* pPortraitView = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;New&quot;</span>), this);</span><br><span class="line">        QAction* pAddGroup = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;Open&quot;</span>), this);</span><br><span class="line">        QAction* pDeleteGroup = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;Save&quot;</span>), this);</span><br><span class="line"></span><br><span class="line">        pNewItem-&gt;setUserInfo(tr(<span class="string">&quot;Eric&quot;</span>),nAge);</span><br><span class="line"></span><br><span class="line">        pPortraitView-&gt;setData( QVariant::fromValue(pNewItem) ) ;</span><br><span class="line"></span><br><span class="line">        connect(pPortraitView,SIGNAL(triggered()),this,SLOT(triggeredMenuSendMsgContact()));</span><br><span class="line"></span><br><span class="line">        pMenu-&gt;addAction(pPortraitView);</span><br><span class="line">        pMenu-&gt;addAction(pAddGroup);</span><br><span class="line">        pMenu-&gt;addAction(pDeleteGroup);</span><br><span class="line">        pMenu-&gt;exec(QCursor::pos());</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( pMenu != nullptr )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">delete</span> pMenu;</span><br><span class="line">        pMenu = nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void customDefineDemo::triggeredMenuSendMsgContact()</span><br><span class="line">&#123;</span><br><span class="line">    QAction* pSendMsg= NULL;</span><br><span class="line">    QNewItem* pObj = NULL;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        pSendMsg=qobject_cast&lt;QAction*&gt;(sender());</span><br><span class="line"></span><br><span class="line">        pObj = pSendMsg-&gt;data().value&lt;QNewItem*&gt;();</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( pObj != nullptr )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">delete</span> pObj;</span><br><span class="line">        pObj = nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2010/03/14/floatData/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -376,7 +561,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:44:28" itemprop="dateModified" datetime="2023-10-16T23:44:28-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-17 12:02:49" itemprop="dateModified" datetime="2023-10-17T12:02:49-04:00">2023-10-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -409,10 +594,10 @@
       
           <p>In ndis6 how to drop packets?</p>
 <p>in FilterSendNetBufferLists:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line">//DEBUGP(DL_TRACE, (&quot;&lt;===SendNetBufferList [CheckPacket] drop this packet. \n&quot;));</span><br><span class="line"> </span><br><span class="line">CurrNbl = NetBufferLists;</span><br><span class="line">while (CurrNbl)</span><br><span class="line">&#123;</span><br><span class="line">    NET_BUFFER_LIST_STATUS(CurrNbl) = NDIS_STATUS_MEDIA_DISCONNECTED ;</span><br><span class="line">    CurrNbl = NET_BUFFER_LIST_NEXT_NBL(CurrNbl);</span><br><span class="line">&#125;</span><br><span class="line">NdisFSendNetBufferListsComplete(pFilter-&gt;FilterHandle,</span><br><span class="line">NetBufferLists,</span><br><span class="line">DispatchLevel ? NDIS_SEND_COMPLETE_FLAGS_DISPATCH_LEVEL : 0);</span><br><span class="line">break;</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"><span class="comment">//DEBUGP(DL_TRACE, (&quot;&lt;===SendNetBufferList [CheckPacket] drop this packet. \n&quot;));</span></span><br><span class="line"> </span><br><span class="line">CurrNbl = NetBufferLists;</span><br><span class="line">while (CurrNbl)</span><br><span class="line">&#123;</span><br><span class="line">    NET_BUFFER_LIST_STATUS(CurrNbl) = NDIS_STATUS_MEDIA_DISCONNECTED ;</span><br><span class="line">    CurrNbl = NET_BUFFER_LIST_NEXT_NBL(CurrNbl);</span><br><span class="line">&#125;</span><br><span class="line">NdisFSendNetBufferListsComplete(pFilter-&gt;FilterHandle,</span><br><span class="line">NetBufferLists,</span><br><span class="line">DispatchLevel ? NDIS_SEND_COMPLETE_FLAGS_DISPATCH_LEVEL : <span class="number">0</span>);</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
 
 <p>in FilterReceiveNetBufferLists:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"></span><br><span class="line">if (NDIS_TEST_RECEIVE_CAN_PEND(ReceiveFlags))</span><br><span class="line">&#123;</span><br><span class="line">    ReturnFlags = 0;</span><br><span class="line">    if (NDIS_TEST_RECEIVE_AT_DISPATCH_LEVEL(ReceiveFlags))</span><br><span class="line">    &#123;</span><br><span class="line">        NDIS_SET_RETURN_FLAG(ReturnFlags, NDIS_RETURN_FLAGS_DISPATCH_LEVEL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NdisFReturnNetBufferLists(pFilter-&gt;FilterHandle, NetBufferLists, ReturnFlags);</span><br><span class="line">&#125;</span><br><span class="line">break;</span><br></pre></td></tr></table></figure>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (NDIS_TEST_RECEIVE_CAN_PEND(ReceiveFlags))</span><br><span class="line">&#123;</span><br><span class="line">    ReturnFlags = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (NDIS_TEST_RECEIVE_AT_DISPATCH_LEVEL(ReceiveFlags))</span><br><span class="line">    &#123;</span><br><span class="line">        NDIS_SET_RETURN_FLAG(ReturnFlags, NDIS_RETURN_FLAGS_DISPATCH_LEVEL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NdisFReturnNetBufferLists(pFilter-&gt;FilterHandle, NetBufferLists, ReturnFlags);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -593,13 +778,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
