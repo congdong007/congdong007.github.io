@@ -158,6 +158,88 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2009/11/04/codedecompilation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2009/11/04/codedecompilation/" class="post-title-link" itemprop="url">Example program for code decompilation</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2009-11-04 22:36:35" itemprop="dateCreated datePublished" datetime="2009-11-04T22:36:35-05:00">2009-11-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-16 23:45:59" itemprop="dateModified" datetime="2023-10-16T23:45:59-04:00">2023-10-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Asm/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>  Some time ago, a friend asked me to help reverse engineer something, extract its code, save it as an assembly file, and compile and run it in VC (Visual C++).</p>
+<p>  asm file :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">                .686p</span><br><span class="line">                .model flat,c</span><br><span class="line">        option casemap : none</span><br><span class="line">        </span><br><span class="line">        extern sprintf:proc</span><br><span class="line">        extern strcat:proc</span><br><span class="line">                </span><br><span class="line">.data</span><br><span class="line">               ___security_cookie dd 0BB40E64Eh</span><br><span class="line">               a02x_0 db &quot;%02X&quot;</span><br><span class="line">   </span><br><span class="line">.code  </span><br><span class="line">         public      sub_40B444    </span><br><span class="line">         </span><br><span class="line">sub_40B444        proc near                ; CODE XREF: sub_40CCEA+A4p</span><br><span class="line"></span><br><span class="line">;Source                = byte ptr -14h</span><br><span class="line">;var_4                = dword        ptr -4</span><br><span class="line">;arg_0                = dword        ptr  8</span><br><span class="line">;arg_4                = dword        ptr  0Ch</span><br><span class="line">;arg_8                = dword        ptr  10h</span><br><span class="line"></span><br><span class="line">                push        ebp</span><br><span class="line">                mov        ebp, esp</span><br><span class="line">                sub        esp, 14h</span><br><span class="line">                mov        eax, dword ptr ___security_cookie ; &quot;N鍬?</span><br><span class="line">                xor        eax, ebp</span><br><span class="line">                mov        [ebp-4], eax</span><br><span class="line">                push        ebx</span><br><span class="line">                mov        ebx, [ebp+8]</span><br><span class="line">                push        esi</span><br><span class="line">                mov        esi, [ebp+10h]</span><br><span class="line">                push        edi</span><br><span class="line">                xor        edi, edi</span><br><span class="line">                cmp        [ebp+0Ch], edi</span><br><span class="line">                mov        byte ptr [esi],        0</span><br><span class="line">                jbe        short loc_40B48E</span><br><span class="line"></span><br><span class="line">loc_40B467:                                ; CODE XREF: sub_40B444+48j</span><br><span class="line">                movzx        eax, byte ptr [ebx+edi]</span><br><span class="line">                push        eax</span><br><span class="line">                lea        eax, [ebp-14h]</span><br><span class="line">                push        offset a02x_0        ; &quot;%02X&quot;</span><br><span class="line">                push        eax                ; Dest</span><br><span class="line">                call        sprintf</span><br><span class="line">                lea        eax, [ebp-14h]</span><br><span class="line">                push        eax                ; Source</span><br><span class="line">                push        esi                ; Dest</span><br><span class="line">                call        strcat</span><br><span class="line">                add        esp, 14h</span><br><span class="line">                inc        edi</span><br><span class="line">                cmp        edi, [ebp+0Ch]</span><br><span class="line">                jb        short loc_40B467</span><br><span class="line"></span><br><span class="line">loc_40B48E:                                ; CODE XREF: sub_40B444+21j</span><br><span class="line">                mov        ecx, [ebp-4]</span><br><span class="line">                pop        edi</span><br><span class="line">                pop        esi</span><br><span class="line">                xor        ecx, ebp</span><br><span class="line">                leave</span><br><span class="line">                retn</span><br><span class="line">sub_40B444        endp</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>The sample code is as follows:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; &#123;</span><br><span class="line">        char* sub_40B444(char*,int,char*);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int _tmain(int argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">        char* pszBuf = new char[1024];</span><br><span class="line">        memset( pszBuf , 0 , 1024 );</span><br><span class="line">        strcpy_s( pszBuf , 1024 , &quot;des:&quot; );</span><br><span class="line">        sub_40B444( &quot;你总是说我在，这样孤单时候，才能想起与你联络&quot; , strlen(&quot;你总是说我在，这样孤单时候，才能想起与你联络&quot;) , pszBuf );</span><br><span class="line">        printf_s( &quot;format string : %s\n&quot; , &quot;你总是说我在，这样孤单时候，才能想起与你联络&quot; );</span><br><span class="line">        printf_s( &quot;format string : %s\n&quot; , pszBuf );</span><br><span class="line"></span><br><span class="line">       if( pszBuf != NULL )</span><br><span class="line">        &#123;</span><br><span class="line">           delete[]pszBuf;</span><br><span class="line">           pszBuf = NULL;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2009/07/14/ndis6DropPackage/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -189,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 18:48:53" itemprop="dateModified" datetime="2023-10-16T18:48:53-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 23:44:28" itemprop="dateModified" datetime="2023-10-16T23:44:28-04:00">2023-10-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -198,6 +280,14 @@
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Kernel/" itemprop="url" rel="index"><span itemprop="name">Kernel</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kernel/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kernel/windows/ndis6/" itemprop="url" rel="index"><span itemprop="name">ndis6</span></a>
                 </span>
             </span>
 
@@ -268,7 +358,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:11:54" itemprop="dateModified" datetime="2023-10-16T23:11:54-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 23:46:12" itemprop="dateModified" datetime="2023-10-16T23:46:12-04:00">2023-10-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -277,6 +367,10 @@
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Asm/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
                 </span>
             </span>
 
@@ -394,13 +488,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
