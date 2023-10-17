@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Due to the requirements of my work, I needed to design an open software system, and immediately thought of the Python language. As a result, I designed a simple and easily extensible plugin system. He">
+  <meta name="description" content="In Go language, closures and anonymous functions are both forms of functions, but they have some important differences. Below, I will provide examples of the usage and differences between these two co">
 <meta property="og:type" content="article">
-<meta property="og:title" content="A Simple Plugin System by Python">
-<meta property="og:url" content="http://example.com/2011/10/22/nmap-modifypacket/index.html">
+<meta property="og:title" content="Closure and Anonymous Function in Go">
+<meta property="og:url" content="http://example.com/2018/11/28/goAnonymousFunctionClosure/index.html">
 <meta property="og:site_name" content="congdong007">
-<meta property="og:description" content="Due to the requirements of my work, I needed to design an open software system, and immediately thought of the Python language. As a result, I designed a simple and easily extensible plugin system. He">
+<meta property="og:description" content="In Go language, closures and anonymous functions are both forms of functions, but they have some important differences. Below, I will provide examples of the usage and differences between these two co">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2011-10-22T20:41:33.000Z">
-<meta property="article:modified_time" content="2023-10-16T22:16:05.386Z">
+<meta property="article:published_time" content="2018-11-29T02:21:24.000Z">
+<meta property="article:modified_time" content="2023-10-17T03:30:34.565Z">
 <meta property="article:author" content="Dong Cong">
 <meta property="article:tag" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash、Penetration Tester">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2011/10/22/nmap-modifypacket/">
+<link rel="canonical" href="http://example.com/2018/11/28/goAnonymousFunctionClosure/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>A Simple Plugin System by Python | congdong007</title>
+  <title>Closure and Anonymous Function in Go | congdong007</title>
   
 
 
@@ -161,7 +161,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/22/nmap-modifypacket/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/28/goAnonymousFunctionClosure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -174,7 +174,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          A Simple Plugin System by Python
+          Closure and Anonymous Function in Go
         </h1>
 
         <div class="post-meta">
@@ -184,15 +184,28 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2011-10-22 16:41:33" itemprop="dateCreated datePublished" datetime="2011-10-22T16:41:33-04:00">2011-10-22</time>
+              <time title="Created: 2018-11-28 21:21:24" itemprop="dateCreated datePublished" datetime="2018-11-28T21:21:24-05:00">2018-11-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 18:16:05" itemprop="dateModified" datetime="2023-10-16T18:16:05-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 23:30:34" itemprop="dateModified" datetime="2023-10-16T23:30:34-04:00">2023-10-16</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/Closure-and-Anonymous-Function/" itemprop="url" rel="index"><span itemprop="name">Closure and Anonymous Function</span></a>
+                </span>
+            </span>
 
           
 
@@ -205,17 +218,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Due to the requirements of my work, I needed to design an open software system, and immediately thought of the Python language. As a result, I designed a simple and easily extensible plugin system.</p>
-<p>Here’s the code:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#main.py</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import importlib</span><br><span class="line"></span><br><span class="line">class PluginManager:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.plugins = []</span><br><span class="line">        self.func_name = &quot;MyPlugin&quot;</span><br><span class="line"></span><br><span class="line">    def load_plugin(self, plugin_name):</span><br><span class="line">        try:</span><br><span class="line">            plugin_module = importlib.import_module(f&#x27;plugins.&#123;plugin_name&#125;&#x27;)</span><br><span class="line">            plugin_instance = getattr(plugin_module, self.func_name)()</span><br><span class="line">            self.plugins.append(plugin_instance)</span><br><span class="line">            print(f&quot;plugin &#123;plugin_name&#125; loaded.&quot;)</span><br><span class="line">        except ImportError:</span><br><span class="line">            print(f&quot;Load plugin &#123;plugin_name&#125; failed.&quot;)</span><br><span class="line"></span><br><span class="line">    def run_plugins(self):</span><br><span class="line">        for plugin in self.plugins:</span><br><span class="line">            plugin.run()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    manager = PluginManager()</span><br><span class="line"></span><br><span class="line">    while True:</span><br><span class="line">        print(&quot;1. Add Plugin&quot;)</span><br><span class="line">        print(&quot;2. Run Plugin&quot;)</span><br><span class="line">        print(&quot;3. Quit&quot;)</span><br><span class="line">        choice = input(&quot;Your Select: &quot;)</span><br><span class="line"></span><br><span class="line">        if choice == &quot;1&quot;:</span><br><span class="line">            plugin_name = input(&quot;Please input the name of plugin: &quot;)</span><br><span class="line">            manager.load_plugin(plugin_name)</span><br><span class="line"></span><br><span class="line">        elif choice == &quot;2&quot;:</span><br><span class="line">            manager.run_plugins()</span><br><span class="line"></span><br><span class="line">        elif choice == &quot;3&quot;:</span><br><span class="line">            break</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+        <p>In Go language, <strong><em>closures</em></strong> and <strong><em>anonymous functions</em></strong> are both forms of functions, but they have some important differences. Below, I will provide examples of the usage and differences between these two concepts:</p>
+<ol>
+<li><strong><em>Closure</em></strong> Example:<br>A <strong><em>closure</em></strong> refers to a function that captures one or more variables from its outer function scope and can be called outside of that function while still accessing these captured variables.</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    outerVar := 10</span><br><span class="line"></span><br><span class="line">    // Closure function</span><br><span class="line">    closure := func() &#123;</span><br><span class="line">        fmt.Println(&quot;Outer variable outerVar:&quot;, outerVar)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Call the closure function</span><br><span class="line">    closure() // Output: Outer variable outerVar: 10</span><br><span class="line"></span><br><span class="line">    // Modify the outer variable</span><br><span class="line">    outerVar = 20</span><br><span class="line"></span><br><span class="line">    // Call the closure function again</span><br><span class="line">    closure() // Output: Outer variable outerVar: 20</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>Then, you create a directory named ‘plugins.’ In this directory, you can add your plugin, which must define a class named <strong><em>‘MyPlugin’</em></strong> and must have a function named <strong><em>‘run’</em></strong>. Here is the simple code:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#my_plugin</span><br><span class="line"></span><br><span class="line">class MyPlugin:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        pass</span><br><span class="line">    def run(self):</span><br><span class="line">        print(&quot;MyPlugin is running&quot;)</span><br></pre></td></tr></table></figure>
+<p>In the above example, <strong><em>closure</em></strong> is a closure that captures the outer variable outerVar and can access and modify that variable even outside the function.</p>
+<ol start="2">
+<li><strong><em>Anonymous Function</em></strong> Example:</li>
+</ol>
+<p>An <strong><em>anonymous function</em></strong> is a function without a name; it can be directly assigned to a variable or passed as an argument to other functions.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    // Define and call an anonymous function</span><br><span class="line">    result := func(x, y int) int &#123;</span><br><span class="line">        return x + y</span><br><span class="line">    &#125;(5, 3)</span><br><span class="line"></span><br><span class="line">    fmt.Println(&quot;Result of the anonymous function:&quot;, result) // Output: Result of the anonymous function: 8</span><br><span class="line"></span><br><span class="line">    // Assign an anonymous function to a variable</span><br><span class="line">    add := func(x, y int) int &#123;</span><br><span class="line">        return x + y</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sum := add(10, 20)</span><br><span class="line">    fmt.Println(&quot;Calling the anonymous function using a variable:&quot;, sum) // Output: Calling the anonymous function using a variable: 30</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>The following is the running process:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 1</span><br><span class="line">Please input the name of plugin: my_plugin</span><br><span class="line">plugin my_plugin loaded.</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 2</span><br><span class="line">MyPlugin is running</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 3</span><br><span class="line">PS C:\Users\xxx\Desktop\yyy\plugin-system&gt;</span><br></pre></td></tr></table></figure>
-
-<p>You can use this model to design a big and an opened software system.</p>
+<p>In the above example, we define an <strong><em>anonymous function</em></strong> and call it directly. We also assign another <strong><em>anonymous function</em></strong> to the add variable and use that variable to call the function.</p>
+<p>To summarize the differences:</p>
+<p>A <strong><em>closure</em></strong> is a function that captures external variables and can access and modify them outside of the function.<br>An <strong><em>anonymous function</em></strong> is a function without a name, which can be assigned to a variable or passed as an argument to other functions.<br>It’s important to note that while <strong><em>closures</em></strong> often involve <strong><em>anonymous functions</em></strong>, not all <strong><em>anonymous functions</em></strong> are <strong><em>closures</em></strong>. A <strong><em>closure</em></strong> is a specific type of <strong><em>anonymous function</em></strong> that captures external variables.</p>
 
     </div>
 
@@ -231,8 +249,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2011/10/16/shellcodewrite/" rel="prev" title="Shellcode Written in Linux">
-      <i class="fa fa-chevron-left"></i> Shellcode Written in Linux
+    <a href="/2018/11/16/goFunc/" rel="prev" title="A Brief Summary of "go func()"">
+      <i class="fa fa-chevron-left"></i> A Brief Summary of "go func()"
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -308,19 +326,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

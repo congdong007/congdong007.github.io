@@ -158,7 +158,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/22/nmap-modifypacket/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/28/goAnonymousFunctionClosure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -172,7 +172,198 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2011/10/22/nmap-modifypacket/" class="post-title-link" itemprop="url">A Simple Plugin System by Python</a>
+            <a href="/2018/11/28/goAnonymousFunctionClosure/" class="post-title-link" itemprop="url">Closure and Anonymous Function in Go</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-28 21:21:24" itemprop="dateCreated datePublished" datetime="2018-11-28T21:21:24-05:00">2018-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-16 23:30:34" itemprop="dateModified" datetime="2023-10-16T23:30:34-04:00">2023-10-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/Closure-and-Anonymous-Function/" itemprop="url" rel="index"><span itemprop="name">Closure and Anonymous Function</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>In Go language, <strong><em>closures</em></strong> and <strong><em>anonymous functions</em></strong> are both forms of functions, but they have some important differences. Below, I will provide examples of the usage and differences between these two concepts:</p>
+<ol>
+<li><strong><em>Closure</em></strong> Example:<br>A <strong><em>closure</em></strong> refers to a function that captures one or more variables from its outer function scope and can be called outside of that function while still accessing these captured variables.</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    outerVar := 10</span><br><span class="line"></span><br><span class="line">    // Closure function</span><br><span class="line">    closure := func() &#123;</span><br><span class="line">        fmt.Println(&quot;Outer variable outerVar:&quot;, outerVar)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Call the closure function</span><br><span class="line">    closure() // Output: Outer variable outerVar: 10</span><br><span class="line"></span><br><span class="line">    // Modify the outer variable</span><br><span class="line">    outerVar = 20</span><br><span class="line"></span><br><span class="line">    // Call the closure function again</span><br><span class="line">    closure() // Output: Outer variable outerVar: 20</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, <strong><em>closure</em></strong> is a closure that captures the outer variable outerVar and can access and modify that variable even outside the function.</p>
+<ol start="2">
+<li><strong><em>Anonymous Function</em></strong> Example:</li>
+</ol>
+<p>An <strong><em>anonymous function</em></strong> is a function without a name; it can be directly assigned to a variable or passed as an argument to other functions.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    // Define and call an anonymous function</span><br><span class="line">    result := func(x, y int) int &#123;</span><br><span class="line">        return x + y</span><br><span class="line">    &#125;(5, 3)</span><br><span class="line"></span><br><span class="line">    fmt.Println(&quot;Result of the anonymous function:&quot;, result) // Output: Result of the anonymous function: 8</span><br><span class="line"></span><br><span class="line">    // Assign an anonymous function to a variable</span><br><span class="line">    add := func(x, y int) int &#123;</span><br><span class="line">        return x + y</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sum := add(10, 20)</span><br><span class="line">    fmt.Println(&quot;Calling the anonymous function using a variable:&quot;, sum) // Output: Calling the anonymous function using a variable: 30</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, we define an <strong><em>anonymous function</em></strong> and call it directly. We also assign another <strong><em>anonymous function</em></strong> to the add variable and use that variable to call the function.</p>
+<p>To summarize the differences:</p>
+<p>A <strong><em>closure</em></strong> is a function that captures external variables and can access and modify them outside of the function.<br>An <strong><em>anonymous function</em></strong> is a function without a name, which can be assigned to a variable or passed as an argument to other functions.<br>It’s important to note that while <strong><em>closures</em></strong> often involve <strong><em>anonymous functions</em></strong>, not all <strong><em>anonymous functions</em></strong> are <strong><em>closures</em></strong>. A <strong><em>closure</em></strong> is a specific type of <strong><em>anonymous function</em></strong> that captures external variables.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/16/goFunc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/16/goFunc/" class="post-title-link" itemprop="url">A Brief Summary of "go func()"</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-16 23:00:34" itemprop="dateCreated datePublished" datetime="2018-11-16T23:00:34-05:00">2018-11-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-16 23:23:53" itemprop="dateModified" datetime="2023-10-16T23:23:53-04:00">2023-10-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/go-func/" itemprop="url" rel="index"><span itemprop="name">go func()</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong><em>“go func()”</em></strong> is a way in the Go programming language to launch new concurrent goroutines. A goroutine is a lightweight thread in Go used for concurrent task execution. Using <strong><em>“go func()”</em></strong> allows you to create new concurrent execution flows in your program without the need to explicitly create threads or manage the complexity of thread management.</p>
+<p>Here is a basic example and some key concepts of using <strong><em>“go func()”</em></strong>:</p>
+<p>Basic Example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func main() &#123;</span><br><span class="line">    go func() &#123;</span><br><span class="line">        // Place the code you want to execute in a new concurrent goroutine here</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    // The main goroutine continues to execute other work</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>In the example above, <strong><em>“go func()”</em></strong> starts a concurrent goroutine for an anonymous function, which will execute the code inside it. The main goroutine continues to execute other tasks, while the new concurrent goroutine runs in the background.</p>
+<p>Key Concepts:</p>
+<ol>
+<li><p><strong><em>Anonymous Function</em></strong>: Anonymous functions are typically used to define <strong><em>“go func()”</em></strong> because there’s no need to name the concurrent goroutine. The code for the anonymous function can be enclosed in {} as needed.</p>
+</li>
+<li><p><strong><em>Concurrent Execution</em></strong>: Goroutines launched with <strong><em>“go func()”</em></strong> run concurrently in the background without blocking the main program’s execution. This allows you to execute multiple tasks simultaneously, improving program performance.</p>
+</li>
+<li><p><strong><em>Data Sharing</em></strong>: Concurrent goroutines can share data, but it’s important to handle shared data carefully to avoid race conditions and data races. You can use tools provided by the “sync” package to manage access to shared data.</p>
+</li>
+<li><p><strong><em>Goroutine Management</em></strong>: Go’s runtime system is responsible for creating, scheduling, and destroying goroutines. You don’t need to worry about the complexity of thread creation and destruction.</p>
+</li>
+<li><p><strong><em>Waiting for Goroutines to Complete</em></strong>: If you need to wait for concurrent goroutines to finish, you can use mechanisms like “sync.WaitGroup” or channels to implement waiting.</p>
+</li>
+</ol>
+<p>Using <strong><em>“go func()”</em></strong> is a simple way to achieve concurrency in the Go programming language, allowing you to run tasks in parallel, such as handling concurrent requests, performing background tasks, or other work that needs to execute simultaneously. However, be cautious about handling concurrency issues and ensuring that shared data is synchronized and accessed correctly.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/22/SimplePluginSystemByPython/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/10/22/SimplePluginSystemByPython/" class="post-title-link" itemprop="url">A Simple Plugin System by Python</a>
         </h2>
 
         <div class="post-meta">
@@ -189,8 +380,21 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 18:16:05" itemprop="dateModified" datetime="2023-10-16T18:16:05-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 23:17:52" itemprop="dateModified" datetime="2023-10-16T23:17:52-04:00">2023-10-16</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/System-Architecture/" itemprop="url" rel="index"><span itemprop="name">System Architecture</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/System-Architecture/Plugin-Pattern/" itemprop="url" rel="index"><span itemprop="name">Plugin Pattern</span></a>
+                </span>
+            </span>
 
           
 
@@ -264,7 +468,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 12:40:00" itemprop="dateModified" datetime="2023-10-16T12:40:00-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 19:03:18" itemprop="dateModified" datetime="2023-10-16T19:03:18-04:00">2023-10-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -449,7 +653,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 10:58:41" itemprop="dateModified" datetime="2023-10-16T10:58:41-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 23:10:58" itemprop="dateModified" datetime="2023-10-16T23:10:58-04:00">2023-10-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -457,7 +661,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Tester/" itemprop="url" rel="index"><span itemprop="name">Penetration Tester</span></a>
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
                 </span>
             </span>
 
@@ -488,6 +692,105 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">hash_object = hashlib.new(&#x27;DSA&#x27;)</span><br><span class="line">hash_object.update(b&#x27;Hello World&#x27;)</span><br><span class="line">print(hash_object.hexdigest())</span><br></pre></td></tr></table></figure>
 
 
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2010/10/15/information-schema/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/10/15/information-schema/" class="post-title-link" itemprop="url">About information_schema in MySQL</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2010-10-15 12:47:16" itemprop="dateCreated datePublished" datetime="2010-10-15T12:47:16-04:00">2010-10-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-16 18:48:41" itemprop="dateModified" datetime="2023-10-16T18:48:41-04:00">2023-10-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/mysql/sql-inject/" itemprop="url" rel="index"><span itemprop="name">sql inject</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>The “<strong><em>information_schema</em></strong>“ is a system database in MySQL that contains metadata information about <strong><em>databases, tables, columns, indexes, users, permissions,</em></strong> and more within the MySQL server. It serves as an interface for querying metadata information in MySQL. This information is stored in tabular form within tables in the “information_schema” database, and users can retrieve metadata information by using SQL statements to query these tables.</p>
+<p>Here are some common tables in the ‘information_schema’ database:</p>
+<ol>
+<li><strong><em>SCHEMATA</em></strong>: Stores information about all databases, including database names, character sets, etc.</li>
+<li><strong><em>TABLES</em></strong>: Stores information about all tables, including table names, table types, engines, etc.</li>
+<li><strong><em>COLUMNS</em></strong>: Stores information about all columns, including column names, column data types, column constraints, etc.</li>
+<li><strong><em>STATISTICS</em></strong>: Stores information about all indexes, including index names, index types, the table where the index is located, index columns, etc.</li>
+<li><strong><em>USER_PRIVILEGES</em></strong>: Stores information about user privileges, including user accounts, permissions, etc.</li>
+</ol>
+<p>By querying the tables in the <strong><em>information_schema</em></strong> database, you can obtain information about various aspects of <strong><em>databases, tables, columns, indexes, users, and permissions</em></strong>. This is very helpful for database management and maintenance.</p>
+<p>Next, let’s take a look at an example of finding key information through the information_schema database:</p>
+<ol>
+<li>Query information about the current user:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT current_user();</span><br></pre></td></tr></table></figure></li>
+<li>Query information about the user for the current session:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT session_user();</span><br></pre></td></tr></table></figure></li>
+<li>Get the path of the database:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@datadir;</span><br></pre></td></tr></table></figure></li>
+<li>Get the installation path of MySQL:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select @@basedir;</span><br></pre></td></tr></table></figure></li>
+<li>Retrieve information about the operating system version:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@version_compile_os;</span><br></pre></td></tr></table></figure></li>
+</ol>
 
       
     </div>
@@ -538,7 +841,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 10:15:57" itemprop="dateModified" datetime="2023-10-16T10:15:57-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 18:49:14" itemprop="dateModified" datetime="2023-10-16T18:49:14-04:00">2023-10-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -624,7 +927,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 10:14:30" itemprop="dateModified" datetime="2023-10-16T10:14:30-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 18:48:28" itemprop="dateModified" datetime="2023-10-16T18:48:28-04:00">2023-10-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -725,7 +1028,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 10:15:04" itemprop="dateModified" datetime="2023-10-16T10:15:04-04:00">2023-10-16</time>
+                <time title="Modified: 2023-10-16 23:12:23" itemprop="dateModified" datetime="2023-10-16T23:12:23-04:00">2023-10-16</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -733,7 +1036,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm-C-C/" itemprop="url" rel="index"><span itemprop="name">Asm , C/C++</span></a>
+                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
                 </span>
             </span>
 
@@ -768,177 +1071,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/07/14/ndis6DropPackage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/07/14/ndis6DropPackage/" class="post-title-link" itemprop="url">NDIS6 how to drop packets</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-07-14 22:29:18" itemprop="dateCreated datePublished" datetime="2009-07-14T22:29:18-04:00">2009-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 11:17:44" itemprop="dateModified" datetime="2023-10-16T11:17:44-04:00">2023-10-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/" itemprop="url" rel="index"><span itemprop="name">Kernel</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In ndis6 how to drop packets?</p>
-<p>in FilterSendNetBufferLists:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line">//DEBUGP(DL_TRACE, (&quot;&lt;===SendNetBufferList [CheckPacket] drop this packet. \n&quot;));</span><br><span class="line"> </span><br><span class="line">CurrNbl = NetBufferLists;</span><br><span class="line">while (CurrNbl)</span><br><span class="line">&#123;</span><br><span class="line">    NET_BUFFER_LIST_STATUS(CurrNbl) = NDIS_STATUS_MEDIA_DISCONNECTED ;</span><br><span class="line">    CurrNbl = NET_BUFFER_LIST_NEXT_NBL(CurrNbl);</span><br><span class="line">&#125;</span><br><span class="line">NdisFSendNetBufferListsComplete(pFilter-&gt;FilterHandle,</span><br><span class="line">NetBufferLists,</span><br><span class="line">DispatchLevel ? NDIS_SEND_COMPLETE_FLAGS_DISPATCH_LEVEL : 0);</span><br><span class="line">break;</span><br></pre></td></tr></table></figure>
-
-<p>in FilterReceiveNetBufferLists:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"></span><br><span class="line">if (NDIS_TEST_RECEIVE_CAN_PEND(ReceiveFlags))</span><br><span class="line">&#123;</span><br><span class="line">    ReturnFlags = 0;</span><br><span class="line">    if (NDIS_TEST_RECEIVE_AT_DISPATCH_LEVEL(ReceiveFlags))</span><br><span class="line">    &#123;</span><br><span class="line">        NDIS_SET_RETURN_FLAG(ReturnFlags, NDIS_RETURN_FLAGS_DISPATCH_LEVEL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NdisFReturnNetBufferLists(pFilter-&gt;FilterHandle, NetBufferLists, ReturnFlags);</span><br><span class="line">&#125;</span><br><span class="line">break;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/01/03/compileAssemblyFile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/01/03/compileAssemblyFile/" class="post-title-link" itemprop="url">In a VC (Visual C++) project, how to compile with an assembly language file</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-01-03 23:29:12" itemprop="dateCreated datePublished" datetime="2009-01-03T23:29:12-05:00">2009-01-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 10:14:45" itemprop="dateModified" datetime="2023-10-16T10:14:45-04:00">2023-10-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm-C-C/" itemprop="url" rel="index"><span itemprop="name">Asm, C/C++</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>It include <strong><em>four steps</em></strong>:</p>
-<ol>
-<li><p>Add the assembly language file to the project.</p>
-</li>
-<li><p>In the Solution Explorer window, right-click the Visual C++ project, choose <strong><em>“Build Customizations…”</em></strong>, and a dialog box labeled <strong><em>“Visual C++ Build Customization Files”</em></strong> will pop up. Check the <strong><em>“masm”</em></strong> option and click <strong><em>OK</em></strong>.</p>
-<p>At this point, in the <strong><em>Configuration Property</em></strong>, you can see “<strong><em>Microsoft Macro Assembler.</em></strong>“</p>
-</li>
-<li><p>Right-click the assembly language file, select “<strong><em>Properties</em></strong>,” go to “<strong><em>Custom Build    Step</em></strong>,” and then “<strong><em>General</em></strong>.” </p>
-<p>In the “<strong><em>Command Line</em></strong>“ field on the right, input:</p>
-</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ml.exe /c /D<span class="string">&quot;X86&quot;</span> /D<span class="string">&quot;DEBUG&quot;</span> /Fo<span class="string">&quot;<span class="subst">$(IntDir)</span>/<span class="subst">$(InputName)</span>.obj&quot;</span> $(InputFileName)</span><br></pre></td></tr></table></figure>
-<p>   In the “<strong><em>Outputs</em></strong>“ field, input:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(IntDir)/$(InputName).obj</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>Don’t forget to add the path to ml.exe to the environment variable “<strong><em>PATH</em></strong>.”</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
 
 
 
@@ -1005,19 +1142,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
