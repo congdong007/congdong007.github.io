@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-10-17T03:40:22.885Z</updated>
+  <updated>2023-10-17T03:55:16.383Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>panic() and recover() in the Go Language</title>
+    <link href="http://example.com/2018/12/30/goPanicAndRecover/"/>
+    <id>http://example.com/2018/12/30/goPanicAndRecover/</id>
+    <published>2018-12-31T01:48:46.000Z</published>
+    <updated>2023-10-17T03:55:16.383Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong><em>panic()</em></strong> and <strong><em>recover()</em></strong> are two important functions in the Go language for handling exceptions. Here is a simple example that demonstrates how to use <strong><em>panic()</em></strong> and <strong><em>recover()</em></strong> in Go.</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">    &quot;fmt&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">// A function to simulate a situation that might cause a panic</span><br><span class="line">func doSomething() &#123;</span><br><span class="line">    defer func() &#123;</span><br><span class="line">        if err := recover(); err != nil &#123;</span><br><span class="line">            fmt.Println(&quot;Panic occurred but recovered:&quot;, err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    // Simulate a problematic situation</span><br><span class="line">    num1 := 10</span><br><span class="line">    num2 := 0</span><br><span class="line">    result := num1 / num2 // This will cause a division by zero panic</span><br><span class="line">    fmt.Println(&quot;Result is:&quot;, result) // This won&#x27;t be printed as the panic has already occurred</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    fmt.Println(&quot;Starting the program&quot;)</span><br><span class="line"></span><br><span class="line">    doSomething()</span><br><span class="line"></span><br><span class="line">    fmt.Println(&quot;Program continues to execute&quot;) // Even if a panic occurs, this line will be printed because the panic has been recovered in doSomething()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>In the example above, the doSomething() function attempts to divide 10 by 0, which would lead to a division by zero panic. However, we use <strong><em>defer()</em></strong> and <strong><em>recover()</em></strong> to catch and handle the panic. In the main() function, even if a panic occurs within doSomething(), the program continues to execute, and the panic information is printed within the <strong><em>recover()</em></strong> block.</p><p>Running this program will produce the following output:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Starting the program</span><br><span class="line">Panic occurred but recovered: runtime error: integer divide by zero</span><br><span class="line">Program continues to execute</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>This demonstrates that the <strong><em>recover()</em></strong> function successfully catches the panic, allowing the program to continue executing without terminating.”</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;strong&gt;&lt;em&gt;panic()&lt;/em&gt;&lt;/strong&gt; and &lt;strong&gt;&lt;em&gt;recover()&lt;/em&gt;&lt;/strong&gt; are two important functions in the Go language for handling exc</summary>
+      
+    
+    
+    
+    <category term="Go" scheme="http://example.com/categories/Go/"/>
+    
+    <category term="panic() and recover()" scheme="http://example.com/categories/Go/panic-and-recover/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>defer in the Go Language</title>

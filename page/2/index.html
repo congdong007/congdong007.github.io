@@ -158,6 +158,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2010/03/14/floatData/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2010/03/14/floatData/" class="post-title-link" itemprop="url">The confusing floating point problem</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2010-03-14 22:44:22" itemprop="dateCreated datePublished" datetime="2010-03-14T22:44:22-04:00">2010-03-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-16 23:44:56" itemprop="dateModified" datetime="2023-10-16T23:44:56-04:00">2023-10-16</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Others/float-data/" itemprop="url" rel="index"><span itemprop="name">float data</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Recently, I encountered an issue with floating-point numbers. </p>
+<p>code:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fld dword ptr ds:[esi+1E4]</span><br></pre></td></tr></table></figure>
+<p>and </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esi+1E4 = 02FCE9D4</span><br></pre></td></tr></table></figure>
+
+<p>The following is its memory:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">02FCE9D4  00 C0 2B 45 00 C0 2B 45 00 00 00 00 00 00 00 00  .?E.?E........</span><br></pre></td></tr></table></figure>
+
+<p>After execution this code:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fld dword ptr ds:[esi+1E4]</span><br></pre></td></tr></table></figure>
+<p>watches:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ST0 = 2748.00000000000.</span><br></pre></td></tr></table></figure>
+
+<p>I would like to know how ST0 equals 2748?</p>
+<p>In the end, it’s all about the representation of floating-point numbers. According to the IEEE standard, the first bit is the sign bit, the next 8 bits represent the exponent, and the remaining 23 bits are the mantissa. Considering that it’s <strong><em>little-endian storage</em></strong>, the value of the number <strong><em>00 C0 2B 45</em></strong> is <strong><em>452BC000</em></strong>, which is:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0100 0101 0010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
+
+<p>The first bit is 0, indicating it’s a positive number.<br>The next 8 bits, which is <strong><em>10001010</em></strong>, 8A, in decimal, is 138. 138 - 127 &#x3D; 11, indicating the exponent is <strong><em>11</em></strong> bits.<br>And the remaining 23 bits have the value:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
+
+<p>The leading bit, with the omitted <strong><em>1</em></strong>, has a value of:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
+
+<p>Above 11 bits for the exponent indicate that the position of the decimal point is:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1010 1011 1100 .  0000 0000 0000</span><br></pre></td></tr></table></figure>
+
+<p>Converting to hexadecimal, it’s <strong><em>ABC</em></strong>.000. Converting to decimal, it’s <strong><em>2748</em></strong>.00000000.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2009/11/04/codedecompilation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -488,13 +593,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
