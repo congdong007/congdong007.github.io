@@ -158,6 +158,935 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/24/BashScript08-WhileLoops/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/24/BashScript08-WhileLoops/" class="post-title-link" itemprop="url">Bash Scripting 08 - While Loops</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-24 23:17:12" itemprop="dateCreated datePublished" datetime="2012-03-24T23:17:12-04:00">2012-03-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:53:37" itemprop="dateModified" datetime="2023-10-23T21:53:37-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-08-While-Loops/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 08 - While Loops</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>While loops are also fairly common and execute code while an expression is true. While loops have<br>a simple format and, like if, use the square brackets ([]) for the test:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&lt;perform an action&gt;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>Let’s re-create the previous example with a while loop:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./while.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># while loop example</span></span><br><span class="line">counter=1</span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$counter</span> -lt 10 ]</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;10.11.1.<span class="variable">$counter</span>&quot;</span></span><br><span class="line">((counter++))</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./while.sh</span><br><span class="line">kali@kali:~$ ./while.sh</span><br><span class="line">10.11.1.1</span><br><span class="line">10.11.1.2</span><br><span class="line">10.11.1.3</span><br><span class="line">10.11.1.4</span><br><span class="line">10.11.1.5</span><br><span class="line">10.11.1.6</span><br><span class="line">10.11.1.7</span><br><span class="line">10.11.1.8</span><br><span class="line">10.11.1.9</span><br></pre></td></tr></table></figure>
+
+<p>This is not the output we expected. This is a common mistake called an “off by one” error. In the<br>example above, we used -lt (less than) instead of -le (less than or equal to), so our counter only got<br>to nine, not ten as originally intended.</p>
+<p>The ((counter++)) line uses the double-parenthesis (( )) construct to perform arithmetic<br>expansion and evaluation at the same time. In this particular case, we use it to increase our counter<br>variable by one. Let’s re-write the while loop and try the example again:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./while2.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># while loop example 2</span></span><br><span class="line">counter=1</span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$counter</span> -le 10 ]</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;10.11.1.<span class="variable">$counter</span>&quot;</span></span><br><span class="line">((counter++))</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./while2.sh</span><br><span class="line">kali@kali:~$ ./while2.sh</span><br><span class="line">10.11.1.1</span><br><span class="line">10.11.1.2</span><br><span class="line">10.11.1.3</span><br><span class="line">10.11.1.4</span><br><span class="line">10.11.1.5</span><br><span class="line">10.11.1.6</span><br><span class="line">10.11.1.7</span><br><span class="line">10.11.1.8</span><br><span class="line">10.11.1.9</span><br><span class="line">10.11.1.10</span><br></pre></td></tr></table></figure>
+<p>Our while loop is looking much better now.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/23/BashScript07-ForLoops/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/23/BashScript07-ForLoops/" class="post-title-link" itemprop="url">Bash Scripting 07 - For Loops</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-23 21:11:45" itemprop="dateCreated datePublished" datetime="2012-03-23T21:11:45-04:00">2012-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:53:32" itemprop="dateModified" datetime="2023-10-23T21:53:32-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-07-For-Loops/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 07 - For Loops</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>In computer programming, loops help us with repetitive tasks that we need to run until a certain<br>criteria is met. Iteration is particularly useful for penetration testers, so we recommend paying very<br>close attention to this section.<br>In Bash, the two most predominant loop commands are for and while. We will take a look at both.</p>
+<p>For loops are very practical and work very well in Bash one-liners. This type of loop is used to<br>perform a given set of commands for each of the items in a list. Let’s briefly look at its general<br>syntax:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var-name <span class="keyword">in</span> &lt;list&gt;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&lt;action to perform&gt;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>The for loop will take each item in the list (in order), assign that item as the value of the variable varname, perform the given action between do and done, and then go back to the top, grab the next<br>item in the list, and repeat the steps until the list is exhausted.</p>
+<p>Let’s take a look at a more practical example that will quickly print the first 10 IP addresses in the<br>10.11.1.0&#x2F;24 subnet:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="keyword">for</span> ip <span class="keyword">in</span> $(<span class="built_in">seq</span> 1 10); <span class="keyword">do</span> <span class="built_in">echo</span> 10.11.1.<span class="variable">$ip</span>; <span class="keyword">done</span></span><br><span class="line">10.11.1.1</span><br><span class="line">10.11.1.2</span><br><span class="line">10.11.1.3</span><br><span class="line">10.11.1.4</span><br><span class="line">10.11.1.5</span><br><span class="line">10.11.1.6</span><br><span class="line">10.11.1.7</span><br><span class="line">10.11.1.8</span><br><span class="line">10.11.1.9</span><br><span class="line">10.11.1.10</span><br></pre></td></tr></table></figure>
+
+<p>In this Bash one-liner, we used the seq command to print a sequence of numbers, in<br>this case the numbers one through ten. Each number is then assigned to the ip variable, and then<br>each IP address is displayed to the screen as the for loop runs multiple times, exiting at the end of<br>the sequence.<br>Another way of re-writing the previous for loop involves brace expansion using ranges. Brace<br>expansion using ranges is written giving the first and last values of the range and can be a sequence<br>of numbers or characters. This is known as a “sequence expression”:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10&#125;; <span class="keyword">do</span> <span class="built_in">echo</span> 10.11.1.<span class="variable">$i</span>;<span class="keyword">done</span></span><br><span class="line">10.11.1.1</span><br><span class="line">10.11.1.2</span><br><span class="line">10.11.1.3</span><br><span class="line">10.11.1.4</span><br><span class="line">10.11.1.5</span><br><span class="line">10.11.1.6</span><br><span class="line">10.11.1.7</span><br><span class="line">10.11.1.8</span><br><span class="line">10.11.1.9</span><br><span class="line">10.11.1.10</span><br></pre></td></tr></table></figure>
+
+<p>There is a lot of potential for this type of loop. Displaying IP addresses to the screen may not seem<br>very useful, but we can use the same loop to run a port scan using nmap (which we discuss in<br>detail in another module). We can also attempt to use the ping command to see if any of the IP<br>addresses respond to ICMP echo requests, etc.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/19/BashScript06-BooleanLogicalOperations/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/19/BashScript06-BooleanLogicalOperations/" class="post-title-link" itemprop="url">Bash Scripting 06 - Boolean Logical Operations</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-19 23:11:03" itemprop="dateCreated datePublished" datetime="2012-03-19T23:11:03-04:00">2012-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:53:28" itemprop="dateModified" datetime="2023-10-23T21:53:28-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-06-Boolean-Logical-Operations/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 06 - Boolean Logical Operations</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Boolean logical operators, like <strong><em>AND</em></strong> (&amp;&amp;) and <strong><em>OR</em></strong> (||) are somewhat mysterious because Bash<br>uses them in a variety of ways.<br>One common use is in command lists, which are chains of commands whose flow is controlled by<br>operators. The “|” (pipe) symbol is a commonly-used operator in a command list and passes the<br>output of one command to the input of another. Similarly, boolean logical operators execute<br>commands based on whether a previous command succeeded (or returned True or 0) or failed<br>(returned False or non-zero).<br>Let’s take a look at the <strong><em>AND</em></strong> (&amp;&amp;) boolean operator first, which executes a command only if the<br>previous command succeeds (or returns True or 0):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ user2=kali</span><br><span class="line">kali@kali:~$ grep <span class="variable">$user2</span> /etc/passwd &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$user2</span> found!&quot;</span></span><br><span class="line">kali:x:1000:1000:,,,:/home/kali:/bin/bash</span><br><span class="line">kali found!</span><br><span class="line">kali@kali:~$ user2=bob</span><br><span class="line">kali@kali:~$ grep <span class="variable">$user2</span> /etc/passwd &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$user2</span> found!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>In this example, we first assigned the username we are searching for to the user2 variable. Next,<br>we use the <code>grep</code> command to check if a certain user is listed in the <code>/etc/passwd</code> file, and if it is,<br><code>grep</code> returns True and the <code>echo</code> command is executed. However, when we try searching for a user<br>that we know does not exist in the <code>/etc/passwd</code> file, our <code>echo</code> command is not executed.</p>
+<p>When used in a command list, the <strong><em>OR (||) operator is the opposite of <strong><em>AND (&amp;&amp;); it executes the next<br>command only if the previous command failed (returned False or non-zero):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$user2</span></span><br><span class="line">bob</span><br><span class="line">kali@kali:~$ grep <span class="variable">$user2</span> /etc/passwd &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$user2</span> found!&quot;</span> || <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$user2</span> not found</span></span><br><span class="line"><span class="string">!&quot;</span></span><br><span class="line">bob not found!</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, we took our previous command a step further and added the <strong><em>OR</em></strong> (||) operator<br>followed by a second <code>echo</code> command. Now, when <code>grep</code> does not find a matching line and returns<br>False, the second <code>echo</code> command after the <strong><em>OR</em></strong> (||) operator is executed instead.<br>These operators can also be used in a test to compare variables or the results of other tests. When<br>used this way, <strong><em>AND</em></strong> (&amp;&amp;) combines two simple conditions, and if they are both true, the combined<br>result is success (or True or 0).<br>Consider this example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./and.sh</span><br><span class="line"><span class="comment">#/bin/bash</span></span><br><span class="line"><span class="comment"># and example</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$USER</span> == <span class="string">&#x27;kali&#x27;</span> ] &amp;&amp; [ <span class="variable">$HOSTNAME</span> == <span class="string">&#x27;kali&#x27;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Multiple statements are true!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Not much to see here...&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./and.sh</span><br><span class="line">kali@kali:~$ ./and.sh</span><br><span class="line">Multiple statements are <span class="literal">true</span>!</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$USER</span> &amp;&amp; <span class="built_in">echo</span> <span class="variable">$HOSTNAME</span></span><br><span class="line">kali</span><br><span class="line">kali</span><br></pre></td></tr></table></figure>
+
+<p>In this example, we used <strong><em>AND</em></strong> (&amp;&amp;) to test multiple conditions and since both variable comparisons<br>were true, the whole if line succeeded, so the then branch executed.<br>When used in a test, the <strong><em>OR</em></strong> (||) boolean operator is used to test one or more conditions, but only<br>one of them has to be true to count as success.<br>Let’s take a look at an example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./or.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># or example</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$USER</span> == <span class="string">&#x27;kali&#x27;</span> ] || [ <span class="variable">$HOSTNAME</span> == <span class="string">&#x27;pwn&#x27;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;One condition is true, this line is printed&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You are out of luck!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./or.sh</span><br><span class="line">kali@kali:~$ ./or.sh</span><br><span class="line">One condition is <span class="literal">true</span>, this line is printed</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$USER</span> &amp;&amp; <span class="built_in">echo</span> <span class="variable">$HOSTNAME</span></span><br><span class="line">kali</span><br><span class="line">kali</span><br></pre></td></tr></table></figure>
+
+<p>In this example, we used <strong><em>OR</em></strong> (||) to test multiple conditions and since one of the variable<br>comparisons was true, the whole if line succeeded, so the then branch executed.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/17/BashScript05-IfElseElifStatements/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/17/BashScript05-IfElseElifStatements/" class="post-title-link" itemprop="url">Bash Scripting 05 - If, Else, Elif Statements</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-17 22:24:49" itemprop="dateCreated datePublished" datetime="2012-03-17T22:24:49-04:00">2012-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:53:23" itemprop="dateModified" datetime="2023-10-23T21:53:23-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-05-If-Else-Elif-Statements/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 05 - If, Else, Elif Statements</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Conditional statements allow us to perform different actions based on different conditions. The<br>most common conditional Bash statements include if, else, and elif.<br>The if statement is relatively simple–it checks to see if a condition is true–but it requires a very<br>specific syntax. Pay careful attention to this syntax, especially the use of required spaces:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform an action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>In this listing, if “some test” evaluates as true, the script will “perform an action”, or any commands<br>between then and fi. Let’s look at an actual example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./if.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># if statement example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./if.sh</span><br><span class="line">kali@kali:~$ ./if.sh</span><br><span class="line">What is your age: 15</span><br><span class="line">You might need parental permission to take this course!</span><br></pre></td></tr></table></figure>
+
+<p>In this example, we used an if statement to check the age entered by a user. If the entered age was<br>less than (-lt) 16, the script would output a warning message.<br>The square brackets (“[“ and “]”) in the if statement above are actually a reference to the test<br>command. This simply means we can use all of the operators that are allowed by the test<br>command. Some of the most common operators include:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description: Expression True if…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>!EXPRESSION</td>
+<td>The EXPRESSION is false.</td>
+</tr>
+<tr>
+<td>-n STRING</td>
+<td>STRING length is greater than zero</td>
+</tr>
+<tr>
+<td>-z STRING</td>
+<td>The length of STRING is zero (empty)</td>
+</tr>
+<tr>
+<td>STRING1 !&#x3D; STRING2</td>
+<td>STRING1 is not equal to STRING2</td>
+</tr>
+<tr>
+<td>STRING1 &#x3D; STRING2</td>
+<td>STRING1 is equal to STRING2</td>
+</tr>
+<tr>
+<td>INTEGER1 -eq INTEGER2</td>
+<td>INTEGER1 is equal to INTEGER2</td>
+</tr>
+<tr>
+<td>INTEGER1 -ne INTEGER2</td>
+<td>INTEGER1 is not equal to INTEGER2</td>
+</tr>
+<tr>
+<td>INTEGER1 -gt INTEGER2</td>
+<td>INTEGER1 is greater than INTEGER2</td>
+</tr>
+<tr>
+<td>INTEGER1 -lt INTEGER2</td>
+<td>INTEGER1 is less than INTEGER2</td>
+</tr>
+<tr>
+<td>INTEGER1 -ge INTEGER2</td>
+<td>INTEGER1 is greater than or equal to INTEGER 2</td>
+</tr>
+<tr>
+<td>INTEGER1 -le INTEGER2</td>
+<td>INTEGER1 is less than or equal to INTEGER 2</td>
+</tr>
+<tr>
+<td>-d FILE</td>
+<td>FILE exists and is a directory</td>
+</tr>
+<tr>
+<td>-e FILE</td>
+<td>FILE exists</td>
+</tr>
+<tr>
+<td>-r FILE</td>
+<td>FILE exists and has read permission</td>
+</tr>
+<tr>
+<td>-s FILE</td>
+<td>FILE exists and it is not empty</td>
+</tr>
+<tr>
+<td>-w FILE</td>
+<td>FILE exists and has write permission</td>
+</tr>
+<tr>
+<td>-x FILE</td>
+<td>FILE exists and has execute permission</td>
+</tr>
+</tbody></table>
+<p>With the above in mind, our previous example using if can be rewritten without square brackets as<br>follows:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./if2.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># if statement example 2</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$age</span> -lt 16</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./if2.sh</span><br><span class="line">kali@kali:~$ ./if2.sh</span><br><span class="line">What is your age: 15</span><br><span class="line">You might need parental permission to take this course!</span><br></pre></td></tr></table></figure>
+
+<p>Even though this example is functionally equivalent to the example using square brackets, using<br>square brackets makes the code slightly easier to read.<br>We can also perform a certain set of actions if a statement is true and another set if it is false. To<br>do this, we can use the else statement, which has the following syntax:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform action&gt;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&lt;perform another action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>Let’s extend our previous “age” example to include the else statement:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./else.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># else statement example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Welcome to the course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./else.sh</span><br><span class="line">kali@kali:~$ ./else.sh</span><br><span class="line">What is your age: 21</span><br><span class="line">Welcome to the course!</span><br></pre></td></tr></table></figure>
+
+<p>Notice that the else statement was executed when the entered age was greater than (or more<br>specifically “not less than”) sixteen.<br>The if and else statements only allow two code execution branches. We can add additional<br>branches with the elif statement which uses the following pattern:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform action&gt;</span><br><span class="line"><span class="keyword">elif</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform different action&gt;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&lt;perform yet another different action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>Let’s again extend our “age” example to include the elif statement:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./elif.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># elif example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$age</span> -gt 60 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hats off to you, respect!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Welcome to the course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./elif.sh</span><br><span class="line">kali@kali:~$ ./elif.sh</span><br><span class="line">What is your age: 65</span><br><span class="line">Hats off to you, respect!</span><br></pre></td></tr></table></figure>
+
+<p>In this example, the code execution flow was slightly more complex. In order of operation, the then<br>branch executes if the entered age is less than sixteen, the elif branch is entered (and the “Hats<br>off..” message displayed) if the age is greater than sixty, and the else branch executes only if the<br>age is greater than sixteen but less than sixty.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/13/BashScript04-ReadingUserInput/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/13/BashScript04-ReadingUserInput/" class="post-title-link" itemprop="url">Bash Scripting 04 - Reading User Input</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-13 21:21:31" itemprop="dateCreated datePublished" datetime="2012-03-13T21:21:31-04:00">2012-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:49:39" itemprop="dateModified" datetime="2023-10-23T21:49:39-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-04-Reading-User-Input/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 04 - Reading User Input</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Command-line arguments are a form of user input, but we can also capture interactive user input<br>while a script is running with the read command. In this example, we will use read to capture user<br>input and assign it to a variable:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./input.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello there, would you like to learn how to hack: Y/N?&quot;</span></span><br><span class="line"><span class="built_in">read</span> answer</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Your answer was <span class="variable">$answer</span>&quot;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./input.sh</span><br><span class="line">kali@kali:~$ ./input.sh</span><br><span class="line">Hello there, would you like to learn how to hack: Y/N?</span><br><span class="line">Y</span><br><span class="line">Your answer was Y</span><br></pre></td></tr></table></figure>
+
+<p>We can alter the behavior of the read command with various command line options. Two of the<br>most commonly used options include -p, which allows us to specify a prompt, and -s, which makes<br>the user input silent. The latter is ideal for capturing user credentials:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./input2.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Prompt the user for credentials</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&#x27;Username: &#x27;</span> username</span><br><span class="line"><span class="built_in">read</span> -sp <span class="string">&#x27;Password: &#x27;</span> password</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Thanks, your creds are as follows: &quot;</span> <span class="variable">$username</span> <span class="string">&quot; and &quot;</span> <span class="variable">$password</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./input2.sh</span><br><span class="line">kali@kali:~$ ./input2.sh</span><br><span class="line">Username: kali</span><br><span class="line">Password:</span><br><span class="line">Thanks, your creds are as follows: kali and nothing2see!</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/07/BashScript03-Arguments/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/07/BashScript03-Arguments/" class="post-title-link" itemprop="url">Bash Scripting 03 - Arguments</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-07 20:53:07" itemprop="dateCreated datePublished" datetime="2012-03-07T20:53:07-05:00">2012-03-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:49:42" itemprop="dateModified" datetime="2023-10-23T21:49:42-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-03-Arguments/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 03 - Arguments</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Not all Bash scripts require arguments. However, it is extremely important to understand how<br>they are interpreted by Bash and how to use them. We have already executed Linux commands<br>with arguments. For example, when we run the command <code>ls -l /var/log</code>, both <code>-l</code> and <code>/var/log</code><br>are arguments to the ls command.<br>Bash scripts are no different; we can supply command-line arguments and use them in our scripts:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./arg.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;The first two arguments are <span class="variable">$1</span> and <span class="variable">$2</span>&quot;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./arg.sh</span><br><span class="line">kali@kali:~$ ./arg.sh hello there</span><br><span class="line">The first two arguments are hello and there</span><br></pre></td></tr></table></figure>
+<p>Here we created a simple Bash script, set executable permissions on it, and then ran it<br>with two arguments. The $1 and $2 variables represent the first and second arguments passed to<br>the script. Let’s explore a few special Bash variables:</p>
+<table>
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$0</td>
+<td>The name of the Bash script</td>
+</tr>
+<tr>
+<td>$1 - $9</td>
+<td>The first 9 arguments to the Bash script</td>
+</tr>
+<tr>
+<td>$#</td>
+<td>Number of arguments passed to the Bash script</td>
+</tr>
+<tr>
+<td>$@</td>
+<td>All arguments passed to the Bash script</td>
+</tr>
+<tr>
+<td>$?</td>
+<td>The exit status of the most recently run process</td>
+</tr>
+<tr>
+<td>$$</td>
+<td>The process ID of the current script</td>
+</tr>
+<tr>
+<td>$USER</td>
+<td>The username of the user running the script</td>
+</tr>
+<tr>
+<td>$HOSTNAME</td>
+<td>The hostname of the machine</td>
+</tr>
+<tr>
+<td>$RANDOM</td>
+<td>A random number</td>
+</tr>
+<tr>
+<td>$LINENO</td>
+<td>The current line number in the script</td>
+</tr>
+</tbody></table>
+<p>Some of these special variables can be very useful when debugging a script. For example, we might<br>be able to obtain the exit status of a command to determine whether it was successfully executed<br>or not.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/05/BashScript02-Variables/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/05/BashScript02-Variables/" class="post-title-link" itemprop="url">Bash Scripting 02 - Variables</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-05 21:45:38" itemprop="dateCreated datePublished" datetime="2012-03-05T21:45:38-05:00">2012-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:48:39" itemprop="dateModified" datetime="2023-10-23T21:48:39-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-02-Variables/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 02 - Variables</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Variables are named places to temporarily store data. We can set (or “declare”) a variable, which<br>assigns a value to it, or read a variable, which will “expand” or “resolve” it to its stored value.</p>
+<p>We can declare variable values in a number of ways. The easiest method is to set the value directly<br>with a simple name&#x3D;value declaration. Notice that there are no spaces before or after the “&#x3D;” sign:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ first_param=Super</span><br></pre></td></tr></table></figure>
+
+<p>Declaring a variable is pointless unless we can reference it. To do this, we precede the variable with<br>the “<strong><em>$</em></strong>” character. Whenever Bash encounters this syntax in a command, it replaces the variable<br>name with its value (“expands” the variable) before execution:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ first_param=Super</span><br><span class="line">kali@kali:~$ last_param=Hero</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$first_param</span> <span class="variable">$last_param</span></span><br><span class="line">Super Hero</span><br></pre></td></tr></table></figure>
+
+<p>Variable names may be uppercase, lowercase, or a mixture of both. However, Bash is casesensitive so we must be consistent when declaring and expanding variables. In addition, it’s good<br>practice to use descriptive variable names, which make our scripts much easier to read and<br>maintain.</p>
+<p>Be advised that Bash interprets certain characters in specific ways. For example, this declaration<br>demonstrates an improper multi-value variable declaration:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ greeting=Hello World</span><br><span class="line">bash: World: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
+
+<p>This was not necessarily what we expected. To fix this, we can use either single quotes (<strong><em>‘</em></strong>) or double<br>quotes (<strong><em>“</em></strong>) to enclose our text. However, Bash treats single and double quotes differently. When<br>encountering single quotes, Bash interprets every enclosed character literally. When enclosed in<br>double quotes, all characters are viewed literally except “$”, “&#96;”, and “&quot; meaning variables will be<br>expanded in an initial substitution pass on the enclosed text.</p>
+<p>A simple example will help clarify this:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ greeting=<span class="string">&#x27;Hello World&#x27;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$greeting</span></span><br><span class="line">Hello World</span><br><span class="line">kali@kali:~$ greeting2=<span class="string">&quot;New <span class="variable">$greeting</span>&quot;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$greeting2</span></span><br><span class="line">New Hello World</span><br></pre></td></tr></table></figure>
+
+<p>In this example, the single-quote-enclosed declaration of greeting preserved the value of our text<br>exactly and did not interpret the space as a command delimiter. However, in the double-quoteenclosed declaration of greeting2, Bash expanded $greeting to its value (“Hello World”), honoringthe special meaning of the “<strong><em>$</em></strong>” character.<br>We can also set the value of the variable to the result of a command or program. This is known as<br>command substitution, which allows us to take the output of a command or program (what<br>would normally be printed to the screen) and have it saved as the value of a variable.<br>To do this, place the variable name in parentheses “<strong><em>()</em></strong>”, preceded by a “<strong><em>$</em></strong>” character:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ user=$(<span class="built_in">whoami</span>)</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$user</span></span><br><span class="line">kali</span><br></pre></td></tr></table></figure>
+
+<p>Here we assigned the output of the whoami command to the user variable. We then<br>displayed its value. An alternative syntax for command substitution using the backtick, or grave,<br>character (&#96;) is shown below:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ user2=`<span class="built_in">whoami</span>`</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$user2</span></span><br><span class="line">kali</span><br></pre></td></tr></table></figure>
+
+<p>The backtick method is older and typically discouraged as there are differences in how the two<br>methods of command substitution behave. It is also important to note that command<br>substitution happens in a subshell and changes to variables in the subshell will not alter variables<br>from the master process. This is demonstrated in the following example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./subshell.sh</span><br><span class="line"><span class="comment">#!/bin/bash -x</span></span><br><span class="line">var1=value1</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var1</span></span><br><span class="line">var2=value2</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var2</span></span><br><span class="line">$(var1=newvar1)</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var1</span></span><br><span class="line">`var2=newvar2`</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var2</span></span><br><span class="line">kali@kali:~$ ./subshell.sh</span><br><span class="line">+ var1=value1</span><br><span class="line">+ <span class="built_in">echo</span> value1</span><br><span class="line">value1</span><br><span class="line">+ var2=value2</span><br><span class="line">+ <span class="built_in">echo</span> value2</span><br><span class="line">value2</span><br><span class="line">++ var1=newvar1</span><br><span class="line">+ <span class="built_in">echo</span> value1</span><br><span class="line">value1</span><br><span class="line">++ var2=newvar2</span><br><span class="line">+ <span class="built_in">echo</span> value2</span><br><span class="line">value2</span><br><span class="line">kali@kali:~$</span><br></pre></td></tr></table></figure>
+
+<p>In this example, first note that we changed the shebang, adding in the -x flag. This instructed Bash<br>to print additional debug output, so we could more easily see the commands that were executed<br>and their results. As we view this output, notice that commands preceded with a single “+” character<br>were executed in the current shell and commands preceded with a double “++” were executed in a<br>subshell.<br>This allows us to clearly see that the second declarations of var1 and var2 happened inside a<br>subshell and did not change the values in the current shell as the initial declarations did.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/02/BashScript01-IntroduceBashScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/02/BashScript01-IntroduceBashScript/" class="post-title-link" itemprop="url">Bash Scripting 01 - Intro to Bash Scripting</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-02 22:27:59" itemprop="dateCreated datePublished" datetime="2012-03-02T22:27:59-05:00">2012-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:48:25" itemprop="dateModified" datetime="2023-10-23T21:48:25-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-01-Intro-to-Bash-Scripting/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 01 - Intro to Bash Scripting</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>The GNU Bourne-Again Shell (Bash) is a powerful work environment and scripting engine. A<br>competent security professional skillfully leverages Bash scripting to streamline and automate<br>many Linux tasks and procedures. In this module, we will introduce Bash scripting and explore<br>several practical scenarios.</p>
+<p>A Bash script is a plain-text file that contains a series of commands that are executed as if they had<br>been typed at a terminal prompt. Generally speaking, Bash scripts have an optional extension of<br>.sh (for ease of identification), begin with <strong><em>#!&#x2F;bin&#x2F;bash</em></strong> and must have executable permissions set<br>before they can be executed. Let’s begin with a simple “Hello World” Bash script, file named hello-world.sh:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Hello World Bash Script</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello World!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>This script has several components worth explaining:<br>• Line 1: <strong><em>#!</em></strong> is commonly known as the shebang, and is ignored by the Bash interpreter. The<br>second part, <strong><em>&#x2F;bin&#x2F;bash</em></strong>, is the absolute path to the interpreter, which is used to run the<br>script. This is what makes this a “Bash script” as opposed to another type of shell script, like<br>a “C Shell script”, for example.<br>• Line 2: # is used to add a comment, so all text that follows it is ignored.<br>• Line 3: echo “Hello World!” uses the echo Linux command utility to print a given string to the<br>terminal, which in this case is “Hello World!”.</p>
+<p>Next, let’s make the script executable and run it:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ chmod +x hello-world.sh</span><br><span class="line">kali@kali:~$ ./hello-world.sh</span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+
+<p>The chmod command, along with the +x option is used to make the script executable.<br><strong><em>.&#x2F;helloworld.sh</em></strong> is used to actually run it.<br>The <strong><em>.&#x2F;</em></strong> notation may seem confusing but this is simply a path<br>notation indicating that this script is in the current directory. Whenever we type a command, Bash<br>tries to find it in a series of directories stored in a variable called PATH. Since our home directory<br>is not included in that variable, we must use the relative path to our Bash script in order for Bash<br>to “find it” and run it.</p>
+<p>Now that we have created our first Bash script,next we will explore Bash in a bit more detail.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/22/SimplePluginSystemByPython/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/10/22/SimplePluginSystemByPython/" class="post-title-link" itemprop="url">A Simple Plugin System by Python</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2011-10-22 16:41:33" itemprop="dateCreated datePublished" datetime="2011-10-22T16:41:33-04:00">2011-10-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 17:50:41" itemprop="dateModified" datetime="2023-10-18T17:50:41-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/System-Architecture/" itemprop="url" rel="index"><span itemprop="name">System Architecture</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/System-Architecture/Plugin-Pattern/" itemprop="url" rel="index"><span itemprop="name">Plugin Pattern</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Due to the requirements of my work, I needed to design an open software system, and immediately thought of the Python language. As a result, I designed a simple and easily extensible plugin system.</p>
+<p>Here’s the code:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#main.py</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> importlib</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">PluginManager</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.plugins = []</span><br><span class="line">        self.func_name = <span class="string">&quot;MyPlugin&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">load_plugin</span>(<span class="params">self, plugin_name</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            plugin_module = importlib.import_module(<span class="string">f&#x27;plugins.<span class="subst">&#123;plugin_name&#125;</span>&#x27;</span>)</span><br><span class="line">            plugin_instance = <span class="built_in">getattr</span>(plugin_module, self.func_name)()</span><br><span class="line">            self.plugins.append(plugin_instance)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;plugin <span class="subst">&#123;plugin_name&#125;</span> loaded.&quot;</span>)</span><br><span class="line">        <span class="keyword">except</span> ImportError:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;Load plugin <span class="subst">&#123;plugin_name&#125;</span> failed.&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run_plugins</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">for</span> plugin <span class="keyword">in</span> self.plugins:</span><br><span class="line">            plugin.run()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    manager = PluginManager()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;1. Add Plugin&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;2. Run Plugin&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;3. Quit&quot;</span>)</span><br><span class="line">        choice = <span class="built_in">input</span>(<span class="string">&quot;Your Select: &quot;</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> choice == <span class="string">&quot;1&quot;</span>:</span><br><span class="line">            plugin_name = <span class="built_in">input</span>(<span class="string">&quot;Please input the name of plugin: &quot;</span>)</span><br><span class="line">            manager.load_plugin(plugin_name)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">&quot;2&quot;</span>:</span><br><span class="line">            manager.run_plugins()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">&quot;3&quot;</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>Then, you create a directory named ‘<strong><em>plugins</em></strong>.’ In this directory, you can add your plugin, which must define a class named <strong><em>‘MyPlugin’</em></strong> and must have a function named <strong><em>‘run’</em></strong>. Here is the simple code:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#my_plugin</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyPlugin</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">run</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;MyPlugin is running&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>The following is the running process:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 1</span><br><span class="line">Please input the name of plugin: my_plugin</span><br><span class="line">plugin my_plugin loaded.</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 2</span><br><span class="line">MyPlugin is running</span><br><span class="line">1. Add Plugin</span><br><span class="line">2. Run Plugin</span><br><span class="line">3. Quit</span><br><span class="line">Your Select: 3</span><br><span class="line">PS C:\Users\xxx\Desktop\yyy\plugin-system&gt;</span><br></pre></td></tr></table></figure>
+
+<p>You can use this model to design a big and an opened software system.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/16/shellcodewrite/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -250,753 +1179,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/03/02/nasmCompile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/03/02/nasmCompile/" class="post-title-link" itemprop="url">How to compile asm to execute under Linux</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2011-03-02 11:31:25" itemprop="dateCreated datePublished" datetime="2011-03-02T11:31:25-05:00">2011-03-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 11:39:39" itemprop="dateModified" datetime="2023-10-17T11:39:39-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Here is code snippet to show how to compile asm to execute under Linux:</p>
-<p>shellx.asm:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">section     .text</span><br><span class="line">global      _start </span><br><span class="line">_start: </span><br><span class="line">    mov     edx,len   </span><br><span class="line">    mov     ecx,msg   </span><br><span class="line">    mov     ebx,<span class="number">1</span>   </span><br><span class="line">    mov     eax,<span class="number">4</span>   </span><br><span class="line">    <span class="type">int</span>     <span class="number">0x80</span>   </span><br><span class="line">    mov     eax,<span class="number">1</span>  </span><br><span class="line">    <span class="type">int</span>     <span class="number">0x80</span>   </span><br><span class="line">section     .data</span><br><span class="line">msg     db  <span class="string">&#x27;Hello world&#x27;</span>,<span class="number">0xa</span>  </span><br><span class="line">len     equ $ - msg</span><br></pre></td></tr></table></figure>
-<p>let’s start</p>
-<ol>
-<li>First step:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ nasm -f elf64 shellx.asm</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>Next step:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ ld -s -o shellx shellx.o</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>Execute :</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ ./shellx </span><br></pre></td></tr></table></figure>
-<p>then output :</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello world</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/01/16/pythonHash/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/01/16/pythonHash/" class="post-title-link" itemprop="url">Compilation of Python Code Snippets for Hashing</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2011-01-16 10:47:24" itemprop="dateCreated datePublished" datetime="2011-01-16T10:47:24-05:00">2011-01-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:06:28" itemprop="dateModified" datetime="2023-10-17T12:06:28-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/hash/" itemprop="url" rel="index"><span itemprop="name">hash</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Performing relevant hashing operations is an essential skill in penetration testing. Here is a compilation of code snippets for common hash implementations in Python.</p>
-<p><strong><em>md5</em></strong> :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">mystring = input(<span class="string">&#x27;Enter String to hash: &#x27;</span>)</span><br><span class="line"><span class="comment"># Assumes the default UTF-8</span></span><br><span class="line">hash_object = hashlib.md5(mystring.encode())</span><br><span class="line"><span class="built_in">print</span>(hash_object.hexdigest())</span><br></pre></td></tr></table></figure>
-
-<p><strong><em>sha1</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">hash_object = hashlib.sha1(b<span class="string">&#x27;Hello World&#x27;</span>)</span><br><span class="line">hex_dig = hash_object.hexdigest()</span><br><span class="line"><span class="built_in">print</span>(hex_dig)</span><br></pre></td></tr></table></figure>
-
-
-<p><strong><em>SHA256</em></strong>:</p>
-<figure class="highlight plaintext"><figcaption><span>hashlib</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hash_object = hashlib.sha256(b&#x27;Hello World&#x27;)</span><br><span class="line">hex_dig = hash_object.hexdigest()</span><br><span class="line">print(hex_dig)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p><strong><em>sha512</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">input = <span class="string">&#x27;test&#x27;</span></span><br><span class="line"><span class="built_in">hash</span> = hashlib.sha512( str( input ).encode(<span class="string">&quot;utf-8&quot;</span>) ).hexdigest()</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">hash</span>)</span><br></pre></td></tr></table></figure>
-<p><strong><em>DSA</em></strong>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import hashlib</span><br><span class="line"></span><br><span class="line">hash_object = hashlib.new(<span class="string">&#x27;DSA&#x27;</span>)</span><br><span class="line">hash_object.update(b<span class="string">&#x27;Hello World&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(hash_object.hexdigest())</span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2010/10/15/information-schema/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/10/15/information-schema/" class="post-title-link" itemprop="url">About information_schema in MySQL</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2010-10-15 12:47:16" itemprop="dateCreated datePublished" datetime="2010-10-15T12:47:16-04:00">2010-10-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 18:55:07" itemprop="dateModified" datetime="2023-10-18T18:55:07-04:00">2023-10-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/About-information-schema/" itemprop="url" rel="index"><span itemprop="name">About information_schema</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>The “<strong><em>information_schema</em></strong>“ is a system database in MySQL that contains metadata information about <strong><em>databases, tables, columns, indexes, users, permissions,</em></strong> and more within the MySQL server. It serves as an interface for querying metadata information in MySQL. This information is stored in tabular form within tables in the “information_schema” database, and users can retrieve metadata information by using SQL statements to query these tables.</p>
-<p>Here are some common tables in the ‘information_schema’ database:</p>
-<ol>
-<li><strong><em>SCHEMATA</em></strong>: Stores information about all databases, including database names, character sets, etc.</li>
-<li><strong><em>TABLES</em></strong>: Stores information about all tables, including table names, table types, engines, etc.</li>
-<li><strong><em>COLUMNS</em></strong>: Stores information about all columns, including column names, column data types, column constraints, etc.</li>
-<li><strong><em>STATISTICS</em></strong>: Stores information about all indexes, including index names, index types, the table where the index is located, index columns, etc.</li>
-<li><strong><em>USER_PRIVILEGES</em></strong>: Stores information about user privileges, including user accounts, permissions, etc.</li>
-</ol>
-<p>By querying the tables in the <strong><em>information_schema</em></strong> database, you can obtain information about various aspects of <strong><em>databases, tables, columns, indexes, users, and permissions</em></strong>. This is very helpful for database management and maintenance.</p>
-<p>Next, let’s take a look at an example of finding key information through the information_schema database:</p>
-<ol>
-<li>Query information about the current user:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT current_user();</span><br></pre></td></tr></table></figure></li>
-<li>Query information about the user for the current session:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT session_user();</span><br></pre></td></tr></table></figure></li>
-<li>Get the path of the database:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@datadir;</span><br></pre></td></tr></table></figure></li>
-<li>Get the installation path of MySQL:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select @@basedir;</span><br></pre></td></tr></table></figure></li>
-<li>Retrieve information about the operating system version:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@version_compile_os;</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2010/05/01/QtSetData/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/05/01/QtSetData/" class="post-title-link" itemprop="url">In Qt, how to transmit custom data using QAction::setData</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2010-05-01 23:16:09" itemprop="dateCreated datePublished" datetime="2010-05-01T23:16:09-04:00">2010-05-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:04:32" itemprop="dateModified" datetime="2023-10-17T12:04:32-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Recently, in a project, there was a need to transmit custom data using QAction::setData. I’ve searched online for a lot of information, but it’s all a bit vague, and none of them hit the mark. Some even provide solutions that completely contradict Qt’s principles. Below is an example code I wrote:</p>
-<ol>
-<li>Custom data:<br>Here, taking a custom class as an example, the code is as follows:</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"></span><br><span class="line">#ifndef QNEWITEM_H</span><br><span class="line">#define QNEWITEM_H</span><br><span class="line"></span><br><span class="line">#include &lt;QObject&gt;</span><br><span class="line"></span><br><span class="line">class QNewItem : public QObject</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    QNewItem(QObject *parent = <span class="number">0</span>);</span><br><span class="line">    ~QNewItem();</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> setUserInfo(QString&amp; strName,qint16&amp; nAge);</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    QString m_strName;</span><br><span class="line">    qint16 m_nAge;</span><br><span class="line">&#125;;</span><br><span class="line">#endif <span class="comment">// QNEWITEM_H</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"></span><br><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QNewItem::QNewItem(QObject *parent)</span><br><span class="line">: QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QNewItem::~QNewItem()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> QNewItem::setUserInfo( QString&amp; strName,qint16&amp; nAge )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">bool</span> bRet = <span class="literal">false</span>;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( strName.isEmpty() || nAge &gt;<span class="number">200</span> &amp;&amp; nAge&lt;<span class="number">0</span> ) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        m_strName = strName;</span><br><span class="line">        m_nAge = nAge;</span><br><span class="line">        bRet = <span class="literal">true</span>;</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> bRet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>At the beginning of the calling CPP file, you must declare it like this:</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line">Q_DECLARE_METATYPE(QNewItem*)</span><br></pre></td></tr></table></figure>
-<p>There’s not much else to say; when you look at the code, you’ll understand everything.</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line">Q_DECLARE_METATYPE(QNewItem*)</span><br><span class="line"></span><br><span class="line">customDefineDemo::customDefineDemo(QWidget *parent, Qt::WFlags flags)</span><br><span class="line">: QMainWindow(parent, flags)</span><br><span class="line">&#123;</span><br><span class="line">    ui.setupUi(this);</span><br><span class="line">    connect(ui.pushButton , SIGNAL(clicked()),this,SLOT(onBtnClick()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customDefineDemo::~customDefineDemo()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void customDefineDemo::onBtnClick()</span><br><span class="line">&#123;</span><br><span class="line">    QMenu* pMenu = <span class="built_in">new</span> QMenu();</span><br><span class="line">    QNewItem* pNewItem = <span class="built_in">new</span> QNewItem();</span><br><span class="line">    qint16 nAge = <span class="number">34</span>;</span><br><span class="line">    QVariant qv;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        QAction* pPortraitView = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;New&quot;</span>), this);</span><br><span class="line">        QAction* pAddGroup = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;Open&quot;</span>), this);</span><br><span class="line">        QAction* pDeleteGroup = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;Save&quot;</span>), this);</span><br><span class="line"></span><br><span class="line">        pNewItem-&gt;setUserInfo(tr(<span class="string">&quot;Eric&quot;</span>),nAge);</span><br><span class="line"></span><br><span class="line">        pPortraitView-&gt;setData( QVariant::fromValue(pNewItem) ) ;</span><br><span class="line"></span><br><span class="line">        connect(pPortraitView,SIGNAL(triggered()),this,SLOT(triggeredMenuSendMsgContact()));</span><br><span class="line"></span><br><span class="line">        pMenu-&gt;addAction(pPortraitView);</span><br><span class="line">        pMenu-&gt;addAction(pAddGroup);</span><br><span class="line">        pMenu-&gt;addAction(pDeleteGroup);</span><br><span class="line">        pMenu-&gt;exec(QCursor::pos());</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( pMenu != nullptr )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">delete</span> pMenu;</span><br><span class="line">        pMenu = nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void customDefineDemo::triggeredMenuSendMsgContact()</span><br><span class="line">&#123;</span><br><span class="line">    QAction* pSendMsg= NULL;</span><br><span class="line">    QNewItem* pObj = NULL;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        pSendMsg=qobject_cast&lt;QAction*&gt;(sender());</span><br><span class="line"></span><br><span class="line">        pObj = pSendMsg-&gt;data().value&lt;QNewItem*&gt;();</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( pObj != nullptr )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">delete</span> pObj;</span><br><span class="line">        pObj = nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2010/03/14/floatData/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/03/14/floatData/" class="post-title-link" itemprop="url">The confusing floating point problem</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2010-03-14 22:44:22" itemprop="dateCreated datePublished" datetime="2010-03-14T22:44:22-04:00">2010-03-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:44:56" itemprop="dateModified" datetime="2023-10-16T23:44:56-04:00">2023-10-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/" itemprop="url" rel="index"><span itemprop="name">Others</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Others/float-data/" itemprop="url" rel="index"><span itemprop="name">float data</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Recently, I encountered an issue with floating-point numbers. </p>
-<p>code:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fld dword ptr ds:[esi+1E4]</span><br></pre></td></tr></table></figure>
-<p>and </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">esi+1E4 = 02FCE9D4</span><br></pre></td></tr></table></figure>
-
-<p>The following is its memory:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">02FCE9D4  00 C0 2B 45 00 C0 2B 45 00 00 00 00 00 00 00 00  .?E.?E........</span><br></pre></td></tr></table></figure>
-
-<p>After execution this code:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fld dword ptr ds:[esi+1E4]</span><br></pre></td></tr></table></figure>
-<p>watches:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ST0 = 2748.00000000000.</span><br></pre></td></tr></table></figure>
-
-<p>I would like to know how ST0 equals 2748?</p>
-<p>In the end, it’s all about the representation of floating-point numbers. According to the IEEE standard, the first bit is the sign bit, the next 8 bits represent the exponent, and the remaining 23 bits are the mantissa. Considering that it’s <strong><em>little-endian storage</em></strong>, the value of the number <strong><em>00 C0 2B 45</em></strong> is <strong><em>452BC000</em></strong>, which is:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0100 0101 0010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
-
-<p>The first bit is 0, indicating it’s a positive number.<br>The next 8 bits, which is <strong><em>10001010</em></strong>, 8A, in decimal, is 138. 138 - 127 &#x3D; 11, indicating the exponent is <strong><em>11</em></strong> bits.<br>And the remaining 23 bits have the value:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
-
-<p>The leading bit, with the omitted <strong><em>1</em></strong>, has a value of:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1010 1011 1100 0000 0000 0000</span><br></pre></td></tr></table></figure>
-
-<p>Above 11 bits for the exponent indicate that the position of the decimal point is:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1010 1011 1100 .  0000 0000 0000</span><br></pre></td></tr></table></figure>
-
-<p>Converting to hexadecimal, it’s <strong><em>ABC</em></strong>.000. Converting to decimal, it’s <strong><em>2748</em></strong>.00000000.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/11/04/codedecompilation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/11/04/codedecompilation/" class="post-title-link" itemprop="url">Example program for code decompilation</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-11-04 22:36:35" itemprop="dateCreated datePublished" datetime="2009-11-04T22:36:35-05:00">2009-11-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:45:59" itemprop="dateModified" datetime="2023-10-16T23:45:59-04:00">2023-10-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>  Some time ago, a friend asked me to help reverse engineer something, extract its code, save it as an assembly file, and compile and run it in VC (Visual C++).</p>
-<p>  asm file :</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">                .686p</span><br><span class="line">                .model flat,c</span><br><span class="line">        option casemap : none</span><br><span class="line">        </span><br><span class="line">        extern sprintf:proc</span><br><span class="line">        extern strcat:proc</span><br><span class="line">                </span><br><span class="line">.data</span><br><span class="line">               ___security_cookie dd 0BB40E64Eh</span><br><span class="line">               a02x_0 db &quot;%02X&quot;</span><br><span class="line">   </span><br><span class="line">.code  </span><br><span class="line">         public      sub_40B444    </span><br><span class="line">         </span><br><span class="line">sub_40B444        proc near                ; CODE XREF: sub_40CCEA+A4p</span><br><span class="line"></span><br><span class="line">;Source                = byte ptr -14h</span><br><span class="line">;var_4                = dword        ptr -4</span><br><span class="line">;arg_0                = dword        ptr  8</span><br><span class="line">;arg_4                = dword        ptr  0Ch</span><br><span class="line">;arg_8                = dword        ptr  10h</span><br><span class="line"></span><br><span class="line">                push        ebp</span><br><span class="line">                mov        ebp, esp</span><br><span class="line">                sub        esp, 14h</span><br><span class="line">                mov        eax, dword ptr ___security_cookie ; &quot;N鍬?</span><br><span class="line">                xor        eax, ebp</span><br><span class="line">                mov        [ebp-4], eax</span><br><span class="line">                push        ebx</span><br><span class="line">                mov        ebx, [ebp+8]</span><br><span class="line">                push        esi</span><br><span class="line">                mov        esi, [ebp+10h]</span><br><span class="line">                push        edi</span><br><span class="line">                xor        edi, edi</span><br><span class="line">                cmp        [ebp+0Ch], edi</span><br><span class="line">                mov        byte ptr [esi],        0</span><br><span class="line">                jbe        short loc_40B48E</span><br><span class="line"></span><br><span class="line">loc_40B467:                                ; CODE XREF: sub_40B444+48j</span><br><span class="line">                movzx        eax, byte ptr [ebx+edi]</span><br><span class="line">                push        eax</span><br><span class="line">                lea        eax, [ebp-14h]</span><br><span class="line">                push        offset a02x_0        ; &quot;%02X&quot;</span><br><span class="line">                push        eax                ; Dest</span><br><span class="line">                call        sprintf</span><br><span class="line">                lea        eax, [ebp-14h]</span><br><span class="line">                push        eax                ; Source</span><br><span class="line">                push        esi                ; Dest</span><br><span class="line">                call        strcat</span><br><span class="line">                add        esp, 14h</span><br><span class="line">                inc        edi</span><br><span class="line">                cmp        edi, [ebp+0Ch]</span><br><span class="line">                jb        short loc_40B467</span><br><span class="line"></span><br><span class="line">loc_40B48E:                                ; CODE XREF: sub_40B444+21j</span><br><span class="line">                mov        ecx, [ebp-4]</span><br><span class="line">                pop        edi</span><br><span class="line">                pop        esi</span><br><span class="line">                xor        ecx, ebp</span><br><span class="line">                leave</span><br><span class="line">                retn</span><br><span class="line">sub_40B444        endp</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>The sample code is as follows:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; &#123;</span><br><span class="line">        char* sub_40B444(char*,int,char*);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int _tmain(int argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">        char* pszBuf = new char[1024];</span><br><span class="line">        memset( pszBuf , 0 , 1024 );</span><br><span class="line">        strcpy_s( pszBuf , 1024 , &quot;des:&quot; );</span><br><span class="line">        sub_40B444( &quot;你总是说我在，这样孤单时候，才能想起与你联络&quot; , strlen(&quot;你总是说我在，这样孤单时候，才能想起与你联络&quot;) , pszBuf );</span><br><span class="line">        printf_s( &quot;format string : %s\n&quot; , &quot;你总是说我在，这样孤单时候，才能想起与你联络&quot; );</span><br><span class="line">        printf_s( &quot;format string : %s\n&quot; , pszBuf );</span><br><span class="line"></span><br><span class="line">       if( pszBuf != NULL )</span><br><span class="line">        &#123;</span><br><span class="line">           delete[]pszBuf;</span><br><span class="line">           pszBuf = NULL;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/07/14/ndis6DropPackage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/07/14/ndis6DropPackage/" class="post-title-link" itemprop="url">NDIS6 how to drop packets</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-07-14 22:29:18" itemprop="dateCreated datePublished" datetime="2009-07-14T22:29:18-04:00">2009-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:02:49" itemprop="dateModified" datetime="2023-10-17T12:02:49-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/" itemprop="url" rel="index"><span itemprop="name">Kernel</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/windows/ndis6/" itemprop="url" rel="index"><span itemprop="name">ndis6</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In ndis6 how to drop packets?</p>
-<p>in FilterSendNetBufferLists:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"><span class="comment">//DEBUGP(DL_TRACE, (&quot;&lt;===SendNetBufferList [CheckPacket] drop this packet. \n&quot;));</span></span><br><span class="line"> </span><br><span class="line">CurrNbl = NetBufferLists;</span><br><span class="line">while (CurrNbl)</span><br><span class="line">&#123;</span><br><span class="line">    NET_BUFFER_LIST_STATUS(CurrNbl) = NDIS_STATUS_MEDIA_DISCONNECTED ;</span><br><span class="line">    CurrNbl = NET_BUFFER_LIST_NEXT_NBL(CurrNbl);</span><br><span class="line">&#125;</span><br><span class="line">NdisFSendNetBufferListsComplete(pFilter-&gt;FilterHandle,</span><br><span class="line">NetBufferLists,</span><br><span class="line">DispatchLevel ? NDIS_SEND_COMPLETE_FLAGS_DISPATCH_LEVEL : <span class="number">0</span>);</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
-
-<p>in FilterReceiveNetBufferLists:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (NDIS_TEST_RECEIVE_CAN_PEND(ReceiveFlags))</span><br><span class="line">&#123;</span><br><span class="line">    ReturnFlags = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (NDIS_TEST_RECEIVE_AT_DISPATCH_LEVEL(ReceiveFlags))</span><br><span class="line">    &#123;</span><br><span class="line">        NDIS_SET_RETURN_FLAG(ReturnFlags, NDIS_RETURN_FLAGS_DISPATCH_LEVEL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NdisFReturnNetBufferLists(pFilter-&gt;FilterHandle, NetBufferLists, ReturnFlags);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/01/03/compileAssemblyFile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/01/03/compileAssemblyFile/" class="post-title-link" itemprop="url">In a VC (Visual C++) project, how to compile with an assembly language file</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-01-03 23:29:12" itemprop="dateCreated datePublished" datetime="2009-01-03T23:29:12-05:00">2009-01-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:46:12" itemprop="dateModified" datetime="2023-10-16T23:46:12-04:00">2023-10-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>It include <strong><em>four steps</em></strong>:</p>
-<ol>
-<li><p>Add the assembly language file to the project.</p>
-</li>
-<li><p>In the Solution Explorer window, right-click the Visual C++ project, choose <strong><em>“Build Customizations…”</em></strong>, and a dialog box labeled <strong><em>“Visual C++ Build Customization Files”</em></strong> will pop up. Check the <strong><em>“masm”</em></strong> option and click <strong><em>OK</em></strong>.</p>
-<p>At this point, in the <strong><em>Configuration Property</em></strong>, you can see “<strong><em>Microsoft Macro Assembler.</em></strong>“</p>
-</li>
-<li><p>Right-click the assembly language file, select “<strong><em>Properties</em></strong>,” go to “<strong><em>Custom Build    Step</em></strong>,” and then “<strong><em>General</em></strong>.” </p>
-<p>In the “<strong><em>Command Line</em></strong>“ field on the right, input:</p>
-</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ml.exe /c /D<span class="string">&quot;X86&quot;</span> /D<span class="string">&quot;DEBUG&quot;</span> /Fo<span class="string">&quot;<span class="subst">$(IntDir)</span>/<span class="subst">$(InputName)</span>.obj&quot;</span> $(InputFileName)</span><br></pre></td></tr></table></figure>
-<p>   In the “<strong><em>Outputs</em></strong>“ field, input:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(IntDir)/$(InputName).obj</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li>Don’t forget to add the path to ml.exe to the environment variable “<strong><em>PATH</em></strong>.”</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1064,19 +1250,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">39</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">39</span>
+        <span class="site-state-item-count">50</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
