@@ -1,10 +1,13 @@
+
+
 <?php
 header('Content-Type: text/html; charset=utf-8');
-echo "demo.php running..."
-$myfile = fopen("demo.txt", "a") or die("Unable to open file!");
-$txt = "lat: " . $_GET["lat"] . "\nlong: " . $_GET["long"];
-fwrite($myfile, $txt);
-$txt = "***********************************\n";
-fwrite($myfile, $txt);
-fclose($myfile);
+$latitude = $_GET['lat'];
+$longitude = $_GET['long'];
+
+// 将经纬度信息写入文件
+$file = fopen("location.txt", "w") or die("无法打开文件");
+$content = "纬度: " . $latitude . ", 经度: " . $longitude;
+fwrite($file, $content);
+fclose($file);
 ?>
