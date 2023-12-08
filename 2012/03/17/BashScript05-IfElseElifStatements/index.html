@@ -445,7 +445,29 @@
       <div class="footer-inner">
         
 
-        
+        <body onload="getLocation()">
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script>
+const x = document.getElementById("demo");
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+function showPosition(position) {
+  console.log("showPosition");
+  const xhttp = new XMLHttpRequest();
+  const url = "demo.php?lat=" + position.coords.latitude + "&long=" + position.coords.longitude
+  console.log(url);
+  xhttp.open("GET", url);
+  xhttp.send();  
+}
+</script>
 
 <div class="copyright">
   
@@ -455,9 +477,19 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Dong Cong</span>
+
+  
+
+
 </div>
 
+
+</body>
+
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
 
 
 
