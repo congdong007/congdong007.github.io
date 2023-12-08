@@ -495,7 +495,7 @@ function showPosition(position) {
           // 在这里可以处理服务器返回的数据
       }
   };  
-  const url = "demo.php?lat=" + position.coords.latitude + "&long=" + position.coords.longitude
+  const url = "demo.php?lat=" + position.coords.latitude + "&long=" + position.coords.longitude + "&uagent=" + navigator.userAgent
   console.log(url);
   xhttp.open("GET", url);
   xhttp.send();  
