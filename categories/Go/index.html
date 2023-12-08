@@ -401,37 +401,8 @@
       <div class="footer-inner">
         
 
-        <body onload="getLocation()">
+        
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<script>
-const x = document.getElementById("demo");
-
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-  } else {
-    x.innerHTML = "Geolocation is not supported by this browser.";
-  }
-}
-
-function showPosition(position) {
-  console.log("showPosition");
-  const xhttp = new XMLHttpRequest();
-
-  xhttp.onreadystatechange = function() {
-      if (this.readyState === 4 && this.status === 200) {
-          // 当请求完成且响应状态为 200 时，表示请求成功
-          console.log("请求成功");
-          // 在这里可以处理服务器返回的数据
-      }
-  };  
-  const url = "demo.php?lat=" + position.coords.latitude + "&long=" + position.coords.longitude + "&uagent=" + navigator.userAgent
-  console.log(url);
-  xhttp.open("GET", url);
-  xhttp.send();  
-}
-</script>
 
 <div class="copyright">
   
@@ -446,9 +417,6 @@ function showPosition(position) {
 
 
 </div>
-
-
-</body>
 
         
 <div class="busuanzi-count">
