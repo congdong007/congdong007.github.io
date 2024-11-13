@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-11-13T00:16:33.168Z</updated>
+  <updated>2024-11-13T02:15:30.953Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://example.com/2024/11/12/vuln-handlink/"/>
     <id>http://example.com/2024/11/12/vuln-handlink/</id>
     <published>2024-11-12T20:03:16.000Z</published>
-    <updated>2024-11-13T00:16:33.168Z</updated>
+    <updated>2024-11-13T02:15:30.953Z</updated>
     
-    <content type="html"><![CDATA[<p>The HANDLINK-ISS-7000 v2 network gateway server, manufactured by Taiwan Hanlin Technology Co., Ltd., is a high-performance gateway solution designed for network authentication and billing in various hospitality settings.</p><p>A command execution vulnerability exists in ISS-7000 v2’s firmware versions 1.00.06 and 1.00.08, allowing attackers to obtain server privileges.</p><p>Vulnerability Reproduction Steps</p><ol><li>Device Discovery: Using the FOFA search engine, I searched for accessible HANDLINK-ISS-7000 v2 devices. The search yielded approximately 106 results.</li></ol><p>   <img src="/images/HANDLINK1.jpg"> </p><ol start="2"><li>Accessing the Login Interface: I opened &#x2F;login_handler.cgi in Burp Suite’s browser and used the Forward button. For login, I entered the following credentials:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username : admin</span><br><span class="line">password : 1111111111</span><br><span class="line"></span><br></pre></td></tr></table></figure></li></ol><p>   <img src="/images/HANDLINK1.jpg"></p><ol start="3"><li>Intercepting and Modifying the Request: Burp Suite captured the request, which appeared as shown below:</li></ol><p>   <img src="/images/HANDLINK3.jpg"> </p><ol start="4"><li>Executing the Exploit: After modifying the intercepted package and sending the request, I gained root-level access to the server.</li></ol><p>   <img src="/images/HANDLINK4.jpg"> </p>]]></content>
+    <content type="html"><![CDATA[<p>The HANDLINK-ISS-7000 v2 network gateway server, manufactured by Taiwan Hanlin Technology Co., Ltd., is a high-performance gateway solution designed for network authentication and billing in various hospitality settings.</p><p>A command execution vulnerability exists in ISS-7000 v2’s firmware versions 1.00.06 and 1.00.08, allowing attackers to obtain server privileges.</p><p>Vulnerability Reproduction Steps</p><ol><li>Device Discovery: Using the FOFA search engine, I searched for accessible HANDLINK-ISS-7000 v2 devices. The search yielded approximately 106 results.</li></ol><p>   <img src="/images/HANDLINK1.jpg"> </p><ol start="2"><li>Accessing the Login Interface: I opened &#x2F;login_handler.cgi in Burp Suite’s browser and used the Forward button. For login, I entered the following credentials:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username : admin</span><br><span class="line">password : 1111111111</span><br><span class="line"></span><br></pre></td></tr></table></figure></li></ol><p>   <img src="/images/HANDLINK2.jpg"></p><ol start="3"><li>Intercepting and Modifying the Request: Burp Suite captured the request, which appeared as shown below:</li></ol><p>   <img src="/images/HANDLINK3.jpg"> </p><ol start="4"><li>Executing the Exploit: After modifying the intercepted package and sending the request, I gained root-level access to the server.</li></ol><p>   <img src="/images/HANDLINK4.jpg"> </p>]]></content>
     
     
       
