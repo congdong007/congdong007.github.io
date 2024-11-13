@@ -158,6 +158,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/02/BashScript01-IntroduceBashScript/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/02/BashScript01-IntroduceBashScript/" class="post-title-link" itemprop="url">Bash Scripting 01 - Intro to Bash Scripting</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-02 22:27:59" itemprop="dateCreated datePublished" datetime="2012-03-02T22:27:59-05:00">2012-03-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:48:25" itemprop="dateModified" datetime="2023-10-23T21:48:25-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-01-Intro-to-Bash-Scripting/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 01 - Intro to Bash Scripting</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>The GNU Bourne-Again Shell (Bash) is a powerful work environment and scripting engine. A<br>competent security professional skillfully leverages Bash scripting to streamline and automate<br>many Linux tasks and procedures. In this module, we will introduce Bash scripting and explore<br>several practical scenarios.</p>
+<p>A Bash script is a plain-text file that contains a series of commands that are executed as if they had<br>been typed at a terminal prompt. Generally speaking, Bash scripts have an optional extension of<br>.sh (for ease of identification), begin with <strong><em>#!&#x2F;bin&#x2F;bash</em></strong> and must have executable permissions set<br>before they can be executed. Let’s begin with a simple “Hello World” Bash script, file named hello-world.sh:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Hello World Bash Script</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello World!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>This script has several components worth explaining:<br>• Line 1: <strong><em>#!</em></strong> is commonly known as the shebang, and is ignored by the Bash interpreter. The<br>second part, <strong><em>&#x2F;bin&#x2F;bash</em></strong>, is the absolute path to the interpreter, which is used to run the<br>script. This is what makes this a “Bash script” as opposed to another type of shell script, like<br>a “C Shell script”, for example.<br>• Line 2: # is used to add a comment, so all text that follows it is ignored.<br>• Line 3: echo “Hello World!” uses the echo Linux command utility to print a given string to the<br>terminal, which in this case is “Hello World!”.</p>
+<p>Next, let’s make the script executable and run it:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ chmod +x hello-world.sh</span><br><span class="line">kali@kali:~$ ./hello-world.sh</span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+
+<p>The chmod command, along with the +x option is used to make the script executable.<br><strong><em>.&#x2F;helloworld.sh</em></strong> is used to actually run it.<br>The <strong><em>.&#x2F;</em></strong> notation may seem confusing but this is simply a path<br>notation indicating that this script is in the current directory. Whenever we type a command, Bash<br>tries to find it in a series of directories stored in a variable called PATH. Since our home directory<br>is not included in that variable, we must use the relative path to our Bash script in order for Bash<br>to “find it” and run it.</p>
+<p>Now that we have created our first Bash script,next we will explore Bash in a bit more detail.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2011/10/22/SimplePluginSystemByPython/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -990,93 +1077,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/07/14/ndis6DropPackage/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/07/14/ndis6DropPackage/" class="post-title-link" itemprop="url">NDIS6 how to drop packets</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-07-14 22:29:18" itemprop="dateCreated datePublished" datetime="2009-07-14T22:29:18-04:00">2009-07-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:02:49" itemprop="dateModified" datetime="2023-10-17T12:02:49-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/" itemprop="url" rel="index"><span itemprop="name">Kernel</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kernel/windows/ndis6/" itemprop="url" rel="index"><span itemprop="name">ndis6</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In ndis6 how to drop packets?</p>
-<p>in FilterSendNetBufferLists:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"><span class="comment">//DEBUGP(DL_TRACE, (&quot;&lt;===SendNetBufferList [CheckPacket] drop this packet. \n&quot;));</span></span><br><span class="line"> </span><br><span class="line">CurrNbl = NetBufferLists;</span><br><span class="line">while (CurrNbl)</span><br><span class="line">&#123;</span><br><span class="line">    NET_BUFFER_LIST_STATUS(CurrNbl) = NDIS_STATUS_MEDIA_DISCONNECTED ;</span><br><span class="line">    CurrNbl = NET_BUFFER_LIST_NEXT_NBL(CurrNbl);</span><br><span class="line">&#125;</span><br><span class="line">NdisFSendNetBufferListsComplete(pFilter-&gt;FilterHandle,</span><br><span class="line">NetBufferLists,</span><br><span class="line">DispatchLevel ? NDIS_SEND_COMPLETE_FLAGS_DISPATCH_LEVEL : <span class="number">0</span>);</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
-
-<p>in FilterReceiveNetBufferLists:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">FILTER_RELEASE_LOCK(&amp;pFilter-&gt;Lock, DispatchLevel);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (NDIS_TEST_RECEIVE_CAN_PEND(ReceiveFlags))</span><br><span class="line">&#123;</span><br><span class="line">    ReturnFlags = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (NDIS_TEST_RECEIVE_AT_DISPATCH_LEVEL(ReceiveFlags))</span><br><span class="line">    &#123;</span><br><span class="line">        NDIS_SET_RETURN_FLAG(ReturnFlags, NDIS_RETURN_FLAGS_DISPATCH_LEVEL);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    NdisFReturnNetBufferLists(pFilter-&gt;FilterHandle, NetBufferLists, ReturnFlags);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1148,19 +1148,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

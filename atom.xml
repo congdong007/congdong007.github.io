@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-11-11T14:14:50.196Z</updated>
+  <updated>2024-11-13T00:16:33.168Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,9 +17,39 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>HANDLINK-ISS-7000v2 Gateway login_handler.cgi Unauthorized RCE Vulnerability</title>
+    <link href="http://example.com/2024/11/12/vuln-handlink/"/>
+    <id>http://example.com/2024/11/12/vuln-handlink/</id>
+    <published>2024-11-12T20:03:16.000Z</published>
+    <updated>2024-11-13T00:16:33.168Z</updated>
+    
+    <content type="html"><![CDATA[<p>The HANDLINK-ISS-7000 v2 network gateway server, manufactured by Taiwan Hanlin Technology Co., Ltd., is a high-performance gateway solution designed for network authentication and billing in various hospitality settings.</p><p>A command execution vulnerability exists in ISS-7000 v2’s firmware versions 1.00.06 and 1.00.08, allowing attackers to obtain server privileges.</p><p>Vulnerability Reproduction Steps</p><ol><li>Device Discovery: Using the FOFA search engine, I searched for accessible HANDLINK-ISS-7000 v2 devices. The search yielded approximately 106 results.</li></ol><p>   <img src="/images/HANDLINK1.jpg"> </p><ol start="2"><li>Accessing the Login Interface: I opened &#x2F;login_handler.cgi in Burp Suite’s browser and used the Forward button. For login, I entered the following credentials:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">username : admin</span><br><span class="line">password : 1111111111</span><br><span class="line"></span><br></pre></td></tr></table></figure></li></ol><p>   <img src="/images/HANDLINK1.jpg"></p><ol start="3"><li>Intercepting and Modifying the Request: Burp Suite captured the request, which appeared as shown below:</li></ol><p>   <img src="/images/HANDLINK3.jpg"> </p><ol start="4"><li>Executing the Exploit: After modifying the intercepted package and sending the request, I gained root-level access to the server.</li></ol><p>   <img src="/images/HANDLINK4.jpg"> </p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;The HANDLINK-ISS-7000 v2 network gateway server, manufactured by Taiwan Hanlin Technology Co., Ltd., is a high-performance gateway soluti</summary>
+      
+    
+    
+    
+    <category term="vulnerability" scheme="http://example.com/categories/vulnerability/"/>
+    
+    <category term="HANDLINK-ISS-7000v2" scheme="http://example.com/categories/vulnerability/HANDLINK-ISS-7000v2/"/>
+    
+    <category term="gate" scheme="http://example.com/categories/vulnerability/HANDLINK-ISS-7000v2/gate/"/>
+    
+    
+    <category term="Burp Suite" scheme="http://example.com/tags/Burp-Suite/"/>
+    
+    <category term="RCE" scheme="http://example.com/tags/RCE/"/>
+    
+  </entry>
+  
+  <entry>
     <title>The Cockpit system has an arbitrary user enumeration vulnerability</title>
-    <link href="http://example.com/2024/11/10/cockpit-vuln/"/>
-    <id>http://example.com/2024/11/10/cockpit-vuln/</id>
+    <link href="http://example.com/2024/11/10/vuln-cockpit/"/>
+    <id>http://example.com/2024/11/10/vuln-cockpit/</id>
     <published>2024-11-11T03:37:33.000Z</published>
     <updated>2024-11-11T14:14:50.196Z</updated>
     
@@ -517,35 +547,6 @@
     <category term="SQL Injection" scheme="http://example.com/categories/Penetration-Test/MySQL/SQL-Injection/"/>
     
     <category term="Search-Based SQL Injection" scheme="http://example.com/categories/Penetration-Test/MySQL/SQL-Injection/Search-Based-SQL-Injection/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Character-based SQL Injection</title>
-    <link href="http://example.com/2016/10/20/SQLInjectionCharacter/"/>
-    <id>http://example.com/2016/10/20/SQLInjectionCharacter/</id>
-    <published>2016-10-21T01:55:22.000Z</published>
-    <updated>2023-10-18T22:55:32.715Z</updated>
-    
-    <content type="html"><![CDATA[<p>Detection of character-based SQL Injection:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Detection of character-based SQL Injection:&lt;/p&gt;
-&lt;figure class=&quot;highlight console&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1</summary>
-      
-    
-    
-    
-    <category term="Penetration Test" scheme="http://example.com/categories/Penetration-Test/"/>
-    
-    <category term="MySQL" scheme="http://example.com/categories/Penetration-Test/MySQL/"/>
-    
-    <category term="SQL Injection" scheme="http://example.com/categories/Penetration-Test/MySQL/SQL-Injection/"/>
-    
-    <category term="Character-based SQL Injection" scheme="http://example.com/categories/Penetration-Test/MySQL/SQL-Injection/Character-based-SQL-Injection/"/>
     
     
   </entry>

