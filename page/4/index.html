@@ -158,6 +158,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/13/BashScript04-ReadingUserInput/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/13/BashScript04-ReadingUserInput/" class="post-title-link" itemprop="url">Bash Scripting 04 - Reading User Input</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-13 21:21:31" itemprop="dateCreated datePublished" datetime="2012-03-13T21:21:31-04:00">2012-03-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:49:39" itemprop="dateModified" datetime="2023-10-23T21:49:39-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-04-Reading-User-Input/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 04 - Reading User Input</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Command-line arguments are a form of user input, but we can also capture interactive user input<br>while a script is running with the read command. In this example, we will use read to capture user<br>input and assign it to a variable:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./input.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hello there, would you like to learn how to hack: Y/N?&quot;</span></span><br><span class="line"><span class="built_in">read</span> answer</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Your answer was <span class="variable">$answer</span>&quot;</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./input.sh</span><br><span class="line">kali@kali:~$ ./input.sh</span><br><span class="line">Hello there, would you like to learn how to hack: Y/N?</span><br><span class="line">Y</span><br><span class="line">Your answer was Y</span><br></pre></td></tr></table></figure>
+
+<p>We can alter the behavior of the read command with various command line options. Two of the<br>most commonly used options include -p, which allows us to specify a prompt, and -s, which makes<br>the user input silent. The latter is ideal for capturing user credentials:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./input2.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Prompt the user for credentials</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&#x27;Username: &#x27;</span> username</span><br><span class="line"><span class="built_in">read</span> -sp <span class="string">&#x27;Password: &#x27;</span> password</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Thanks, your creds are as follows: &quot;</span> <span class="variable">$username</span> <span class="string">&quot; and &quot;</span> <span class="variable">$password</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./input2.sh</span><br><span class="line">kali@kali:~$ ./input2.sh</span><br><span class="line">Username: kali</span><br><span class="line">Password:</span><br><span class="line">Thanks, your creds are as follows: kali and nothing2see!</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/07/BashScript03-Arguments/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1031,96 +1112,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2010/05/01/QtSetData/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/05/01/QtSetData/" class="post-title-link" itemprop="url">In Qt, how to transmit custom data using QAction::setData</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2010-05-01 23:16:09" itemprop="dateCreated datePublished" datetime="2010-05-01T23:16:09-04:00">2010-05-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 21:54:43" itemprop="dateModified" datetime="2023-10-23T21:54:43-04:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-C/" itemprop="url" rel="index"><span itemprop="name">C/C++</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-C/Qt/" itemprop="url" rel="index"><span itemprop="name">Qt</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Recently, in a project, there was a need to transmit custom data using QAction::setData. I’ve searched online for a lot of information, but it’s all a bit vague, and none of them hit the mark. Some even provide solutions that completely contradict Qt’s principles. Below is an example code I wrote:</p>
-<ol>
-<li>Custom data:<br>Here, taking a custom class as an example, the code is as follows:</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.h</span></span><br><span class="line"></span><br><span class="line">#ifndef QNEWITEM_H</span><br><span class="line">#define QNEWITEM_H</span><br><span class="line"></span><br><span class="line">#include &lt;QObject&gt;</span><br><span class="line"></span><br><span class="line">class QNewItem : public QObject</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    QNewItem(QObject *parent = <span class="number">0</span>);</span><br><span class="line">    ~QNewItem();</span><br><span class="line"></span><br><span class="line">    <span class="type">bool</span> setUserInfo(QString&amp; strName,qint16&amp; nAge);</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    QString m_strName;</span><br><span class="line">    qint16 m_nAge;</span><br><span class="line">&#125;;</span><br><span class="line">#endif <span class="comment">// QNEWITEM_H</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.cpp</span></span><br><span class="line"></span><br><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QNewItem::QNewItem(QObject *parent)</span><br><span class="line">: QObject(parent)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">QNewItem::~QNewItem()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> QNewItem::setUserInfo( QString&amp; strName,qint16&amp; nAge )</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">bool</span> bRet = <span class="literal">false</span>;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>( strName.isEmpty() || nAge &gt;<span class="number">200</span> &amp;&amp; nAge&lt;<span class="number">0</span> ) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        m_strName = strName;</span><br><span class="line">        m_nAge = nAge;</span><br><span class="line">        bRet = <span class="literal">true</span>;</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">return</span> bRet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>At the beginning of the calling CPP file, you must declare it like this:</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line">Q_DECLARE_METATYPE(QNewItem*)</span><br></pre></td></tr></table></figure>
-<p>There’s not much else to say; when you look at the code, you’ll understand everything.</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">#include <span class="string">&quot;qnewitem.h&quot;</span></span><br><span class="line"></span><br><span class="line">Q_DECLARE_METATYPE(QNewItem*)</span><br><span class="line"></span><br><span class="line">customDefineDemo::customDefineDemo(QWidget *parent, Qt::WFlags flags)</span><br><span class="line">: QMainWindow(parent, flags)</span><br><span class="line">&#123;</span><br><span class="line">    ui.setupUi(this);</span><br><span class="line">    connect(ui.pushButton , SIGNAL(clicked()),this,SLOT(onBtnClick()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customDefineDemo::~customDefineDemo()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void customDefineDemo::onBtnClick()</span><br><span class="line">&#123;</span><br><span class="line">    QMenu* pMenu = <span class="built_in">new</span> QMenu();</span><br><span class="line">    QNewItem* pNewItem = <span class="built_in">new</span> QNewItem();</span><br><span class="line">    qint16 nAge = <span class="number">34</span>;</span><br><span class="line">    QVariant qv;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        QAction* pPortraitView = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;New&quot;</span>), this);</span><br><span class="line">        QAction* pAddGroup = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;Open&quot;</span>), this);</span><br><span class="line">        QAction* pDeleteGroup = <span class="built_in">new</span> QAction(tr(<span class="string">&quot;Save&quot;</span>), this);</span><br><span class="line"></span><br><span class="line">        pNewItem-&gt;setUserInfo(tr(<span class="string">&quot;Eric&quot;</span>),nAge);</span><br><span class="line"></span><br><span class="line">        pPortraitView-&gt;setData( QVariant::fromValue(pNewItem) ) ;</span><br><span class="line"></span><br><span class="line">        connect(pPortraitView,SIGNAL(triggered()),this,SLOT(triggeredMenuSendMsgContact()));</span><br><span class="line"></span><br><span class="line">        pMenu-&gt;addAction(pPortraitView);</span><br><span class="line">        pMenu-&gt;addAction(pAddGroup);</span><br><span class="line">        pMenu-&gt;addAction(pDeleteGroup);</span><br><span class="line">        pMenu-&gt;exec(QCursor::pos());</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( pMenu != nullptr )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">delete</span> pMenu;</span><br><span class="line">        pMenu = nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void customDefineDemo::triggeredMenuSendMsgContact()</span><br><span class="line">&#123;</span><br><span class="line">    QAction* pSendMsg= NULL;</span><br><span class="line">    QNewItem* pObj = NULL;</span><br><span class="line">    do</span><br><span class="line">    &#123;</span><br><span class="line">        pSendMsg=qobject_cast&lt;QAction*&gt;(sender());</span><br><span class="line"></span><br><span class="line">        pObj = pSendMsg-&gt;data().value&lt;QNewItem*&gt;();</span><br><span class="line">    &#125; while (<span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( pObj != nullptr )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">delete</span> pObj;</span><br><span class="line">        pObj = nullptr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1192,19 +1183,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
