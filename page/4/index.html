@@ -158,6 +158,181 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/17/BashScript05-IfElseElifStatements/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/17/BashScript05-IfElseElifStatements/" class="post-title-link" itemprop="url">Bash Scripting 05 - If, Else, Elif Statements</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-17 22:24:49" itemprop="dateCreated datePublished" datetime="2012-03-17T22:24:49-04:00">2012-03-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:53:23" itemprop="dateModified" datetime="2023-10-23T21:53:23-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-05-If-Else-Elif-Statements/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 05 - If, Else, Elif Statements</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Conditional statements allow us to perform different actions based on different conditions. The<br>most common conditional Bash statements include if, else, and elif.<br>The if statement is relatively simple–it checks to see if a condition is true–but it requires a very<br>specific syntax. Pay careful attention to this syntax, especially the use of required spaces:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform an action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>In this listing, if “some test” evaluates as true, the script will “perform an action”, or any commands<br>between then and fi. Let’s look at an actual example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./if.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># if statement example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./if.sh</span><br><span class="line">kali@kali:~$ ./if.sh</span><br><span class="line">What is your age: 15</span><br><span class="line">You might need parental permission to take this course!</span><br></pre></td></tr></table></figure>
+
+<p>In this example, we used an if statement to check the age entered by a user. If the entered age was<br>less than (-lt) 16, the script would output a warning message.<br>The square brackets (“[“ and “]”) in the if statement above are actually a reference to the test<br>command. This simply means we can use all of the operators that are allowed by the test<br>command. Some of the most common operators include:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Description: Expression True if…</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>!EXPRESSION</td>
+<td>The EXPRESSION is false.</td>
+</tr>
+<tr>
+<td>-n STRING</td>
+<td>STRING length is greater than zero</td>
+</tr>
+<tr>
+<td>-z STRING</td>
+<td>The length of STRING is zero (empty)</td>
+</tr>
+<tr>
+<td>STRING1 !&#x3D; STRING2</td>
+<td>STRING1 is not equal to STRING2</td>
+</tr>
+<tr>
+<td>STRING1 &#x3D; STRING2</td>
+<td>STRING1 is equal to STRING2</td>
+</tr>
+<tr>
+<td>INTEGER1 -eq INTEGER2</td>
+<td>INTEGER1 is equal to INTEGER2</td>
+</tr>
+<tr>
+<td>INTEGER1 -ne INTEGER2</td>
+<td>INTEGER1 is not equal to INTEGER2</td>
+</tr>
+<tr>
+<td>INTEGER1 -gt INTEGER2</td>
+<td>INTEGER1 is greater than INTEGER2</td>
+</tr>
+<tr>
+<td>INTEGER1 -lt INTEGER2</td>
+<td>INTEGER1 is less than INTEGER2</td>
+</tr>
+<tr>
+<td>INTEGER1 -ge INTEGER2</td>
+<td>INTEGER1 is greater than or equal to INTEGER 2</td>
+</tr>
+<tr>
+<td>INTEGER1 -le INTEGER2</td>
+<td>INTEGER1 is less than or equal to INTEGER 2</td>
+</tr>
+<tr>
+<td>-d FILE</td>
+<td>FILE exists and is a directory</td>
+</tr>
+<tr>
+<td>-e FILE</td>
+<td>FILE exists</td>
+</tr>
+<tr>
+<td>-r FILE</td>
+<td>FILE exists and has read permission</td>
+</tr>
+<tr>
+<td>-s FILE</td>
+<td>FILE exists and it is not empty</td>
+</tr>
+<tr>
+<td>-w FILE</td>
+<td>FILE exists and has write permission</td>
+</tr>
+<tr>
+<td>-x FILE</td>
+<td>FILE exists and has execute permission</td>
+</tr>
+</tbody></table>
+<p>With the above in mind, our previous example using if can be rewritten without square brackets as<br>follows:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./if2.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># if statement example 2</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$age</span> -lt 16</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./if2.sh</span><br><span class="line">kali@kali:~$ ./if2.sh</span><br><span class="line">What is your age: 15</span><br><span class="line">You might need parental permission to take this course!</span><br></pre></td></tr></table></figure>
+
+<p>Even though this example is functionally equivalent to the example using square brackets, using<br>square brackets makes the code slightly easier to read.<br>We can also perform a certain set of actions if a statement is true and another set if it is false. To<br>do this, we can use the else statement, which has the following syntax:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform action&gt;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&lt;perform another action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<p>Let’s extend our previous “age” example to include the else statement:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./else.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># else statement example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Welcome to the course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./else.sh</span><br><span class="line">kali@kali:~$ ./else.sh</span><br><span class="line">What is your age: 21</span><br><span class="line">Welcome to the course!</span><br></pre></td></tr></table></figure>
+
+<p>Notice that the else statement was executed when the entered age was greater than (or more<br>specifically “not less than”) sixteen.<br>The if and else statements only allow two code execution branches. We can add additional<br>branches with the elif statement which uses the following pattern:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform action&gt;</span><br><span class="line"><span class="keyword">elif</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform different action&gt;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&lt;perform yet another different action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>Let’s again extend our “age” example to include the elif statement:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./elif.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># elif example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$age</span> -gt 60 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hats off to you, respect!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Welcome to the course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./elif.sh</span><br><span class="line">kali@kali:~$ ./elif.sh</span><br><span class="line">What is your age: 65</span><br><span class="line">Hats off to you, respect!</span><br></pre></td></tr></table></figure>
+
+<p>In this example, the code execution flow was slightly more complex. In order of operation, the then<br>branch executes if the entered age is less than sixteen, the elif branch is entered (and the “Hats<br>off..” message displayed) if the age is greater than sixty, and the else branch executes only if the<br>age is greater than sixteen but less than sixty.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/13/BashScript04-ReadingUserInput/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1013,105 +1188,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2010/10/15/information-schema/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2010/10/15/information-schema/" class="post-title-link" itemprop="url">About information_schema in MySQL</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2010-10-15 12:47:16" itemprop="dateCreated datePublished" datetime="2010-10-15T12:47:16-04:00">2010-10-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 18:55:07" itemprop="dateModified" datetime="2023-10-18T18:55:07-04:00">2023-10-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/About-information-schema/" itemprop="url" rel="index"><span itemprop="name">About information_schema</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>The “<strong><em>information_schema</em></strong>“ is a system database in MySQL that contains metadata information about <strong><em>databases, tables, columns, indexes, users, permissions,</em></strong> and more within the MySQL server. It serves as an interface for querying metadata information in MySQL. This information is stored in tabular form within tables in the “information_schema” database, and users can retrieve metadata information by using SQL statements to query these tables.</p>
-<p>Here are some common tables in the ‘information_schema’ database:</p>
-<ol>
-<li><strong><em>SCHEMATA</em></strong>: Stores information about all databases, including database names, character sets, etc.</li>
-<li><strong><em>TABLES</em></strong>: Stores information about all tables, including table names, table types, engines, etc.</li>
-<li><strong><em>COLUMNS</em></strong>: Stores information about all columns, including column names, column data types, column constraints, etc.</li>
-<li><strong><em>STATISTICS</em></strong>: Stores information about all indexes, including index names, index types, the table where the index is located, index columns, etc.</li>
-<li><strong><em>USER_PRIVILEGES</em></strong>: Stores information about user privileges, including user accounts, permissions, etc.</li>
-</ol>
-<p>By querying the tables in the <strong><em>information_schema</em></strong> database, you can obtain information about various aspects of <strong><em>databases, tables, columns, indexes, users, and permissions</em></strong>. This is very helpful for database management and maintenance.</p>
-<p>Next, let’s take a look at an example of finding key information through the information_schema database:</p>
-<ol>
-<li>Query information about the current user:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT current_user();</span><br></pre></td></tr></table></figure></li>
-<li>Query information about the user for the current session:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT session_user();</span><br></pre></td></tr></table></figure></li>
-<li>Get the path of the database:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@datadir;</span><br></pre></td></tr></table></figure></li>
-<li>Get the installation path of MySQL:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select @@basedir;</span><br></pre></td></tr></table></figure></li>
-<li>Retrieve information about the operating system version:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@version_compile_os;</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1183,19 +1259,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-count">66</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

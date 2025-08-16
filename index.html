@@ -158,6 +158,214 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/08/16/Lock-Free-golang/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/08/16/Lock-Free-golang/" class="post-title-link" itemprop="url">Sharded Lock-Free MPSC Ring Buffers in Golang</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-08-16 09:56:22 / Modified: 10:12:55" itemprop="dateCreated datePublished" datetime="2025-08-16T09:56:22-04:00">2025-08-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go-Sharded-Lock-Free-MPSC-Ring-Buffers/" itemprop="url" rel="index"><span itemprop="name">Go -Sharded Lock-Free MPSC Ring Buffers</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li><p>Fundamental Concepts</p>
+<ul>
+<li><p>Ring Buffer</p>
+<ul>
+<li>A ring buffer (or circular buffer) is a fixed-size queue in which the write and read pointers wrap around once they reach the end of the underlying array. It is widely used in high-performance systems such as logging pipelines, network buffers, and message queues.</li>
+</ul>
+</li>
+<li><p>MPSC (Multi-Producer, Single-Consumer)</p>
+<ul>
+<li><p>An MPSC queue allows multiple producers (writers) to insert elements concurrently, while only a single consumer (reader) retrieves elements.</p>
+</li>
+<li><p>Write operations must address concurrent access among producers.</p>
+</li>
+<li><p>Read operations are simpler, as they are performed by a single consumer thread.</p>
+</li>
+</ul>
+</li>
+<li><p>Lock-Free</p>
+<ul>
+<li>Instead of using traditional mutexes, lock-free structures rely on atomic operations (e.g., Compare-And-Swap, CAS) to ensure correctness under concurrency. This avoids lock contention, reducing latency and improving throughput.</li>
+</ul>
+</li>
+<li><p>Sharded</p>
+<ul>
+<li>A sharded design partitions a large ring buffer into several smaller independent sub-buffers (shards). Producers are distributed across shards (e.g., by hashing or thread affinity), which minimizes contention. The consumer then sequentially or cyclically retrieves items from all shards.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Operating Principles</p>
+<p> A sharded lock-free MPSC ring buffer typically operates as follows:</p>
+<ul>
+<li><p>Initialization</p>
+<ul>
+<li><p>The total buffer capacity is divided into N shards (e.g., 8 sub-buffers).</p>
+</li>
+<li><p>Each shard itself is implemented as a lock-free MPSC ring buffer.</p>
+</li>
+</ul>
+</li>
+<li><p>Producer Writes (Concurrent)</p>
+<ul>
+<li><p>Each producer selects a shard based on a hash function, producer ID, or randomized strategy.</p>
+</li>
+<li><p>The producer atomically advances the write pointer in that shard using CAS and writes its data.</p>
+</li>
+<li><p>Because writes are distributed across shards, contention is significantly reduced.</p>
+</li>
+</ul>
+</li>
+<li><p>Consumer Reads (Single Thread)</p>
+<ul>
+<li><p>The consumer iterates over all shards, checking each for available entries.</p>
+</li>
+<li><p>Data is retrieved by advancing the shard’s read pointer.</p>
+</li>
+<li><p>As only one consumer exists, no synchronization overhead is required for reading.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Motivation for Sharding</p>
+<ul>
+<li><p>Challenge with Conventional MPSC Buffers</p>
+<ul>
+<li>In a non-sharded MPSC buffer, all producers compete on a single shared write pointer, resulting in substantial contention under high concurrency.</li>
+</ul>
+</li>
+<li><p>Benefits of Sharding</p>
+<ul>
+<li><p>Each shard has fewer competing producers, reducing contention on its write pointer.</p>
+</li>
+<li><p>The single consumer can still process data deterministically by scanning all shards.</p>
+</li>
+<li><p>Performance gains are particularly evident when the number of producers is large relative to the consumer.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Application Scenarios</p>
+<ul>
+<li><p>High-performance logging systems (multiple threads writing logs, one thread persisting to storage).</p>
+</li>
+<li><p>Network servers (multiple connections producing packets, one thread aggregating and processing them).</p>
+</li>
+<li><p>Data acquisition systems (multiple sensors producing input, one thread consuming for analysis).</p>
+</li>
+</ul>
+</li>
+<li><p>Implementation Notes in Golang</p>
+<ul>
+<li><p>In Go, the sync&#x2F;atomic package is typically used for lock-free synchronization.<br> Key implementation aspects include:</p>
+</li>
+<li><p>Write Operation</p>
+</li>
+</ul>
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">idx := atomic.AddUint64(&amp;shard.writePos, <span class="number">1</span>) - <span class="number">1</span></span><br><span class="line">buffer[idx % shard.size] = value</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Read Operation (single-threaded, no CAS required)</li>
+</ul>
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> shard.readPos &lt; shard.writePos &#123;</span><br><span class="line">    val := buffer[shard.readPos % shard.size]</span><br><span class="line">    shard.readPos++</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Shard Selection</li>
+</ul>
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shardID := hash(producerID) % numShards</span><br><span class="line">shard := shards[shardID]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Consumer Loop</li>
+</ul>
+ <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> _, shard := <span class="keyword">range</span> shards &#123;</span><br><span class="line">        <span class="keyword">if</span> val, ok := shard.TryRead(); ok &#123;</span><br><span class="line">            process(val)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Advantages and Limitations</p>
+<ul>
+<li><p>Advantages</p>
+<ul>
+<li><p>Lock-free design avoids mutex contention.</p>
+</li>
+<li><p>Sharding reduces producer contention and increases throughput.</p>
+</li>
+<li><p>Single-consumer semantics simplify design and maintain order within each shard.</p>
+</li>
+</ul>
+</li>
+<li><p>Limitations</p>
+<ul>
+<li><p>The consumer must poll multiple shards, which may increase latency with many shards.</p>
+</li>
+<li><p>Buffer utilization may be uneven if some shards are heavily loaded while others remain idle.</p>
+</li>
+<li><p>The design does not extend naturally to multiple consumers.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/04/28/FoxCMS-CVE-2025-29306/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1047,91 +1255,6 @@ The following code demonstrates how to execute the script:
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/30/goPanicAndRecover/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/12/30/goPanicAndRecover/" class="post-title-link" itemprop="url">panic() and recover() in the Go Language</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-12-30 20:48:46" itemprop="dateCreated datePublished" datetime="2018-12-30T20:48:46-05:00">2018-12-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 11:39:09" itemprop="dateModified" datetime="2023-10-17T11:39:09-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/panic-and-recover/" itemprop="url" rel="index"><span itemprop="name">panic() and recover()</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><strong><em>panic()</em></strong> and <strong><em>recover()</em></strong> are two important functions in the Go language for handling exceptions. Here is a simple example that demonstrates how to use <strong><em>panic()</em></strong> and <strong><em>recover()</em></strong> in Go.</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// A function to simulate a situation that might cause a panic</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">defer</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> err := <span class="built_in">recover</span>(); err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Println(<span class="string">&quot;Panic occurred but recovered:&quot;</span>, err)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Simulate a problematic situation</span></span><br><span class="line">    num1 := <span class="number">10</span></span><br><span class="line">    num2 := <span class="number">0</span></span><br><span class="line">    result := num1 / num2 <span class="comment">// This will cause a division by zero panic</span></span><br><span class="line">    fmt.Println(<span class="string">&quot;Result is:&quot;</span>, result) <span class="comment">// This won&#x27;t be printed as the panic has already occurred</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;Starting the program&quot;</span>)</span><br><span class="line"></span><br><span class="line">    doSomething()</span><br><span class="line"></span><br><span class="line">    fmt.Println(<span class="string">&quot;Program continues to execute&quot;</span>) <span class="comment">// Even if a panic occurs, this line will be printed because the panic has been recovered in doSomething()</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>In the example above, the doSomething() function attempts to divide 10 by 0, which would lead to a division by zero panic. However, we use <strong><em>defer()</em></strong> and <strong><em>recover()</em></strong> to catch and handle the panic. In the main() function, even if a panic occurs within doSomething(), the program continues to execute, and the panic information is printed within the <strong><em>recover()</em></strong> block.</p>
-<p>Running this program will produce the following output:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Starting the program</span><br><span class="line">Panic occurred but recovered: runtime error: <span class="built_in">integer</span> divide by zero</span><br><span class="line">Program continues to execute</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>This demonstrates that the <strong><em>recover()</em></strong> function successfully catches the panic, allowing the program to continue executing without terminating.”</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1203,19 +1326,19 @@ The following code demonstrates how to execute the script:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-count">66</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

