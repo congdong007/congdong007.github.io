@@ -158,6 +158,164 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/08/16/common-work-pool-in-golang/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/08/16/common-work-pool-in-golang/" class="post-title-link" itemprop="url">Common worker pool patterns in Go</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-08-16 10:49:08 / Modified: 11:01:09" itemprop="dateCreated datePublished" datetime="2025-08-16T10:49:08-04:00">2025-08-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Worker-Pool/" itemprop="url" rel="index"><span itemprop="name">Worker Pool</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Worker-Pool/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li><p>What is a Worker Pool?</p>
+<ul>
+<li><p>A worker pool is a concurrency pattern designed to control the number of goroutines executing tasks concurrently. Instead of spawning an unbounded goroutine for every incoming job—which may lead to excessive memory consumption and scheduler overhead—a worker pool pre-spawns a fixed number of workers (goroutines). Tasks are then dispatched to these workers via a shared queue.</p>
+</li>
+<li><p>Benefits:</p>
+<ul>
+<li><p>Limits resource usage by capping concurrency.</p>
+</li>
+<li><p>Prevents unbounded goroutine creation.</p>
+</li>
+<li><p>Provides a simple scheduling mechanism for tasks.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Common Worker Pool Implementations in Go</p>
+<ul>
+<li><p>(a) Channel-Based Pool</p>
+<ul>
+<li><p>This is the most idiomatic and straightforward implementation.</p>
+</li>
+<li><p>A channel acts as a job queue.</p>
+</li>
+<li><p>Workers are goroutines reading from this channel.</p>
+</li>
+<li><p>The main function submits tasks by sending them into the channel.</p>
+</li>
+<li><p>Example:</p>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">jobs := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">100</span>)</span><br><span class="line">results := <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="type">int</span>, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> w := <span class="number">0</span>; w &lt; <span class="number">3</span>; w++ &#123;</span><br><span class="line">    <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(id <span class="type">int</span>)</span></span> &#123;</span><br><span class="line">        <span class="keyword">for</span> j := <span class="keyword">range</span> jobs &#123;</span><br><span class="line">            <span class="comment">// process job j</span></span><br><span class="line">            results &lt;- j * <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;(w)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// submit jobs</span></span><br><span class="line"><span class="keyword">for</span> j := <span class="number">1</span>; j &lt;= <span class="number">5</span>; j++ &#123;</span><br><span class="line">    jobs &lt;- j</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">close</span>(jobs)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>This approach is best for bounded tasks where the job set is known in advance.</p>
+</li>
+</ul>
+</li>
+<li><p>(b) Channel + WaitGroup Pool</p>
+<ul>
+<li><p>A slightly more structured approach uses a sync.WaitGroup to wait for all workers to complete.</p>
+</li>
+<li><p>Workers continuously read from a job channel.</p>
+</li>
+<li><p>A WaitGroup ensures the main goroutine blocks until all jobs are finished.</p>
+</li>
+<li><p>This pattern is suited for long-running pipelines where tasks keep arriving dynamically.</p>
+</li>
+</ul>
+</li>
+<li><p>(c) Encapsulated Worker Pool</p>
+<ul>
+<li><p>In larger applications, it’s common to encapsulate the pool into a reusable type. For example:</p>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> WorkerPool <span class="keyword">struct</span> &#123;</span><br><span class="line">    tasks <span class="keyword">chan</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span></span><br><span class="line">    wg    sync.WaitGroup</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewWorkerPool</span><span class="params">(n <span class="type">int</span>)</span></span> *WorkerPool &#123;</span><br><span class="line">    pool := &amp;WorkerPool&#123;tasks: <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span>)&#125;</span><br><span class="line">    pool.wg.Add(n)</span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; n; i++ &#123;</span><br><span class="line">        <span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">            <span class="keyword">defer</span> pool.wg.Done()</span><br><span class="line">            <span class="keyword">for</span> task := <span class="keyword">range</span> pool.tasks &#123;</span><br><span class="line">                task()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> pool</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *WorkerPool)</span></span> Submit(task <span class="function"><span class="keyword">func</span><span class="params">()</span></span>) &#123; p.tasks &lt;- task &#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(p *WorkerPool)</span></span> Shutdown()          &#123; <span class="built_in">close</span>(p.tasks); p.wg.Wait() &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>This design allows submitting arbitrary functions and cleanly shutting down the pool. It is often used in task scheduling systems or background workers.</p>
+</li>
+</ul>
+</li>
+<li><p>(d) Using a Library (e.g., ants)</p>
+<ul>
+<li><p>For production-grade performance, developers often use libraries such as ants.</p>
+</li>
+<li><p>Provides a high-performance worker pool with memory reuse.</p>
+</li>
+<li><p>Significantly reduces garbage collection (GC) overhead compared to spawning millions of goroutines.</p>
+</li>
+<li><p>Simple API:</p>
+  <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p, _ := ants.NewPool(<span class="number">10</span>)</span><br><span class="line"><span class="keyword">defer</span> p.Release()</span><br><span class="line"></span><br><span class="line">p.Submit(<span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// task logic</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>This is widely adopted in scenarios with high throughput and large task volumes.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Summary</p>
+<ul>
+<li><p>Channel-based pools: idiomatic and simple, good for small-scale concurrency.</p>
+</li>
+<li><p>Channel + WaitGroup: suitable for dynamic task streams.</p>
+</li>
+<li><p>Encapsulated worker pools: reusable and flexible, used in larger systems.</p>
+</li>
+<li><p>Third-party libraries (e.g., ants): optimized for high performance and reduced GC load.</p>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/08/16/Lock-Free-golang/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -183,7 +341,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2025-08-16 09:56:22 / Modified: 10:12:55" itemprop="dateCreated datePublished" datetime="2025-08-16T09:56:22-04:00">2025-08-16</time>
+              <time title="Created: 2025-08-16 09:56:22 / Modified: 10:37:44" itemprop="dateCreated datePublished" datetime="2025-08-16T09:56:22-04:00">2025-08-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1162,99 +1320,6 @@ The following code demonstrates how to execute the script:
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/03/goNil/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/01/03/goNil/" class="post-title-link" itemprop="url">nil in the Go language</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-01-03 22:59:12" itemprop="dateCreated datePublished" datetime="2019-01-03T22:59:12-05:00">2019-01-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 11:38:41" itemprop="dateModified" datetime="2023-10-17T11:38:41-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/nil/" itemprop="url" rel="index"><span itemprop="name">nil</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In the Go language, “<strong><em>nil</em></strong>“ is a special predefined value commonly used to represent zero values or missing values in certain data structures. Here are some common usages and scenarios for “<strong><em>nil</em></strong>“:</p>
-<ol>
-<li><strong><em>Pointer and Reference Types</em></strong>: The most common use of “<strong><em>nil</em></strong>“ is in pointer and reference types, indicating that a pointer doesn’t point to any valid memory address or a reference doesn’t reference any object. For example, “<strong><em>nil</em></strong>“ is used in the following cases:</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ptr *<span class="type">int</span>    <span class="comment">// Declare an integer pointer, its zero value is nil</span></span><br><span class="line"><span class="keyword">var</span> slice []<span class="type">int</span> <span class="comment">// Declare an integer slice, its zero value is nil</span></span><br><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span> <span class="comment">// Declare a map, its zero value is nil</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><strong><em>Interface Types</em></strong>: “<strong><em>nil</em></strong>“ can also be used with interface types, signifying that an interface has no specific implemented value. This can be useful in some cases to check if an interface is empty (uninitialized or unassigned).</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myInterface <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> myInterface == <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;The interface is empty&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><strong><em>Function and Method Return Values</em></strong>: Functions and methods can return multiple values, some of which might be pointer types. In certain situations, returned pointers may be “<strong><em>nil</em></strong>,” indicating that there are no valid return values.</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findValue</span><span class="params">(slice []<span class="type">int</span>, target <span class="type">int</span>)</span></span> (*<span class="type">int</span>, <span class="type">bool</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> i, val := <span class="keyword">range</span> slice &#123;</span><br><span class="line">        <span class="keyword">if</span> val == target &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;slice[i], <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>It’s important to handle “<strong><em>nil</em></strong>“ with care to avoid runtime errors like null pointer references. It’s a good practice to check whether pointers, slices, maps, and other data structures are “<strong><em>nil</em></strong>“ before accessing them to ensure safety.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1326,13 +1391,13 @@ The following code demonstrates how to execute the script:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-count">68</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">

