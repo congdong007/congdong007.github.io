@@ -183,7 +183,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2025-08-16 10:49:08 / Modified: 11:01:09" itemprop="dateCreated datePublished" datetime="2025-08-16T10:49:08-04:00">2025-08-16</time>
+              <time title="Created: 2025-08-16 10:49:08 / Modified: 11:08:33" itemprop="dateCreated datePublished" datetime="2025-08-16T10:49:08-04:00">2025-08-16</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1009,116 +1009,6 @@ The following code demonstrates how to execute the script:
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/18/angular-start/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/18/angular-start/" class="post-title-link" itemprop="url">Angular from Beginner to Hero (1) -- Setting up the Local Environment and Workspace</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-06-18 21:07:20" itemprop="dateCreated datePublished" datetime="2022-06-18T21:07:20-04:00">2022-06-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-19 16:31:51" itemprop="dateModified" datetime="2023-10-19T16:31:51-04:00">2023-10-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Angular-from-Beginner-to-Hero/" itemprop="url" rel="index"><span itemprop="name">Angular from Beginner to Hero</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Angular-from-Beginner-to-Hero/1-Setting-up-the-Local-Environment-and-Workspace/" itemprop="url" rel="index"><span itemprop="name">(1) Setting up the Local Environment and Workspace</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Prerequisites"><a href="#Prerequisites" class="headerlink" title="Prerequisites"></a>Prerequisites</h1><p>  To use the Angular framework, you should be familiar with the following:<br>   – JavaScript<br>   – HTML<br>   – CSS<br>  Knowledge of TypeScript is helpful, but not required.</p>
-<p>  To install Angular on your local system, you need the following:</p>
-<ol>
-<li>Node.js:<br>Angular requires an active LTS or maintenance LTS version of Node.js.<br>Here’s the newest version in nodejs.org&#x2F;en:<br><img src="/images/nodejs.jpg"><br>If you are unsure what version of Node.js runs on your system, run node -v in a terminal window.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">v16.17.1</span><br></pre></td></tr></table></figure></li>
-<li>npm Package Manager:<br>Angular, the Angular CLI, and Angular applications depend on npm packages for many features and functions. To download and install npm packages, you need an npm package manager. This guide uses the npm client command line interface, which is installed with Node.js by default. To check that you have the npm client installed, run npm -v in a terminal window.</li>
-</ol>
-<h1 id="Install-the-Angular-CLI"><a href="#Install-the-Angular-CLI" class="headerlink" title="Install the Angular CLI"></a>Install the Angular CLI</h1><p>  To install the Angular CLI, open a terminal window and run the following command:<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g @angular/cli</span><br></pre></td></tr></table></figure></p>
-<h1 id="Create-a-workspace-and-initial-application"><a href="#Create-a-workspace-and-initial-application" class="headerlink" title="Create a workspace and initial application"></a>Create a workspace and initial application</h1><p>  You develop apps in the context of an Angular workspace.</p>
-<p>  To create a new workspace and initial starter app:<br>    1. Run the CLI command ng new and provide the name my-app, as shown here:<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng new my-app</span><br></pre></td></tr></table></figure><br>    2. The ng new command prompts you for information about features to include in the initial app. Accept the defaults by pressing the Enter or Return key.</p>
-<p>  The Angular CLI installs the necessary Angular npm packages and other dependencies. This can take a few minutes.</p>
-<p>  The CLI creates a new workspace and a simple Welcome app, ready to run.</p>
-<h1 id="Run-the-application"><a href="#Run-the-application" class="headerlink" title="Run the application"></a>Run the application</h1><p>  The Angular CLI includes a server, for you to build and serve your app locally.</p>
-<ol>
-<li>Navigate to the workspace folder, such as my-app.</li>
-<li>Run the following command:  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> my-app</span><br><span class="line">ng serve --open</span><br></pre></td></tr></table></figure>
-  The ng serve command launches the server, watches your files, and rebuilds the app as you make changes to those files.<br>  The –open (or just -o) option automatically opens your browser to <a target="_blank" rel="noopener" href="http://localhost:4200/">http://localhost:4200/</a>.</li>
-</ol>
-<p>  If your installation and setup was successful, you should see a page similar to the following.</p>
-<p>  <img src="/images/app-works.png"> </p>
-<h1 id="Compile-and-Package"><a href="#Compile-and-Package" class="headerlink" title="Compile and Package"></a>Compile and Package</h1><p>  Angular CLI also provides commands:<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ng build --prod</span><br></pre></td></tr></table></figure><br>  Among them, the parameter –prod tells the compilation environment to compile for the production environment package.</p>
-<p>  Similarly, in the ‘angular.json’ file, default compilation parameters are defined, and if necessary, they can be modified. The main configuration parameters are as follows.<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;configurations&quot;</span>: &#123;</span><br><span class="line">      ...</span><br><span class="line">      <span class="string">&quot;budgets&quot;</span>: [</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;type&quot;</span>: <span class="string">&quot;initial&quot;</span>,</span><br><span class="line">                <span class="string">&quot;maximumWarning&quot;</span>: <span class="string">&quot;5mb&quot;</span>,</span><br><span class="line">                <span class="string">&quot;maximumError&quot;</span>: <span class="string">&quot;10mb&quot;</span></span><br><span class="line">              &#125;,</span><br><span class="line">              &#123;</span><br><span class="line">                <span class="string">&quot;type&quot;</span>: <span class="string">&quot;anyComponentStyle&quot;</span>,</span><br><span class="line">                <span class="string">&quot;maximumWarning&quot;</span>: <span class="string">&quot;1mb&quot;</span>,</span><br><span class="line">                <span class="string">&quot;maximumError&quot;</span>: <span class="string">&quot;4mb&quot;</span></span><br><span class="line">              &#125;</span><br><span class="line">       ],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>  Angular, by default, compiles to the ‘dist’ directory under the root directory, generating pure static files (html, css, js), as well as image files.</p>
-<h1 id="Deploy-to-a-Server"><a href="#Deploy-to-a-Server" class="headerlink" title="Deploy to a Server"></a>Deploy to a Server</h1><ol>
-<li><p>Using the “phpStudy” tool, go into its root directory, which is usually something like “C:\phpStudy\PHPTutorial\WWW.”</p>
-</li>
-<li><p>Copy all the files from the ‘dist’ directory to the root directory “C:\phpStudy\PHPTutorial\WWW.”</p>
-</li>
-<li><p>Restart phpStudy’s services to make sure the changes take effect.</p>
-</li>
-<li><p>Open your Chrome browser, and you should be able to access the website by entering the following URL in the address bar: <a target="_blank" rel="noopener" href="http://localhost/index.html">http://localhost/index.html</a></p>
-</li>
-</ol>
-<p>  Make sure you have the correct directory paths, and that the files from the ‘dist’ directory are copied over to the correct location in the root directory. Additionally, ensure that the web server and PHP services in phpStudy are correctly configured and running.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/05/VSFTPD2-3-4pentest/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1320,6 +1210,99 @@ The following code demonstrates how to execute the script:
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/03/goNil/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/03/goNil/" class="post-title-link" itemprop="url">nil in the Go language</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-03 22:59:12" itemprop="dateCreated datePublished" datetime="2019-01-03T22:59:12-05:00">2019-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-17 11:38:41" itemprop="dateModified" datetime="2023-10-17T11:38:41-04:00">2023-10-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Go/nil/" itemprop="url" rel="index"><span itemprop="name">nil</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>In the Go language, “<strong><em>nil</em></strong>“ is a special predefined value commonly used to represent zero values or missing values in certain data structures. Here are some common usages and scenarios for “<strong><em>nil</em></strong>“:</p>
+<ol>
+<li><strong><em>Pointer and Reference Types</em></strong>: The most common use of “<strong><em>nil</em></strong>“ is in pointer and reference types, indicating that a pointer doesn’t point to any valid memory address or a reference doesn’t reference any object. For example, “<strong><em>nil</em></strong>“ is used in the following cases:</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ptr *<span class="type">int</span>    <span class="comment">// Declare an integer pointer, its zero value is nil</span></span><br><span class="line"><span class="keyword">var</span> slice []<span class="type">int</span> <span class="comment">// Declare an integer slice, its zero value is nil</span></span><br><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span> <span class="comment">// Declare a map, its zero value is nil</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong><em>Interface Types</em></strong>: “<strong><em>nil</em></strong>“ can also be used with interface types, signifying that an interface has no specific implemented value. This can be useful in some cases to check if an interface is empty (uninitialized or unassigned).</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myInterface <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> myInterface == <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;The interface is empty&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong><em>Function and Method Return Values</em></strong>: Functions and methods can return multiple values, some of which might be pointer types. In certain situations, returned pointers may be “<strong><em>nil</em></strong>,” indicating that there are no valid return values.</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findValue</span><span class="params">(slice []<span class="type">int</span>, target <span class="type">int</span>)</span></span> (*<span class="type">int</span>, <span class="type">bool</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> i, val := <span class="keyword">range</span> slice &#123;</span><br><span class="line">        <span class="keyword">if</span> val == target &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;slice[i], <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>It’s important to handle “<strong><em>nil</em></strong>“ with care to avoid runtime errors like null pointer references. It’s a good practice to check whether pointers, slices, maps, and other data structures are “<strong><em>nil</em></strong>“ before accessing them to ensure safety.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1391,13 +1374,13 @@ The following code demonstrates how to execute the script:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">66</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
