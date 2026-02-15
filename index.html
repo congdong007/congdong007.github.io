@@ -158,6 +158,295 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/02/15/Deep-Dive-SPF-from-an-Offensive%E2%80%93Defensive-Perspective/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/02/15/Deep-Dive-SPF-from-an-Offensive%E2%80%93Defensive-Perspective/" class="post-title-link" itemprop="url">Deep Dive SPF from an Offensive–Defensive Perspective</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2026-02-15 11:20:21 / Modified: 11:50:08" itemprop="dateCreated datePublished" datetime="2026-02-15T11:20:21-05:00">2026-02-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerable-research/" itemprop="url" rel="index"><span itemprop="name">Vulnerable research</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vulnerable-research/SPF-vulnerability/" itemprop="url" rel="index"><span itemprop="name">SPF vulnerability</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>We will analyze SPF strictly from a <strong>red team &#x2F; adversarial security</strong> standpoint, focusing on real exploitation logic and defensive blind spots.</p>
+<hr>
+<h1 id="1-Threat-Modeling"><a href="#1-Threat-Modeling" class="headerlink" title="1. Threat Modeling"></a>1. Threat Modeling</h1><p>Within the email security pipeline:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SMTP connection</span><br><span class="line">   ↓</span><br><span class="line">SPF validation (IP ↔ envelope-from)</span><br><span class="line">   ↓</span><br><span class="line">DKIM validation (signature)</span><br><span class="line">   ↓</span><br><span class="line">DMARC alignment check</span><br><span class="line">   ↓</span><br><span class="line">Spam / SOC filtering rules</span><br></pre></td></tr></table></figure>
+
+<p>SPF is the <strong>first-layer weak binding validation mechanism</strong>. Its core question is:</p>
+<blockquote>
+<p>“Is this IP authorized to send mail on behalf of this envelope domain?”</p>
+</blockquote>
+<p>SPF is not an identity authentication system.<br> It is a <strong>source authorization declaration system</strong>.</p>
+<hr>
+<h1 id="2-Common-Red-Team-Exploitation-Paths"><a href="#2-Common-Red-Team-Exploitation-Paths" class="headerlink" title="2. Common Red Team Exploitation Paths"></a>2. Common Red Team Exploitation Paths</h1><h2 id="1️⃣-Header-From-Spoofing-SPF-Design-Limitation"><a href="#1️⃣-Header-From-Spoofing-SPF-Design-Limitation" class="headerlink" title="1️⃣ Header-From Spoofing (SPF Design Limitation)"></a>1️⃣ Header-From Spoofing (SPF Design Limitation)</h2><p>SPF validates only:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAIL FROM:</span><br></pre></td></tr></table></figure>
+
+<p>But users see:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">From:</span><br></pre></td></tr></table></figure>
+
+<p>If the target domain:</p>
+<ul>
+<li>Has SPF configured</li>
+<li>But does NOT enforce or strictly configure DMARC</li>
+</ul>
+<p>You can construct:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MAIL FROM: attacker@legit-spf-domain.com</span><br><span class="line">From: ceo@target.com</span><br></pre></td></tr></table></figure>
+
+<p>As long as the first domain passes SPF,<br> the receiving server may accept the email,<br> while the visible sender appears as target.com.</p>
+<p>⚠ This is the most common real-world CEO spoofing model.</p>
+<hr>
+<h2 id="2️⃣-Triggering-PermError-via-the-10-DNS-Lookup-Limit"><a href="#2️⃣-Triggering-PermError-via-the-10-DNS-Lookup-Limit" class="headerlink" title="2️⃣ Triggering PermError via the 10 DNS Lookup Limit"></a>2️⃣ Triggering PermError via the 10 DNS Lookup Limit</h2><p>SPF RFC enforces:</p>
+<blockquote>
+<p>Maximum of 10 DNS lookups.</p>
+</blockquote>
+<p>Red team strategy:</p>
+<ol>
+<li>Recursively expand include chains.</li>
+<li>Identify domains close to the 10-lookup threshold.</li>
+<li>Exploit DNS delays or timeouts.</li>
+<li>Trigger SPF PermError.</li>
+</ol>
+<p>The issue:</p>
+<ul>
+<li>Some gateways treat PermError as Neutral.</li>
+<li>Neutral often does not trigger rejection.</li>
+</ul>
+<p>This is essentially a <strong>policy downgrade attack</strong>.</p>
+<hr>
+<h2 id="3️⃣-Abuse-of-SoftFail-all"><a href="#3️⃣-Abuse-of-SoftFail-all" class="headerlink" title="3️⃣ Abuse of SoftFail (~all)"></a>3️⃣ Abuse of SoftFail (~all)</h2><p>If a domain uses:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v=spf1 include:xxx ~all</span><br></pre></td></tr></table></figure>
+
+<p>Red team actions:</p>
+<ul>
+<li>Directly spoof the domain.</li>
+<li>Many servers will not hard reject.</li>
+<li>Combine with social engineering for high success rates.</li>
+</ul>
+<p>Common enterprise misconception:</p>
+<blockquote>
+<p>“We have SPF, therefore we are protected.”</p>
+</blockquote>
+<p>But <code>~all</code> is merely advisory.</p>
+<hr>
+<h2 id="4️⃣-Third-Party-Include-Supply-Chain-Risk"><a href="#4️⃣-Third-Party-Include-Supply-Chain-Risk" class="headerlink" title="4️⃣ Third-Party Include Supply Chain Risk"></a>4️⃣ Third-Party Include Supply Chain Risk</h2><p>Typical enterprise SPF:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">include:_spf.google.com</span><br><span class="line">include:spf.protection.outlook.com</span><br><span class="line">include:mailgun.org</span><br><span class="line">include:zendesk.com</span><br></pre></td></tr></table></figure>
+
+<p>Risk factors:</p>
+<ul>
+<li>Third-party service abuse</li>
+<li>Poor account isolation</li>
+<li>API key leakage</li>
+<li>Overly broad vendor SPF policies</li>
+</ul>
+<p>Attack path:</p>
+<ul>
+<li>Obtain legitimate sending API access.</li>
+<li>Send mail from authorized infrastructure.</li>
+<li>SPF Pass + DKIM Pass.</li>
+<li>If DMARC policy &#x3D; none → delivery succeeds.</li>
+</ul>
+<p>This is one of the most dangerous real-world paths.</p>
+<hr>
+<h2 id="5️⃣-Subdomain-Coverage-Gaps"><a href="#5️⃣-Subdomain-Coverage-Gaps" class="headerlink" title="5️⃣ Subdomain Coverage Gaps"></a>5️⃣ Subdomain Coverage Gaps</h2><p>Many enterprises configure:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">example.com</span><br></pre></td></tr></table></figure>
+
+<p>But ignore:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">finance.example.com</span><br><span class="line">secure.example.com</span><br></pre></td></tr></table></figure>
+
+<p>If subdomains lack SPF and DMARC:</p>
+<p>You can spoof:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ceo@finance.example.com</span><br></pre></td></tr></table></figure>
+
+<p>Visual deception success rate is extremely high.</p>
+<hr>
+<h2 id="6️⃣-Forwarding-Chain-Confusion"><a href="#6️⃣-Forwarding-Chain-Confusion" class="headerlink" title="6️⃣ Forwarding Chain Confusion"></a>6️⃣ Forwarding Chain Confusion</h2><p>SPF does not support forwarding.</p>
+<p>Attack model:</p>
+<ul>
+<li>Use legitimate relays.</li>
+<li>Or leverage open forwarding systems.</li>
+<li>Trigger SPF Fail → system falls back to DKIM.</li>
+<li>If DKIM alignment is not strict → bypass possible.</li>
+</ul>
+<p>This is an <strong>authentication chain fragmentation attack</strong>.</p>
+<hr>
+<h2 id="7️⃣-DMARC-Alignment-Abuse"><a href="#7️⃣-DMARC-Alignment-Abuse" class="headerlink" title="7️⃣ DMARC Alignment Abuse"></a>7️⃣ DMARC Alignment Abuse</h2><p>DMARC supports two alignment modes:</p>
+<ul>
+<li>relaxed</li>
+<li>strict</li>
+</ul>
+<p>If relaxed alignment is used:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mail.example.com</span><br><span class="line">news.example.com</span><br></pre></td></tr></table></figure>
+
+<p>You may craft malicious subdomains<br> that still satisfy relaxed alignment.</p>
+<hr>
+<h1 id="3-Blue-Team-Defensive-Maturity-Levels"><a href="#3-Blue-Team-Defensive-Maturity-Levels" class="headerlink" title="3. Blue Team Defensive Maturity Levels"></a>3. Blue Team Defensive Maturity Levels</h1><h3 id="Level-0"><a href="#Level-0" class="headerlink" title="Level 0"></a>Level 0</h3><ul>
+<li>No SPF</li>
+<li>No DKIM</li>
+<li>No DMARC</li>
+</ul>
+<p>Fully spoofable.</p>
+<hr>
+<h3 id="Level-1"><a href="#Level-1" class="headerlink" title="Level 1"></a>Level 1</h3><ul>
+<li>SPF with ~all</li>
+<li>No DMARC</li>
+</ul>
+<p>Highly vulnerable to CEO spoofing.</p>
+<hr>
+<h3 id="Level-2"><a href="#Level-2" class="headerlink" title="Level 2"></a>Level 2</h3><ul>
+<li>SPF -all</li>
+<li>DKIM enabled</li>
+<li>DMARC policy&#x3D;none</li>
+</ul>
+<p>Still exploitable via alignment weaknesses.</p>
+<hr>
+<h3 id="Level-3-Enterprise-Recommended"><a href="#Level-3-Enterprise-Recommended" class="headerlink" title="Level 3 (Enterprise Recommended)"></a>Level 3 (Enterprise Recommended)</h3><ul>
+<li>SPF -all</li>
+<li>Mandatory DKIM signing</li>
+<li>DMARC policy&#x3D;quarantine or reject</li>
+<li>Strict alignment</li>
+<li>Subdomain coverage</li>
+</ul>
+<hr>
+<h1 id="4-Red-Team-Assessment-Methodology"><a href="#4-Red-Team-Assessment-Methodology" class="headerlink" title="4. Red Team Assessment Methodology"></a>4. Red Team Assessment Methodology</h1><h2 id="Step-1-—-DNS-Enumeration"><a href="#Step-1-—-DNS-Enumeration" class="headerlink" title="Step 1 — DNS Enumeration"></a>Step 1 — DNS Enumeration</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dig txt target.com</span><br><span class="line">dig txt _dmarc.target.com</span><br></pre></td></tr></table></figure>
+
+<p>Collect:</p>
+<ul>
+<li>SPF structure</li>
+<li>include count</li>
+<li>Presence of ~all</li>
+<li>DMARC policy</li>
+</ul>
+<hr>
+<h2 id="Step-2-—-Include-Expansion"><a href="#Step-2-—-Include-Expansion" class="headerlink" title="Step 2 — Include Expansion"></a>Step 2 — Include Expansion</h2><p>Recursively measure:</p>
+<ul>
+<li>Total DNS lookup count</li>
+<li>Proximity to 10-query limit</li>
+<li>Third-party dependencies</li>
+</ul>
+<hr>
+<h2 id="Step-3-—-Subdomain-Enumeration"><a href="#Step-3-—-Subdomain-Enumeration" class="headerlink" title="Step 3 — Subdomain Enumeration"></a>Step 3 — Subdomain Enumeration</h2><p>Identify:</p>
+<ul>
+<li>Subdomains without SPF</li>
+<li>Subdomains without DMARC</li>
+<li>Relaxed alignment usage</li>
+</ul>
+<hr>
+<h2 id="Step-4-—-Controlled-Delivery-Testing"><a href="#Step-4-—-Controlled-Delivery-Testing" class="headerlink" title="Step 4 — Controlled Delivery Testing"></a>Step 4 — Controlled Delivery Testing</h2><p>Testing matrix:</p>
+<table>
+<thead>
+<tr>
+<th>Test Case</th>
+<th>Objective</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SPF Pass + DMARC None</td>
+<td>Delivery acceptance</td>
+</tr>
+<tr>
+<td>SPF SoftFail</td>
+<td>Rejection behavior</td>
+</tr>
+<tr>
+<td>Header-From spoof</td>
+<td>Inbox placement</td>
+</tr>
+<tr>
+<td>Subdomain spoof</td>
+<td>DMARC enforcement</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="5-Real-World-Conditions-for-Successful-Attacks"><a href="#5-Real-World-Conditions-for-Successful-Attacks" class="headerlink" title="5. Real-World Conditions for Successful Attacks"></a>5. Real-World Conditions for Successful Attacks</h1><p>Attacks commonly succeed when:</p>
+<ul>
+<li>DMARC policy &#x3D; none</li>
+<li>SPF uses ~all</li>
+<li>Relaxed alignment</li>
+<li>Weak inbound filtering</li>
+<li>SOC does not monitor DMARC reports</li>
+</ul>
+<hr>
+<h1 id="6-Core-Insight"><a href="#6-Core-Insight" class="headerlink" title="6. Core Insight"></a>6. Core Insight</h1><p>SPF itself is not a vulnerability.<br> It is a <strong>weak trust declaration protocol</strong>.</p>
+<p>Real risk arises from:</p>
+<ul>
+<li>Misconfiguration</li>
+<li>Over-reliance on SPF alone</li>
+<li>Lack of DMARC enforcement</li>
+<li>Third-party supply chain exposure</li>
+</ul>
+<hr>
+<h1 id="7-Advanced-Perspective"><a href="#7-Advanced-Perspective" class="headerlink" title="7. Advanced Perspective"></a>7. Advanced Perspective</h1><p>At a higher architectural level:</p>
+<ul>
+<li>SPF is the <strong>control plane</strong></li>
+<li>DKIM is the <strong>data plane</strong></li>
+<li>DMARC is the <strong>policy plane</strong></li>
+</ul>
+<p>Attacks often occur in the gaps:</p>
+<blockquote>
+<p>Authentication inconsistency exploitation</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2025/12/04/CVE-2024-39907/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1300,97 +1589,6 @@ The following code demonstrates how to execute the script:
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/02/12/goAboutUnitTest/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/02/12/goAboutUnitTest/" class="post-title-link" itemprop="url">About File Testing in the Go Language.</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-02-12 20:59:33" itemprop="dateCreated datePublished" datetime="2019-02-12T20:59:33-05:00">2019-02-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 12:31:11" itemprop="dateModified" datetime="2023-10-17T12:31:11-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/" itemprop="url" rel="index"><span itemprop="name">Go</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Go/Unit-Test/" itemprop="url" rel="index"><span itemprop="name">Unit Test</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>To test a Go file, you typically need to create a test file in the same directory as the file you’re testing and write your test code within it. Here’s an example: you have a file named math.go containing a simple mathematical function ‘Add.’ Then, you will create a test file named math_test.go to test this function.</p>
-<p>Assuming the math.go file is as follows:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// math.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Add</span><span class="params">(a, b <span class="type">int</span>)</span></span> <span class="type">int</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>You can then create a math_test.go file to write your test code:</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// math_test.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">&quot;testing&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">TestAdd</span><span class="params">(t *testing.T)</span></span> &#123;</span><br><span class="line">    result := Add(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">    expected := <span class="number">5</span></span><br><span class="line">    <span class="keyword">if</span> result != expected &#123;</span><br><span class="line">        t.Errorf(<span class="string">&quot;Add(2, 3) returned %d, expected %d&quot;</span>, result, expected)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>In math_test.go, we import the testing package and write a test function named TestAdd. Test functions should start with ‘Test’ and accept a <strong><em>*testing.T</em></strong> parameter, which is used to report test failures.</p>
-<p>Inside the TestAdd function, we call Add(2, 3) to execute the function being tested and compare the result to the expected value. If the result doesn’t match the expected value, we use <strong><em>t.Errorf</em></strong> to report the test failure with detailed error information.</p>
-<p>Next, you can run the tests using the ‘<strong><em>go test</em></strong>‘ command in your terminal:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">go <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
-
-<p>Go will search for all the <strong><em>_test.go</em></strong> files <strong><em>in the current directory and execute the test functions within them</em></strong>. If the tests pass, you’ll see a success message. If the tests fail, you’ll get detailed failure information.</p>
-<p>This is just a very basic example. In real-world projects, you can write more test cases to cover various scenarios and ensure that your code works correctly in different situations.”</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1462,19 +1660,19 @@ The following code demonstrates how to execute the script:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">69</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1502,7 +1700,7 @@ The following code demonstrates how to execute the script:
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

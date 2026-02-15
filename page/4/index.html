@@ -158,6 +158,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/23/BashScript07-ForLoops/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2012/03/23/BashScript07-ForLoops/" class="post-title-link" itemprop="url">Bash Scripting 07 - For Loops</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2012-03-23 21:11:45" itemprop="dateCreated datePublished" datetime="2012-03-23T21:11:45-04:00">2012-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-23 21:53:32" itemprop="dateModified" datetime="2023-10-23T21:53:32-04:00">2023-10-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Bash/Bash-Scripting-07-For-Loops/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 07 - For Loops</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>In computer programming, loops help us with repetitive tasks that we need to run until a certain<br>criteria is met. Iteration is particularly useful for penetration testers, so we recommend paying very<br>close attention to this section.<br>In Bash, the two most predominant loop commands are for and while. We will take a look at both.</p>
+<p>For loops are very practical and work very well in Bash one-liners. This type of loop is used to<br>perform a given set of commands for each of the items in a list. Let’s briefly look at its general<br>syntax:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var-name <span class="keyword">in</span> &lt;list&gt;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&lt;action to perform&gt;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+
+<p>The for loop will take each item in the list (in order), assign that item as the value of the variable varname, perform the given action between do and done, and then go back to the top, grab the next<br>item in the list, and repeat the steps until the list is exhausted.</p>
+<p>Let’s take a look at a more practical example that will quickly print the first 10 IP addresses in the<br>10.11.1.0&#x2F;24 subnet:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="keyword">for</span> ip <span class="keyword">in</span> $(<span class="built_in">seq</span> 1 10); <span class="keyword">do</span> <span class="built_in">echo</span> 10.11.1.<span class="variable">$ip</span>; <span class="keyword">done</span></span><br><span class="line">10.11.1.1</span><br><span class="line">10.11.1.2</span><br><span class="line">10.11.1.3</span><br><span class="line">10.11.1.4</span><br><span class="line">10.11.1.5</span><br><span class="line">10.11.1.6</span><br><span class="line">10.11.1.7</span><br><span class="line">10.11.1.8</span><br><span class="line">10.11.1.9</span><br><span class="line">10.11.1.10</span><br></pre></td></tr></table></figure>
+
+<p>In this Bash one-liner, we used the seq command to print a sequence of numbers, in<br>this case the numbers one through ten. Each number is then assigned to the ip variable, and then<br>each IP address is displayed to the screen as the for loop runs multiple times, exiting at the end of<br>the sequence.<br>Another way of re-writing the previous for loop involves brace expansion using ranges. Brace<br>expansion using ranges is written giving the first and last values of the range and can be a sequence<br>of numbers or characters. This is known as a “sequence expression”:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10&#125;; <span class="keyword">do</span> <span class="built_in">echo</span> 10.11.1.<span class="variable">$i</span>;<span class="keyword">done</span></span><br><span class="line">10.11.1.1</span><br><span class="line">10.11.1.2</span><br><span class="line">10.11.1.3</span><br><span class="line">10.11.1.4</span><br><span class="line">10.11.1.5</span><br><span class="line">10.11.1.6</span><br><span class="line">10.11.1.7</span><br><span class="line">10.11.1.8</span><br><span class="line">10.11.1.9</span><br><span class="line">10.11.1.10</span><br></pre></td></tr></table></figure>
+
+<p>There is a lot of potential for this type of loop. Displaying IP addresses to the screen may not seem<br>very useful, but we can use the same loop to run a port scan using nmap (which we discuss in<br>detail in another module). We can also attempt to use the ping command to see if any of the IP<br>addresses respond to ICMP echo requests, etc.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/19/BashScript06-BooleanLogicalOperations/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1089,103 +1178,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2011/03/02/nasmCompile/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2011/03/02/nasmCompile/" class="post-title-link" itemprop="url">How to compile asm to execute under Linux</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2011-03-02 11:31:25" itemprop="dateCreated datePublished" datetime="2011-03-02T11:31:25-05:00">2011-03-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-17 11:39:39" itemprop="dateModified" datetime="2023-10-17T11:39:39-04:00">2023-10-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/" itemprop="url" rel="index"><span itemprop="name">Asm</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Asm/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Here is code snippet to show how to compile asm to execute under Linux:</p>
-<p>shellx.asm:</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">section     .text</span><br><span class="line">global      _start </span><br><span class="line">_start: </span><br><span class="line">    mov     edx,len   </span><br><span class="line">    mov     ecx,msg   </span><br><span class="line">    mov     ebx,<span class="number">1</span>   </span><br><span class="line">    mov     eax,<span class="number">4</span>   </span><br><span class="line">    <span class="type">int</span>     <span class="number">0x80</span>   </span><br><span class="line">    mov     eax,<span class="number">1</span>  </span><br><span class="line">    <span class="type">int</span>     <span class="number">0x80</span>   </span><br><span class="line">section     .data</span><br><span class="line">msg     db  <span class="string">&#x27;Hello world&#x27;</span>,<span class="number">0xa</span>  </span><br><span class="line">len     equ $ - msg</span><br></pre></td></tr></table></figure>
-<p>let’s start</p>
-<ol>
-<li>First step:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ nasm -f elf64 shellx.asm</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>Next step:</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ ld -s -o shellx shellx.o</span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>Execute :</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant@kali:~/Desktop/cdasm$ ./shellx </span><br></pre></td></tr></table></figure>
-<p>then output :</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello world</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1257,19 +1249,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">69</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1297,7 +1289,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

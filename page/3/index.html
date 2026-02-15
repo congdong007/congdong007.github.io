@@ -158,6 +158,120 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/22/SQLInjectionMySQLError/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/11/22/SQLInjectionMySQLError/" class="post-title-link" itemprop="url">MySQL Error-Based SQL Injection</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-11-22 20:55:15" itemprop="dateCreated datePublished" datetime="2016-11-22T20:55:15-05:00">2016-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2023-10-19 11:20:20" itemprop="dateModified" datetime="2023-10-19T11:20:20-04:00">2023-10-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/MySQL-Error-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">MySQL Error-Based SQL Injection</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li>Overview</li>
+</ol>
+<p>Error-Based Injection involves deliberately triggering error conditions in the database to make query results appear in error messages. This technique is particularly useful in cases where UNION-based injections are restricted and error information can be returned. It’s also known as Formulaic SQL Injection.</p>
+<ol start="2">
+<li>Utilizing the updatexml() function:</li>
+</ol>
+<p>Payload:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (updatexml(1,concat(0x7e,(select user()),0x7e),1));--+</span><br></pre></td></tr></table></figure>
+<p><code>0x7e</code>: ~<br><code>updatexml()</code>: Function used to update XML documents.<br><code>updatexml()</code> syntax: update(target_xml_document, xpath_expression, new_value)<br>XPath expressions are used to specify paths within an XML document. If the format is incorrect, an error will occur.</p>
+<p>Subsequent steps for updatexml-based error-based injection:</p>
+<p>(1). Modify the SQL statement for selecting the user position.<br>(2). Retrieve tables in the current database.<br>(3). Retrieve columns of a specific table.<br>(4). Continue step by step.</p>
+<ol start="3">
+<li>Utilizing the extravalue() function:</li>
+</ol>
+<p>Payload:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (extravalue(1,concat(0x7e,(select user()),0x7e)))--+</span><br></pre></td></tr></table></figure>
+<p><code>extravalue()</code> function is similar to updatexml() and is used for querying node content in an XML document.<br>Subsequent steps for extravalue-based error-based injection are the same as for updatexml.</p>
+<ol start="4">
+<li>Utilizing the floor() function:</li>
+</ol>
+<p>Payload:</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=1&#x27; and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a)--+</span><br></pre></td></tr></table></figure>
+
+<p>The principle utilized is the repetition of primary keys due to the repetitiveness of <code>floor(rand(0)*2)</code>, leading to an error in the group by statement.<br>The group by key principle involves looping through every row of data and saving the results in a temporary table. When reading each row’s key, if the key exists in the temporary table, it won’t update the temporary table’s data. If the key doesn’t exist, it will insert the key’s row data into the temporary table.</p>
+<ol start="5">
+<li>Additional Information:</li>
+</ol>
+<p>These three functions are commonly used in error-based injections.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/18/SQLInjectionDnsLog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1007,95 +1121,6 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2012/03/23/BashScript07-ForLoops/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2012/03/23/BashScript07-ForLoops/" class="post-title-link" itemprop="url">Bash Scripting 07 - For Loops</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2012-03-23 21:11:45" itemprop="dateCreated datePublished" datetime="2012-03-23T21:11:45-04:00">2012-03-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-23 21:53:32" itemprop="dateModified" datetime="2023-10-23T21:53:32-04:00">2023-10-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/" itemprop="url" rel="index"><span itemprop="name">Bash</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Bash/Bash-Scripting-07-For-Loops/" itemprop="url" rel="index"><span itemprop="name">Bash Scripting 07 - For Loops</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In computer programming, loops help us with repetitive tasks that we need to run until a certain<br>criteria is met. Iteration is particularly useful for penetration testers, so we recommend paying very<br>close attention to this section.<br>In Bash, the two most predominant loop commands are for and while. We will take a look at both.</p>
-<p>For loops are very practical and work very well in Bash one-liners. This type of loop is used to<br>perform a given set of commands for each of the items in a list. Let’s briefly look at its general<br>syntax:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var-name <span class="keyword">in</span> &lt;list&gt;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">&lt;action to perform&gt;</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-
-<p>The for loop will take each item in the list (in order), assign that item as the value of the variable varname, perform the given action between do and done, and then go back to the top, grab the next<br>item in the list, and repeat the steps until the list is exhausted.</p>
-<p>Let’s take a look at a more practical example that will quickly print the first 10 IP addresses in the<br>10.11.1.0&#x2F;24 subnet:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="keyword">for</span> ip <span class="keyword">in</span> $(<span class="built_in">seq</span> 1 10); <span class="keyword">do</span> <span class="built_in">echo</span> 10.11.1.<span class="variable">$ip</span>; <span class="keyword">done</span></span><br><span class="line">10.11.1.1</span><br><span class="line">10.11.1.2</span><br><span class="line">10.11.1.3</span><br><span class="line">10.11.1.4</span><br><span class="line">10.11.1.5</span><br><span class="line">10.11.1.6</span><br><span class="line">10.11.1.7</span><br><span class="line">10.11.1.8</span><br><span class="line">10.11.1.9</span><br><span class="line">10.11.1.10</span><br></pre></td></tr></table></figure>
-
-<p>In this Bash one-liner, we used the seq command to print a sequence of numbers, in<br>this case the numbers one through ten. Each number is then assigned to the ip variable, and then<br>each IP address is displayed to the screen as the for loop runs multiple times, exiting at the end of<br>the sequence.<br>Another way of re-writing the previous for loop involves brace expansion using ranges. Brace<br>expansion using ranges is written giving the first and last values of the range and can be a sequence<br>of numbers or characters. This is known as a “sequence expression”:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kali@kali:~$ <span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..10&#125;; <span class="keyword">do</span> <span class="built_in">echo</span> 10.11.1.<span class="variable">$i</span>;<span class="keyword">done</span></span><br><span class="line">10.11.1.1</span><br><span class="line">10.11.1.2</span><br><span class="line">10.11.1.3</span><br><span class="line">10.11.1.4</span><br><span class="line">10.11.1.5</span><br><span class="line">10.11.1.6</span><br><span class="line">10.11.1.7</span><br><span class="line">10.11.1.8</span><br><span class="line">10.11.1.9</span><br><span class="line">10.11.1.10</span><br></pre></td></tr></table></figure>
-
-<p>There is a lot of potential for this type of loop. Displaying IP addresses to the screen may not seem<br>very useful, but we can use the same loop to run a port scan using nmap (which we discuss in<br>detail in another module). We can also attempt to use the ping command to see if any of the IP<br>addresses respond to ICMP echo requests, etc.</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1167,19 +1192,19 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-count">69</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1207,7 +1232,7 @@ These steps describe how an attacker can detect and exploit a SQL injection vuln
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2025</span>
+  <span itemprop="copyrightYear">2026</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
