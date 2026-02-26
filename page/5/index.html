@@ -158,6 +158,92 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2011/03/04/LinuxPermission/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2011/03/04/LinuxPermission/" class="post-title-link" itemprop="url">Understanding Linux Permissions in One Image</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2011-03-04 11:31:25" itemprop="dateCreated datePublished" datetime="2011-03-04T11:31:25-05:00">2011-03-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-04-17 22:12:29" itemprop="dateModified" datetime="2024-04-17T22:12:29-04:00">2024-04-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/command/" itemprop="url" rel="index"><span itemprop="name">command</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>In Linux OS, when we use the command ‘ls -all’, we will see characters like r, w, x, as shown in the following image:</p>
+<p><img src="/images/permission.png">  </p>
+<p>When I explain the following image, you will understand all about the permissions:</p>
+<p><img src="/images/show_permission.jpg"> </p>
+<p>Let’s consider an example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drwxrwxr-x 8 qiluword qiluword      4096 Apr  7 01:46 binwalk</span><br></pre></td></tr></table></figure>
+
+<p>The first ‘d’ means this is a directory. The first part ‘rwx’ indicates that the user who owns it has read&#x2F;write&#x2F;execute permissions, and the second part ‘rwx’ indicates that other users in the file’s group have read&#x2F;write&#x2F;execute permissions. The third part ‘r-x’ indicates that other users not in the file’s group have read&#x2F;-&#x2F;execute permissions.</p>
+<p>By the way, we often see commands like this: ‘chmod 777 .&#x2F;rootfs’. This means the first part, where the rwx bits are all 1, indicates that this directory has read, write, and execute permissions for all users.”</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2011/03/02/nasmCompile/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1065,19 +1151,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">69</span>
+        <span class="site-state-item-count">70</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
