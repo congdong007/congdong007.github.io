@@ -158,6 +158,294 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/03/05/CORS-md/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2026/03/05/CORS-md/" class="post-title-link" itemprop="url">CORS.md</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2026-03-05 10:50:56 / Modified: 10:53:16" itemprop="dateCreated datePublished" datetime="2026-03-05T10:50:56-05:00">2026-03-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web-security/" itemprop="url" rel="index"><span itemprop="name">Web security</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web-security/CORS/" itemprop="url" rel="index"><span itemprop="name">CORS</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>CORS itself is not a vulnerability</strong> — it is a browser security mechanism. The real risk arises from <strong>misconfiguration</strong>.</p>
+<p>When CORS is improperly configured, it effectively dismantles the Same-Origin Policy and allows attackers to read sensitive cross-origin data.</p>
+<p>Below is a structured, practitioner-level analysis of the real-world impact of CORS misconfigurations.</p>
+<hr>
+<h1 id="1-The-Security-Boundary-CORS-Is-Meant-to-Protect"><a href="#1-The-Security-Boundary-CORS-Is-Meant-to-Protect" class="headerlink" title="1. The Security Boundary CORS Is Meant to Protect"></a>1. The Security Boundary CORS Is Meant to Protect</h1><p>Browsers enforce the <strong>Same-Origin Policy (SOP)</strong>:</p>
+<blockquote>
+<p>JavaScript from A.com cannot read responses from B.com.</p>
+</blockquote>
+<p>CORS allows a server to explicitly relax that restriction by sending headers such as:</p>
+<ul>
+<li><code>Access-Control-Allow-Origin</code></li>
+<li><code>Access-Control-Allow-Credentials</code></li>
+<li><code>Access-Control-Allow-Headers</code></li>
+<li><code>Access-Control-Allow-Methods</code></li>
+</ul>
+<p>The core issue:</p>
+<p>If the server mistakenly trusts an attacker-controlled <code>Origin</code>, the browser will <em>legitimately</em> hand sensitive response data to malicious JavaScript.</p>
+<p>This is not theoretical — this is a controlled bypass of SOP.</p>
+<hr>
+<h1 id="2-Primary-Security-Impact"><a href="#2-Primary-Security-Impact" class="headerlink" title="2. Primary Security Impact"></a>2. Primary Security Impact</h1><h2 id="2-1-Account-Data-Exfiltration-Most-Common-and-Most-Severe"><a href="#2-1-Account-Data-Exfiltration-Most-Common-and-Most-Severe" class="headerlink" title="2.1 Account Data Exfiltration (Most Common and Most Severe)"></a>2.1 Account Data Exfiltration (Most Common and Most Severe)</h2><p>Typical vulnerable configuration:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: https://evil.com</span><br><span class="line">Access-Control-Allow-Credentials: true</span><br></pre></td></tr></table></figure>
+
+<p>or worse:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: *</span><br><span class="line">Access-Control-Allow-Credentials: true</span><br></pre></td></tr></table></figure>
+
+<p>Attack chain:</p>
+<ol>
+<li>Victim is logged into <code>bank.com</code></li>
+<li>Victim visits <code>evil.com</code></li>
+<li>Malicious JavaScript executes:</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fetch(&quot;https://bank.com/api/userinfo&quot;, &#123;</span><br><span class="line">  credentials: &quot;include&quot;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>Browser automatically attaches session cookies</li>
+<li>Server allows cross-origin access</li>
+<li>JavaScript reads the JSON response</li>
+<li>Data is exfiltrated</li>
+</ol>
+<p>Potentially exposed data:</p>
+<ul>
+<li>Personally identifiable information (PII)</li>
+<li>Order history</li>
+<li>JWT tokens</li>
+<li>API keys</li>
+<li>Administrative metadata</li>
+<li>Internal service responses</li>
+</ul>
+<p>Important distinction:</p>
+<p>This is <strong>not CSRF</strong>.<br> CSRF allows blind requests.<br> CORS misconfiguration enables <strong>read access</strong>.</p>
+<p>Severity: Critical.</p>
+<hr>
+<h2 id="2-2-Internal-Network-Data-Exposure-Browser-Based-SSRF"><a href="#2-2-Internal-Network-Data-Exposure-Browser-Based-SSRF" class="headerlink" title="2.2 Internal Network Data Exposure (Browser-Based SSRF)"></a>2.2 Internal Network Data Exposure (Browser-Based SSRF)</h2><p>If an internal interface:</p>
+<ul>
+<li>Is reachable from the victim’s browser</li>
+<li>Allows credentials</li>
+<li>Has permissive CORS</li>
+</ul>
+<p>Then an attacker can do:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fetch(&quot;http://192.168.1.1/admin&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>This may expose:</p>
+<ul>
+<li>Router configuration</li>
+<li>NAS storage interfaces</li>
+<li>Kubernetes dashboards</li>
+<li>Internal admin APIs</li>
+</ul>
+<p>This is effectively a browser-assisted SSRF.</p>
+<p>Severity: Critical in enterprise environments.</p>
+<hr>
+<h2 id="2-3-JWT-Token-Theft"><a href="#2-3-JWT-Token-Theft" class="headerlink" title="2.3 JWT &#x2F; Token Theft"></a>2.3 JWT &#x2F; Token Theft</h2><p>If a cross-origin-readable endpoint returns:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;token&quot;: &quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>An attacker gains:</p>
+<ul>
+<li>Full session replay capability</li>
+<li>Long-lived authentication tokens</li>
+<li>Potential privilege escalation</li>
+</ul>
+<p>In modern SPA architectures, this is common and high-impact.</p>
+<hr>
+<h2 id="2-4-Administrative-Panel-Exposure"><a href="#2-4-Administrative-Panel-Exposure" class="headerlink" title="2.4 Administrative Panel Exposure"></a>2.4 Administrative Panel Exposure</h2><p>Example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: https://*.example.com</span><br></pre></td></tr></table></figure>
+
+<p>If subdomain registration is possible (e.g., user-controlled content, forgotten DNS entries), an attacker can host:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">evil.example.com</span><br></pre></td></tr></table></figure>
+
+<p>Then read data from:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">admin.example.com</span><br></pre></td></tr></table></figure>
+
+<p>This represents a collapse of trust boundaries across subdomains.</p>
+<hr>
+<h2 id="2-5-Amplification-via-XSS"><a href="#2-5-Amplification-via-XSS" class="headerlink" title="2.5 Amplification via XSS"></a>2.5 Amplification via XSS</h2><p>If:</p>
+<ul>
+<li>A low-privilege subdomain has XSS</li>
+<li>The main domain trusts <code>*.example.com</code> via CORS</li>
+</ul>
+<p>Then:</p>
+<p>XSS → Cross-origin fetch → Sensitive data exfiltration</p>
+<p>This converts a limited XSS into full data compromise.</p>
+<hr>
+<h1 id="3-Real-Risk-Evaluation-Criteria"><a href="#3-Real-Risk-Evaluation-Criteria" class="headerlink" title="3. Real Risk Evaluation Criteria"></a>3. Real Risk Evaluation Criteria</h1><p>As a penetration tester, I do <strong>not</strong> report “CORS present” as a vulnerability by default.</p>
+<p>I evaluate whether all of the following conditions are met:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Required for High Severity</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Access-Control-Allow-Credentials: true</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Attacker-controlled Origin allowed</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Sensitive response data</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Browser-exploitable context</td>
+<td>Yes</td>
+</tr>
+</tbody></table>
+<p>Without these, many CORS findings are low-impact or informational.</p>
+<hr>
+<h1 id="4-Common-Misconfiguration-Patterns"><a href="#4-Common-Misconfiguration-Patterns" class="headerlink" title="4. Common Misconfiguration Patterns"></a>4. Common Misconfiguration Patterns</h1><h3 id="4-1-Origin-Reflection"><a href="#4-1-Origin-Reflection" class="headerlink" title="4.1 Origin Reflection"></a>4.1 Origin Reflection</h3><p>Server blindly reflects:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: &lt;Origin header&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Without strict whitelist validation.</p>
+<p>This is the most common real-world issue.</p>
+<hr>
+<h3 id="4-2-Weak-Suffix-Matching"><a href="#4-2-Weak-Suffix-Matching" class="headerlink" title="4.2 Weak Suffix Matching"></a>4.2 Weak Suffix Matching</h3><p>Example:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if origin.endswith(&quot;example.com&quot;):</span><br></pre></td></tr></table></figure>
+
+<p>Bypass:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">evil-example.com</span><br></pre></td></tr></table></figure>
+
+<p>Improper domain validation leads to trust bypass.</p>
+<hr>
+<h3 id="4-3-Trusting-null-Origin"><a href="#4-3-Trusting-null-Origin" class="headerlink" title="4.3 Trusting null Origin"></a>4.3 Trusting <code>null</code> Origin</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: null</span><br></pre></td></tr></table></figure>
+
+<p>Attackers can generate <code>null</code> origins via:</p>
+<ul>
+<li>sandboxed iframes</li>
+<li>file:&#x2F;&#x2F; protocol</li>
+<li>data URLs</li>
+</ul>
+<p>This is often overlooked.</p>
+<hr>
+<h3 id="4-4-Wildcard-with-Credentials"><a href="#4-4-Wildcard-with-Credentials" class="headerlink" title="4.4 Wildcard with Credentials"></a>4.4 Wildcard with Credentials</h3><p>This violates the CORS specification, yet some backend implementations incorrectly allow it.</p>
+<p>If operational, it is critical.</p>
+<hr>
+<h1 id="5-Difference-from-CSRF"><a href="#5-Difference-from-CSRF" class="headerlink" title="5. Difference from CSRF"></a>5. Difference from CSRF</h1><table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>CSRF</th>
+<th>CORS Misconfiguration</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Can read response?</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Requires user interaction?</td>
+<td>Often</td>
+<td>Just visiting a page</td>
+</tr>
+<tr>
+<td>Data exfiltration possible?</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Typical severity</td>
+<td>Medium</td>
+<td>High to Critical</td>
+</tr>
+</tbody></table>
+<p>Organizations frequently misjudge this risk, assuming CSRF tokens mitigate it. They do not.</p>
+<p>CORS affects <strong>read capability</strong>, not just request submission.</p>
+<hr>
+<h1 id="6-Real-World-Bug-Bounty-Impact"><a href="#6-Real-World-Bug-Bounty-Impact" class="headerlink" title="6. Real-World Bug Bounty Impact"></a>6. Real-World Bug Bounty Impact</h1><p>Major cloud providers, fintech platforms, and SaaS vendors have paid significant bounties for exploitable CORS misconfigurations involving:</p>
+<ul>
+<li>Cross-account data access</li>
+<li>API key leakage</li>
+<li>Internal service exposure</li>
+<li>Admin panel data retrieval</li>
+</ul>
+<p>Severity is highly context-dependent but often rated High or Critical when exploitable.</p>
+<hr>
+<h1 id="7-Remediation-Guidance"><a href="#7-Remediation-Guidance" class="headerlink" title="7. Remediation Guidance"></a>7. Remediation Guidance</h1><ol>
+<li>Never use <code>*</code> with credentials.</li>
+<li>Enforce strict, exact-match origin whitelists.</li>
+<li>Do not implicitly trust subdomains.</li>
+<li>Do not allow <code>null</code> unless absolutely required.</li>
+<li>Apply CORS logic server-side with robust validation.</li>
+<li>Avoid enabling CORS on sensitive endpoints by default.</li>
+</ol>
+<hr>
+<h1 id="8-Professional-Assessment-Mindset"><a href="#8-Professional-Assessment-Mindset" class="headerlink" title="8. Professional Assessment Mindset"></a>8. Professional Assessment Mindset</h1><p>When I encounter CORS during testing, I ask:</p>
+<ol>
+<li>Are cookies included?</li>
+<li>Is the response readable?</li>
+<li>Is the data sensitive?</li>
+<li>Is internal network access possible?</li>
+<li>Are subdomains attacker-controllable?</li>
+<li>Can this chain with XSS?</li>
+</ol>
+<p>Only when these elements form a viable attack chain does the issue become high severity.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2026/02/26/GWT-RPC-Testing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1668,104 +1956,10 @@ The following code demonstrates how to execute the script:
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/10/vuln-cockpit/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/11/10/vuln-cockpit/" class="post-title-link" itemprop="url">The Cockpit system has an arbitrary user enumeration vulnerability</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-11-10 22:37:33" itemprop="dateCreated datePublished" datetime="2024-11-10T22:37:33-05:00">2024-11-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-11-11 09:14:50" itemprop="dateModified" datetime="2024-11-11T09:14:50-05:00">2024-11-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vulnerability/" itemprop="url" rel="index"><span itemprop="name">vulnerability</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vulnerability/Cockpit/" itemprop="url" rel="index"><span itemprop="name">Cockpit</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Using Burp Suite’s browser, open the URL: <a target="_blank" rel="noopener" href="https://192.168.1.10/auth/forgotpassword">https://192.168.1.10/auth/forgotpassword</a>. Burp Suite will capture the request packet. Click the “Forward” button, and the screen should look like this:</p>
-<p><img src="/images/vuln1.jpg"> </p>
-<p>Next, enter a username, such as admin, and click the “RESET” button. Burp Suite will capture another packet, which can be sent to the Repeater. It should appear as follows:</p>
-<p><img src="/images/vuln5.jpg"> </p>
-<p>Click the “Send” button in Burp Suite’s Repeater, and you’ll see the response:</p>
-<p><img src="/images/vuln8.jpg"> </p>
-<p>The response shows the following error message: </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;error&quot;</span>:<span class="string">&quot;Invalid address: (from) root@localhost&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>This indicates that the username admin exists. However, if you input a username that doesn’t exist, you’ll see the following response:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;error&quot;</span>:<span class="string">&quot;User does not exist&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>In Burp Suite’s Repeater, the response appears as follows:</p>
-<p><img src="/images/vuln9.jpg"> </p>
-<p>From this, we can deduce that the user admin exists, while admin11111 does not. Using Burp Suite’s Intruder, we can attempt to enumerate other usernames. </p>
-<p><img src="/images/vuln10.jpg"> </p>
-<p>The results show that the following usernames exist:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admin</span><br><span class="line">chen</span><br><span class="line">max</span><br><span class="line">user</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1833,19 +2027,19 @@ The following code demonstrates how to execute the script:
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-count">72</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

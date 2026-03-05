@@ -158,6 +158,100 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/11/10/vuln-cockpit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Dong Cong">
+      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="congdong007">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/10/vuln-cockpit/" class="post-title-link" itemprop="url">The Cockpit system has an arbitrary user enumeration vulnerability</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-11-10 22:37:33" itemprop="dateCreated datePublished" datetime="2024-11-10T22:37:33-05:00">2024-11-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-11-11 09:14:50" itemprop="dateModified" datetime="2024-11-11T09:14:50-05:00">2024-11-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnerability/" itemprop="url" rel="index"><span itemprop="name">vulnerability</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vulnerability/Cockpit/" itemprop="url" rel="index"><span itemprop="name">Cockpit</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Using Burp Suite’s browser, open the URL: <a target="_blank" rel="noopener" href="https://192.168.1.10/auth/forgotpassword">https://192.168.1.10/auth/forgotpassword</a>. Burp Suite will capture the request packet. Click the “Forward” button, and the screen should look like this:</p>
+<p><img src="/images/vuln1.jpg"> </p>
+<p>Next, enter a username, such as admin, and click the “RESET” button. Burp Suite will capture another packet, which can be sent to the Repeater. It should appear as follows:</p>
+<p><img src="/images/vuln5.jpg"> </p>
+<p>Click the “Send” button in Burp Suite’s Repeater, and you’ll see the response:</p>
+<p><img src="/images/vuln8.jpg"> </p>
+<p>The response shows the following error message: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;error&quot;</span>:<span class="string">&quot;Invalid address: (from) root@localhost&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>This indicates that the username admin exists. However, if you input a username that doesn’t exist, you’ll see the following response:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;error&quot;</span>:<span class="string">&quot;User does not exist&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>In Burp Suite’s Repeater, the response appears as follows:</p>
+<p><img src="/images/vuln9.jpg"> </p>
+<p>From this, we can deduce that the user admin exists, while admin11111 does not. Using Burp Suite’s Intruder, we can attempt to enumerate other usernames. </p>
+<p><img src="/images/vuln10.jpg"> </p>
+<p>The results show that the following usernames exist:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admin</span><br><span class="line">chen</span><br><span class="line">max</span><br><span class="line">user</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/05/VSFTPD2-3-4pentest/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1050,106 +1144,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/11/29/SQLInjectionMySQLStackBased/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Dong Cong">
-      <meta itemprop="description" content="bW9ua2V5Y2RAZ21haWwuY29t">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="congdong007">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2016/11/29/SQLInjectionMySQLStackBased/" class="post-title-link" itemprop="url">MySQL Stack-Based SQL Injection</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2016-11-29 23:22:05" itemprop="dateCreated datePublished" datetime="2016-11-29T23:22:05-05:00">2016-11-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2023-10-19 11:36:07" itemprop="dateModified" datetime="2023-10-19T11:36:07-04:00">2023-10-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/" itemprop="url" rel="index"><span itemprop="name">Penetration Test</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">SQL Injection</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Penetration-Test/MySQL/SQL-Injection/MySQL-Stack-Based-SQL-Injection/" itemprop="url" rel="index"><span itemprop="name">MySQL Stack-Based SQL Injection</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>In SQL, a semicolon represents the end of one SQL statement, while stack-based injection involves executing multiple SQL statements together. Stack-based injection is different from other injection techniques and has limitations.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%27 --- <span class="string">&#x27;</span></span><br><span class="line"><span class="string">%20 --- space</span></span><br></pre></td></tr></table></figure>
-
-<p>How can you find the table fields and table names of the other party?</p>
-<ol>
-<li>Look for exploitable files using directory traversal vulnerabilities, such as files with a .sql extension.</li>
-<li>Use directory&#x2F;file fuzzing tools like Dirsearch, etc., to search for .sql files.</li>
-<li>Search for source code leakage vulnerabilities on the other party’s website; the source code may contain exploitable files.</li>
-<li>Search for the other party’s website source code on GitHub.</li>
-</ol>
-<p>Example:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;    //You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#x27;</span><span class="string">&#x27;1&#x27;</span><span class="string">&#x27; LIMIT 0,1&#x27;</span> at line 1   </span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;   // it&#x27;</span>s ok</span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;create table aa like users;    //create a table named aa, structure like table users</span></span><br><span class="line"><span class="string">http://192.168.1.33/sqli-labs-master/Less-38/?id=1&#x27;</span>;drop table aa--+</span><br><span class="line">http://192.168.1.33/sqli-labs-master/Less-38/?<span class="built_in">id</span>=1<span class="string">&#x27;;update users  set password =&#x27;</span>admin@1234<span class="string">&#x27; where username=&#x27;</span>admin<span class="string">&#x27;</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1217,19 +1215,19 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">70</span>
+        <span class="site-state-item-count">72</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-count">30</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
