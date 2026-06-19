@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2026-06-19T03:11:24.402Z</updated>
+  <updated>2026-06-19T03:14:58.786Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,14 +21,14 @@
     <link href="http://example.com/2026/06/18/CVE-list/"/>
     <id>http://example.com/2026/06/18/CVE-list/</id>
     <published>2026-06-19T02:38:45.000Z</published>
-    <updated>2026-06-19T03:11:24.402Z</updated>
+    <updated>2026-06-19T03:14:58.786Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Preface"><a href="#Preface" class="headerlink" title="Preface"></a>Preface</h1><p> A few months ago, I submitted two CVE vulnerabilities, and they were approved. The assigned IDs are CVE-2026-37697 and CVE-2026-37698, with CVSS scores of 7.5 and 9.3 respectively.</p>]]></content>
+    <content type="html"><![CDATA[<p> A few months ago, I submitted two CVE vulnerabilities, and they were approved. The assigned IDs are CVE-2026-37697 and CVE-2026-37698, with CVSS scores of 7.5 and 9.3 respectively.</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;h1 id=&quot;Preface&quot;&gt;&lt;a href=&quot;#Preface&quot; class=&quot;headerlink&quot; title=&quot;Preface&quot;&gt;&lt;/a&gt;Preface&lt;/h1&gt;&lt;p&gt; A few months ago, I submitted two CVE vulnerabili</summary>
+    <summary type="html">&lt;p&gt; A few months ago, I submitted two CVE vulnerabilities, and they were approved. The assigned IDs are CVE-2026-37697 and CVE-2026-37698, w</summary>
       
     
     
